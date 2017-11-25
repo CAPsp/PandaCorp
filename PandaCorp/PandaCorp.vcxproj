@@ -20,18 +20,24 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Codes\ChangeSceneManager.cpp" />
+    <ClCompile Include="Codes\FileUtils.cpp" />
     <ClCompile Include="Codes\FPSManager.cpp" />
+    <ClCompile Include="Codes\GraphManager.cpp" />
     <ClCompile Include="Codes\main.cpp" />
     <ClCompile Include="Codes\MainControll.cpp" />
+    <ClCompile Include="Codes\SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Codes\BaseScene.h" />
     <ClInclude Include="Codes\ChangeSceneManager.h" />
+    <ClInclude Include="Codes\FileUtils.h" />
     <ClInclude Include="Codes\FPSManager.h" />
     <ClInclude Include="Codes\GameScene.h" />
     <ClInclude Include="Codes\GlobalParam.h" />
+    <ClInclude Include="Codes\GraphManager.h" />
     <ClInclude Include="Codes\MainControll.h" />
     <ClInclude Include="Codes\MSecTimer.h" />
+    <ClInclude Include="Codes\SoundManager.h" />
     <ClInclude Include="Codes\StageSelectScene.h" />
     <ClInclude Include="Codes\TitleScene.h" />
   </ItemGroup>

@@ -23,6 +23,15 @@
     <ClCompile Include="Codes\ChangeSceneManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Codes\SoundManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Codes\FileUtils.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Codes\GraphManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Codes\GlobalParam.h">
@@ -50,6 +59,15 @@
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Codes\TitleScene.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Codes\SoundManager.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Codes\FileUtils.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Codes\GraphManager.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
   </ItemGroup>
