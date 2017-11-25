@@ -20,6 +20,9 @@
     <ClCompile Include="Codes\FPSManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Codes\ChangeSceneManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Codes\GlobalParam.h">
@@ -32,6 +35,21 @@
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Codes\FPSManager.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Codes\BaseScene.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Codes\ChangeSceneManager.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Codes\GameScene.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Codes\StageSelectScene.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Codes\TitleScene.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
   </ItemGroup>

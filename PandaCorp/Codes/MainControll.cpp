@@ -11,6 +11,20 @@ void MainControll::doMainLoop(){
 
 		FPSManager::getInstance().adjustment();	// FPSí≤êÆ
 		
+		if(mChangeSceneMan == nullptr){
+			
+			scene_sig signal = mScene->update();
+			if(signal.next != scene_id::NONE){
+				mChangeSceneMan = new ChangeSceneManager(mScene, signal);
+			}
+		}
+		else{	// ÉVÅ[ÉìëJà⁄íÜ
+			if(mChangeSceneMan->update()){
+				delete mChangeSceneMan;
+				mChangeSceneMan = nullptr;
+			}
+		}
+
 #ifdef _DEBUG
 		// ç∂è„Ç…åªç›ÇÃFPSÇï\é¶
 		DrawFormatString(0, 0, GetColor(255, 0, 0), "%d", FPSManager::getInstance().getFrameNumInSec());
