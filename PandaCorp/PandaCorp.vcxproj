@@ -22,6 +22,7 @@
     <ClCompile Include="Codes\ChangeSceneManager.cpp" />
     <ClCompile Include="Codes\FileUtils.cpp" />
     <ClCompile Include="Codes\FPSManager.cpp" />
+    <ClCompile Include="Codes\GameScene.cpp" />
     <ClCompile Include="Codes\GraphManager.cpp" />
     <ClCompile Include="Codes\main.cpp" />
     <ClCompile Include="Codes\MainControll.cpp" />

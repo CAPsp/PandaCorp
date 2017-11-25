@@ -14,8 +14,8 @@
 class MainControll{
 
 private:
-	MainControll() = default;
-	~MainControll() = default;
+	MainControll();
+	~MainControll();
 
 public:
 	MainControll(const MainControll&) = delete;

@@ -7,13 +7,13 @@
 class GameScene : public BaseScene{
 
 public:
-	GameScene(int){}
+	GameScene(int num):mStageNum(num){}
 	virtual ~GameScene() = default;
-	virtual scene_sig update(){ 
-		scene_sig tmp;
-		return tmp;
-	}
-	virtual bool begin(){ return true; }
-	virtual bool end(){ return true; }
+	virtual scene_sig update();
+	virtual bool begin();
+	virtual bool end();
+
+private:
+	int mStageNum;
 
 };

@@ -3,6 +3,21 @@
 #include "DxLib.h"
 #include "FPSManager.h"
 
+#include "GameScene.h"
+
+
+
+MainControll::MainControll(){
+	// デバッグ用
+	mScene = new GameScene(0);
+}
+
+
+MainControll::~MainControll(){
+	delete mScene;			mScene = nullptr;
+	delete mChangeSceneMan;	mChangeSceneMan = nullptr;
+}
+
 
 // ゲームのメインループ処理
 void MainControll::doMainLoop(){

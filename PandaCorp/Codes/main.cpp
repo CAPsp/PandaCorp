@@ -66,7 +66,6 @@ std::string init(){
 
 void end(){
 
-
 	//メモリに読み込んだグラフィックデータの開放
 	InitGraph();
 	InitMask();
