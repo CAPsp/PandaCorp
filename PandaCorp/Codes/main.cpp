@@ -3,6 +3,8 @@
 
 #include "GlobalParam.h"
 #include "MainControll.h"
+#include "SoundManager.h"
+#include "GraphManager.h"
 
 
 std::string init();		// 初期化処理を担う 失敗で何かしらの文字列が返る
@@ -54,12 +56,15 @@ std::string init(){
 
 	SetMainWindowText(GAME_NAME);	// ウィンドウの名前を変更
 
+	// リソースの読み込み
+	SoundManager::getInstance().load();
+	GraphManager::getInstance().load();
+
 	return "";
 }
 
 
 void end(){
-
 
 	//メモリに読み込んだグラフィックデータの開放
 	InitGraph();

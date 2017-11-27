@@ -5,6 +5,8 @@
 #pragma once
 
 #define GAME_NAME "�ς񂾂I"
+#define SOUND_DIR_PATH "Res/Sound/"
+#define GRAPH_DIR_PATH "Res/Graph/"
 
 namespace GlobalParam{
 
