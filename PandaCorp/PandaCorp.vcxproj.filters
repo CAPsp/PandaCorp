@@ -9,37 +9,26 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ソース ファイル\Game">
+      <UniqueIdentifier>{3990a937-0e2f-4db6-bf16-d21299330a35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Manager">
+      <UniqueIdentifier>{b2b8a0fe-4f6c-442a-9b71-87c84815621f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\StageSelect">
+      <UniqueIdentifier>{2a3efeb6-d1b3-49c4-ac7e-efc33d92f11e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Title">
+      <UniqueIdentifier>{3436ba14-7a75-4160-9c96-ac06b6f05c4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Utils">
+      <UniqueIdentifier>{d4460c70-7444-4a9b-902b-84a74cdf2ed4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Codes\main.cpp">
+    <ClInclude Include="Codes\BaseScene.h">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Codes\MainControll.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Codes\FPSManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Codes\ChangeSceneManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Codes\SoundManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Codes\FileUtils.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Codes\GraphManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Codes\GameScene.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Codes\InputManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
+    </ClInclude>
     <ClInclude Include="Codes\GlobalParam.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
@@ -49,35 +38,61 @@
     <ClInclude Include="Codes\MSecTimer.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Codes\FPSManager.h">
-      <Filter>ソース ファイル</Filter>
+    <ClInclude Include="Codes\Utils\FileUtils.h">
+      <Filter>ソース ファイル\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Codes\BaseScene.h">
-      <Filter>ソース ファイル</Filter>
+    <ClInclude Include="Codes\Title\TitleScene.h">
+      <Filter>ソース ファイル\Title</Filter>
     </ClInclude>
-    <ClInclude Include="Codes\ChangeSceneManager.h">
-      <Filter>ソース ファイル</Filter>
+    <ClInclude Include="Codes\StageSelect\StageSelectScene.h">
+      <Filter>ソース ファイル\StageSelect</Filter>
     </ClInclude>
-    <ClInclude Include="Codes\GameScene.h">
-      <Filter>ソース ファイル</Filter>
+    <ClInclude Include="Codes\Manager\ChangeSceneManager.h">
+      <Filter>ソース ファイル\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Codes\StageSelectScene.h">
-      <Filter>ソース ファイル</Filter>
+    <ClInclude Include="Codes\Manager\FPSManager.h">
+      <Filter>ソース ファイル\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Codes\TitleScene.h">
-      <Filter>ソース ファイル</Filter>
+    <ClInclude Include="Codes\Manager\GraphManager.h">
+      <Filter>ソース ファイル\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Codes\SoundManager.h">
-      <Filter>ソース ファイル</Filter>
+    <ClInclude Include="Codes\Manager\InputManager.h">
+      <Filter>ソース ファイル\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Codes\FileUtils.h">
-      <Filter>ソース ファイル</Filter>
+    <ClInclude Include="Codes\Manager\SoundManager.h">
+      <Filter>ソース ファイル\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Codes\GraphManager.h">
-      <Filter>ソース ファイル</Filter>
+    <ClInclude Include="Codes\Game\GameScene.h">
+      <Filter>ソース ファイル\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Codes\InputManager.h">
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Codes\main.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClInclude>
+    </ClCompile>
+    <ClCompile Include="Codes\MainControll.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Codes\Utils\FileUtils.cpp">
+      <Filter>ソース ファイル\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Codes\Manager\ChangeSceneManager.cpp">
+      <Filter>ソース ファイル\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Codes\Manager\FPSManager.cpp">
+      <Filter>ソース ファイル\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Codes\Manager\GraphManager.cpp">
+      <Filter>ソース ファイル\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Codes\Manager\InputManager.cpp">
+      <Filter>ソース ファイル\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Codes\Manager\SoundManager.cpp">
+      <Filter>ソース ファイル\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Codes\Game\GameScene.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
