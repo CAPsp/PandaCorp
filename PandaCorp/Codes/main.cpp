@@ -38,7 +38,7 @@ std::string init(){
 	SetOutApplicationLogValidFlag(false);
 
 	// ウィンドウサイズとカラービット数を変更する
-	if(SetGraphMode(GlobalParam::WINDOW_X, GlobalParam::WINDOW_Y, GlobalParam::COLOR_BIT_NUM) != DX_CHANGESCREEN_OK){
+	if(SetGraphMode(GlobalParam::WINDOW_SIZE.x, GlobalParam::WINDOW_SIZE.y, GlobalParam::COLOR_BIT_NUM) != DX_CHANGESCREEN_OK){
 		return "ウィンドウサイズを変更できませんでした";
 	}
 

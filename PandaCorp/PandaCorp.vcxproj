@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClInclude Include="Codes\BaseScene.h" />
     <ClInclude Include="Codes\Game\GameScene.h" />
+    <ClInclude Include="Codes\Game\GameSceneParam.h" />
+    <ClInclude Include="Codes\Game\StageControll.h" />
     <ClInclude Include="Codes\GlobalParam.h" />
     <ClInclude Include="Codes\MainControll.h" />
     <ClInclude Include="Codes\Manager\ChangeSceneManager.h" />
@@ -31,10 +33,12 @@
     <ClInclude Include="Codes\MSecTimer.h" />
     <ClInclude Include="Codes\StageSelect\StageSelectScene.h" />
     <ClInclude Include="Codes\Title\TitleScene.h" />
+    <ClInclude Include="Codes\Utils\Vec2DUtils.h" />
     <ClInclude Include="Codes\Utils\FileUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Codes\Game\GameScene.cpp" />
+    <ClCompile Include="Codes\Game\StageControll.cpp" />
     <ClCompile Include="Codes\main.cpp" />
     <ClCompile Include="Codes\MainControll.cpp" />
     <ClCompile Include="Codes\Manager\ChangeSceneManager.cpp" />

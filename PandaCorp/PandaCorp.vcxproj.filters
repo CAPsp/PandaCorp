@@ -65,6 +65,15 @@
     <ClInclude Include="Codes\Game\GameScene.h">
       <Filter>ソース ファイル\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Codes\Game\GameSceneParam.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Codes\Utils\Vec2DUtils.h">
+      <Filter>ソース ファイル\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Codes\Game\StageControll.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Codes\main.cpp">
@@ -92,6 +101,9 @@
       <Filter>ソース ファイル\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Codes\Game\GameScene.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Codes\Game\StageControll.cpp">
       <Filter>ソース ファイル\Game</Filter>
     </ClCompile>
   </ItemGroup>

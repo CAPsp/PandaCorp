@@ -2,6 +2,7 @@
 
 
 #include "BaseScene.h"
+#include "StageControll.h"
 
 
 class GameScene : public BaseScene{
@@ -15,5 +16,6 @@ public:
 
 private:
 	int mStageNum;
+	StageControll mStage;
 
 };

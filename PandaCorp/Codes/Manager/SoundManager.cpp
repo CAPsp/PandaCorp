@@ -35,7 +35,10 @@ void SoundManager::load(){
 
 
 // Mapに格納した対応するリソースＩＤを返す
+// 引数にはSOUND_DIR_PATHからの相対パスを指定する
 int SoundManager::checkID(std::string name){
+
+	name = SOUND_DIR_PATH + name;
 
 	try{
 		return mMap.at(name);

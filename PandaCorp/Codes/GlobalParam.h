@@ -4,14 +4,17 @@
 
 #pragma once
 
+
+#include "Vec2DUtils.h"
+
+
 #define GAME_NAME "�ς񂾂I"
 #define SOUND_DIR_PATH "Res/Sound/"
 #define GRAPH_DIR_PATH "Res/Graph/"
 
 namespace GlobalParam{
 
-	const int WINDOW_X		= 1280;
-	const int WINDOW_Y		= 720;
+	const Vec2D<int> WINDOW_SIZE = {1280, 720};
 	const int COLOR_BIT_NUM = 16;
 
 	const int FPS = 60;

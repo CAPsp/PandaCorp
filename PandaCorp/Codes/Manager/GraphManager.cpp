@@ -37,7 +37,10 @@ void GraphManager::load(){
 
 
 // Mapに格納した対応するリソースＩＤを返す
+// 引数にはGRAPH_DIR_PATHからの相対パスを指定する
 int GraphManager::checkID(std::string name){
+
+	name = GRAPH_DIR_PATH + name;
 
 	try{
 		return mMap.at(name);
