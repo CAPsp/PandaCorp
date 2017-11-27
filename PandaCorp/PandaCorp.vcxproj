@@ -27,6 +27,7 @@
     <ClCompile Include="Codes\main.cpp" />
     <ClCompile Include="Codes\MainControll.cpp" />
     <ClCompile Include="Codes\SoundManager.cpp" />
+    <ClCompile Include="Codes\InputManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Codes\BaseScene.h" />
@@ -36,6 +37,7 @@
     <ClInclude Include="Codes\GameScene.h" />
     <ClInclude Include="Codes\GlobalParam.h" />
     <ClInclude Include="Codes\GraphManager.h" />
+    <ClInclude Include="Codes\InputManager.h" />
     <ClInclude Include="Codes\MainControll.h" />
     <ClInclude Include="Codes\MSecTimer.h" />
     <ClInclude Include="Codes\SoundManager.h" />
