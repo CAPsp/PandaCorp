@@ -3,6 +3,8 @@
 #include "DxLib.h"
 #include "FPSManager.h"
 #include "InputManager.h"
+#include "DebugMsgData.h"
+#include "GlobalParam.h"
 
 #include "GameScene.h"
 
@@ -44,16 +46,10 @@ void MainControll::doMainLoop(){
 		}
 
 #ifdef _DEBUG
-		int red = GetColor(255, 0, 0);
-
-		// 左上に現在のFPSを表示
-		DrawFormatString(0, 0, red, "%d", FPSManager::getInstance().getFrameNumInSec());
-
-		// 入力テスト
-		DrawFormatString(0, 30, red, "Left: %d", InputManager::getInstance().checkPushFrame(KEY_INPUT_LEFT));
-		DrawFormatString(0, 60, red, "Right: %d", InputManager::getInstance().checkPushFrame(KEY_INPUT_RIGHT));
-		DrawFormatString(0, 90, red, "Up: %d", InputManager::getInstance().checkPushFrame(KEY_INPUT_DOWN));
-		DrawFormatString(0, 120, red, "Down: %d", InputManager::getInstance().checkPushFrame(KEY_INPUT_UP));
+		std::vector<std::string> debugMsg = DebugMsgData::getInstance().getAllMsg();
+		for(int i = 0; i < debugMsg.size(); i++){
+			DrawString(0, i * GlobalParam::FONT_SIZE, debugMsg[i].c_str(), GetColor(255, 0, 0));
+		}
 #endif
 	}
 

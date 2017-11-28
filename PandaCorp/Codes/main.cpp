@@ -56,6 +56,8 @@ std::string init(){
 
 	SetMainWindowText(GAME_NAME);	// ウィンドウの名前を変更
 
+	SetFontSize(GlobalParam::FONT_SIZE);	// デフォルトで使うフォントサイズを変更
+
 	// リソースの読み込み
 	SoundManager::getInstance().load();
 	GraphManager::getInstance().load();

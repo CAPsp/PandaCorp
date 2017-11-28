@@ -1,5 +1,7 @@
 #include "ChangeSceneManager.h"
 
+#include "DebugMsgData.h"
+
 #include "TitleScene.h"
 #include "StageSelectScene.h"
 #include "GameScene.h"
@@ -15,6 +17,9 @@ bool ChangeSceneManager::update(){
 
 		// 終了処理が終わったら次のシーンのインスタンスを生成
 		if(mScene->end()){
+
+			// シーン切り替え時にデバッグメッセージを初期化する
+			DebugMsgData::getInstance().deleteData();
 
 			delete mScene;
 			mScene = nullptr;

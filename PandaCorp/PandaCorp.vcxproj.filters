@@ -74,6 +74,9 @@
     <ClInclude Include="Codes\Game\StageControll.h">
       <Filter>ソース ファイル\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Codes\DebugMsgData.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Codes\main.cpp">
@@ -105,6 +108,9 @@
     </ClCompile>
     <ClCompile Include="Codes\Game\StageControll.cpp">
       <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Codes\DebugMsgData.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

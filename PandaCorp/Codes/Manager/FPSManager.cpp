@@ -2,6 +2,7 @@
 
 #include "GlobalParam.h"
 #include "DxLib.h"
+#include "DebugMsgData.h"
 
 
 // タイマーの更新と1フレーム毎の待機処理
@@ -25,6 +26,8 @@ void FPSManager::adjustment(){
 		mFrameNumInSec	= mCurrentFrame;
 		mCurrentFrame	= 0;
 		total_time		= 0;
+
+		DebugMsgData::getInstance().setMsg("fps", "FPS: " + std::to_string(mFrameNumInSec));
 	}
 
 	// 次のフレームにかかる時間を計測するタイマーをスタート

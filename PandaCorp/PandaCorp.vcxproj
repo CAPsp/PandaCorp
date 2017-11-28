@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Codes\BaseScene.h" />
+    <ClInclude Include="Codes\DebugMsgData.h" />
     <ClInclude Include="Codes\Game\GameScene.h" />
     <ClInclude Include="Codes\Game\GameSceneParam.h" />
     <ClInclude Include="Codes\Game\StageControll.h" />
@@ -37,6 +38,7 @@
     <ClInclude Include="Codes\Utils\FileUtils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Codes\DebugMsgData.cpp" />
     <ClCompile Include="Codes\Game\GameScene.cpp" />
     <ClCompile Include="Codes\Game\StageControll.cpp" />
     <ClCompile Include="Codes\main.cpp" />

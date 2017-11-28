@@ -18,4 +18,6 @@ namespace GlobalParam{
 	const int COLOR_BIT_NUM = 16;
 
 	const int FPS = 60;
+
+	const int FONT_SIZE = 20;	// デフォルトのフォントサイズ
 };
