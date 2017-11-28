@@ -11,12 +11,18 @@ void InputManager::update() {
 
 	for (i = 0; i < 256; i++) {
 		if (key_type_state[i] == TRUE) {
-			key_type_count[i]++;
+			key_type_time[i]++;
 		}
 		else {
-			key_type_count[i] = 0;
+			key_type_time[i] = 0;
 		}
 	}
+
+	// --- ko-tinŒN‚Ìì‹Æ‚·‚é—Ìˆæi OƒÖOj ---
+
+
+
+	// ------
 
 	// debug—p
 	DebugMsgData::getInstance().setMsg("key_left"	, "Left: " + std::to_string(checkPushFrame(KEY_INPUT_LEFT)));
@@ -26,8 +32,15 @@ void InputManager::update() {
 
 }
 
+
 int InputManager::checkPushFrame(int key_code) {
 
-	return key_type_count[key_code];
+	return key_type_time[key_code];
 
+}
+
+
+int InputManager::checkCount(int key_code) {
+
+	return key_type_count[key_code];
 }
