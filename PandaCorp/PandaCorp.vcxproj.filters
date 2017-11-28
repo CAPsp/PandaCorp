@@ -94,5 +94,8 @@
     <ClCompile Include="Codes\Game\GameScene.cpp">
       <Filter>ソース ファイル\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Codes\StageSelect\StageSelectScene.cpp">
+      <Filter>ソース ファイル\StageSelect</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

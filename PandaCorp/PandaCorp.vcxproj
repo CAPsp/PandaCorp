@@ -42,6 +42,7 @@
     <ClCompile Include="Codes\Manager\GraphManager.cpp" />
     <ClCompile Include="Codes\Manager\InputManager.cpp" />
     <ClCompile Include="Codes\Manager\SoundManager.cpp" />
+    <ClCompile Include="Codes\StageSelect\StageSelectScene.cpp" />
     <ClCompile Include="Codes\Utils\FileUtils.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -4,13 +4,14 @@
 #include "FPSManager.h"
 #include "InputManager.h"
 
+#include "StageSelectScene.h"
 #include "GameScene.h"
 
 
 
 MainControll::MainControll(){
 	// デバッグ用
-	mScene = new GameScene(0);
+	mScene = new StageSelectScene();
 }
 
 
