@@ -17,12 +17,30 @@
     <ClCompile Include="Codes\MainControll.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Codes\Stage.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Codes\InputManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Codes\Button.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Codes\Param.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Codes\MainControll.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Codes\Stage.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Codes\InputManager.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Codes\Button.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
   </ItemGroup>

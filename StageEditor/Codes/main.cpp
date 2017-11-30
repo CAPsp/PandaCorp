@@ -12,7 +12,7 @@ std::string init(){
 	SetOutApplicationLogValidFlag(false);	// ログ出力を行わない
 
 	// ウィンドウサイズとカラービット数を変更する
-	if(SetGraphMode(Param::WINDOW_X, Param::WINDOW_Y, Param::COLOR_BIT_NUM) != DX_CHANGESCREEN_OK){
+	if(SetGraphMode(Param::WINDOW_SIZE.x, Param::WINDOW_SIZE.y, Param::COLOR_BIT_NUM) != DX_CHANGESCREEN_OK){
 		return "ウィンドウサイズを変更できませんでした";
 	}
 
@@ -29,6 +29,8 @@ std::string init(){
 	SetDrawScreen(DX_SCREEN_BACK);	//描画先を裏画面に
 
 	SetMainWindowText("ぱんだつ！: Stage Editor");	// ウィンドウの名前を変更
+
+	SetFontSize(Param::FONT_SIZE);	// フォントサイズ変更
 
 	return "";
 }
