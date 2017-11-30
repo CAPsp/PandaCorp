@@ -5,12 +5,16 @@
 #pragma once
 
 
+#include "Button.h"
+#include "Stage.h"
+
+
 // ƒVƒ“ƒOƒ‹ƒgƒ“
 class MainControll{
 
 private:
-	MainControll() = default;
-	~MainControll() = default;
+	MainControll();
+	~MainControll();
 
 public:
 	MainControll& operator=(const MainControll&) = delete;
@@ -25,6 +29,13 @@ public:
 
 	void doLoop();
 
+private:
+	void draw();
 
+private:
+	Button* mOpenStageBtn = nullptr;
+	Button* mSaveStageBtn = nullptr;
+	Stage* mStage = nullptr;
+	std::string mFilePath = "";
 
 };
