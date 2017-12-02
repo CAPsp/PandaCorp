@@ -10,7 +10,7 @@ MaterialTab::MaterialTab(){
 
 	mMassGraphID = GraphManager::getInstance().getAllIDFromMap(map_id::MASS);
 
-	mOrigin = {Param::STAGE_FRAME_SIZE.x, 50};
+	mOrigin = {Param::STAGE_FRAME_SIZE.x, 100};
 
 	// マスが何個置けるかを計算
 	int x, y;

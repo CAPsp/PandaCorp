@@ -12,7 +12,7 @@
 class Button{
 
 public:
-	Button():mName(""), mFont(-1){ sBtnCnt++; }
+	//Button():mName(""), mFont(-1){ sBtnCnt++; }
 	~Button();
 	Button(Vec2D<int>, Vec2D<int>, std::string);
 	void draw();

@@ -54,6 +54,7 @@ bool Button::update(){
 
 	// ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚±‚Æ‚ðŽ¦‚·
 	if(!isPush && isArea && mBeforeFramePress){
+		mBeforeFramePress = isArea && isPush;
 		return true;
 	}
 

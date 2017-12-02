@@ -1,8 +1,6 @@
 #include "MainControll.h"
 
 #include "DxLib.h"
-#include "picojson.h"
-#include <fstream>
 #include "Param.h"
 #include "InputManager.h"
 #include <Windows.h>
@@ -13,7 +11,7 @@ MainControll::MainControll(){
 	// É{É^ÉìÇÃê›íË
 	Vec2D<int> btnSize = {100, 30};
 	Vec2D<int> basePoint = {(Param::STAGE_FRAME_SIZE.x + (Param::RIGHT_FRAME_SIZE.x / 4)) - (btnSize.x / 2),
-							20 - (btnSize.y / 2)};
+							70 - (btnSize.y / 2)};
 	mOpenStageBtn = new Button(basePoint, basePoint + btnSize, "OPEN");
 	basePoint.x = (Param::STAGE_FRAME_SIZE.x + (Param::RIGHT_FRAME_SIZE.x / 4 * 3)) - (btnSize.x / 2);
 	mSaveStageBtn = new Button(basePoint, basePoint + btnSize, "SAVE");
@@ -70,17 +68,6 @@ std::string openFileDialog(){
 
 
 void MainControll::doLoop(){
-
-	picojson::value v;
-
-	std::string err = picojson::parse(v, "{ \"slime\" : 1, \"kawaii\" : 2 }");
-	if(!err.empty()){
-		MessageBox(NULL, err.c_str(), "error", MB_OK);
-	}
-
-	std::ofstream ofs(std::string(GEN_DATA_DIR) + "test.json");
-
-	ofs << v;
 
 	while(ScreenFlip() == 0 && ProcessMessage() != -1 && ClearDrawScreen() == 0){
 
