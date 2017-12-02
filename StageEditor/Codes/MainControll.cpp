@@ -12,13 +12,14 @@ MainControll::MainControll(){
 
 	// ボタンの設定
 	Vec2D<int> btnSize = {100, 30};
-	Vec2D<int> basePoint = { (Param::STAGE_FRAME_SIZE.x + (Param::RIGHT_FRAME_SIZE.x / 4) ) - (btnSize.x / 2),
+	Vec2D<int> basePoint = {(Param::STAGE_FRAME_SIZE.x + (Param::RIGHT_FRAME_SIZE.x / 4)) - (btnSize.x / 2),
 							20 - (btnSize.y / 2)};
 	mOpenStageBtn = new Button(basePoint, basePoint + btnSize, "OPEN");
-	basePoint.x = (Param::STAGE_FRAME_SIZE.x + (Param::RIGHT_FRAME_SIZE.x / 4 * 3) ) - (btnSize.x / 2);
+	basePoint.x = (Param::STAGE_FRAME_SIZE.x + (Param::RIGHT_FRAME_SIZE.x / 4 * 3)) - (btnSize.x / 2);
 	mSaveStageBtn = new Button(basePoint, basePoint + btnSize, "SAVE");
 
 	mMaterialTab = new MaterialTab();
+	mStage = new Stage();
 }
 
 
@@ -41,6 +42,7 @@ void MainControll::draw(){
 	mSaveStageBtn->draw();
 
 	mMaterialTab->draw();
+	mStage->draw();
 }
 
 
@@ -94,7 +96,7 @@ void MainControll::doLoop(){
 				MessageBox(NULL, (std::string(path) + "を開きました").c_str(), "ダイアログ", MB_OK);
 			}
 		}
-		
+
 		// ファイル名を指定して保存
 		if(mSaveStageBtn->update()){
 
@@ -105,7 +107,12 @@ void MainControll::doLoop(){
 			}
 		}
 
-		mMaterialTab->process();
+		mMaterialTab->clickDetectAndAction();
+
+		// ステージ上のマスがクリックされたらmMaterialTabで選択されている要素を置く
+		if(mStage->clickDetectAndAction()){	
+			mStage->putDataToClickedTile(mMaterialTab->getMassData());
+		}
 
 		draw();
 	}

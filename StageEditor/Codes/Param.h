@@ -16,6 +16,7 @@
 #define ITEM_DIR "Item/"
 #define MASS_DIR "Mass/"
 
+
 namespace Param{
 
 	const Vec2D<int> WINDOW_SIZE = {1280, 720};
@@ -25,7 +26,7 @@ namespace Param{
 	const int COLOR_BIT_NUM = 16;
 
 	const int MASS_SIZE = 40;
-	const Vec2D<int> MASS_NUM = {24, 18};
+	const Vec2D<int> MASS_NUM = {23, 18};
 
 	const int FONT_SIZE = 30;
 

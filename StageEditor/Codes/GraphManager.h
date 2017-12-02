@@ -10,6 +10,13 @@
 #include <vector>
 
 
+enum map_id{
+	MASS,
+	CHARA,
+	ITEM
+};
+
+
 // ちょっと特殊なシングルトンパターン
 class GraphManager{
 
@@ -30,14 +37,12 @@ public:
 	}
 
 	void load();	// リソースを読み込む
-	std::vector<int> getAllMassID();
-	std::vector<int> getAllCharaID();
-	std::vector<int> getAllItemID();
+
+	std::vector<int> getAllIDFromMap(map_id);	// map_idで指定したMap上にあるすべてのグラフィックIDを返す
+	std::string searchPathFromMap(int, map_id);	// 　　　　　〃　　　 　の要素から引数に渡したIDに対応するグラフィックのパスを返す
 
 
 private:
-	std::map<std::string, int> mMassMap;
-	std::map<std::string, int> mCharaMap;
-	std::map<std::string, int> mItemMap;
+	std::map<map_id, std::map<std::string, int>> mMap;
 
 };

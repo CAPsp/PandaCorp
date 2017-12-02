@@ -8,15 +8,13 @@
 
 GraphManager::~GraphManager(){
 
-	for(auto i = mMassMap.begin(); i != mMassMap.end(); i++){
-		DeleteGraph(i->second);
+	for(auto i = mMap.begin(); i != mMap.end(); i++){
+
+		for(auto elem = mMap[i->first].begin(); elem != mMap[i->first].end(); elem++){
+			DeleteGraph(elem->second);
+		}
 	}
-	for(auto i = mCharaMap.begin(); i != mCharaMap.end(); i++){
-		DeleteGraph(i->second);
-	}
-	for(auto i = mItemMap.begin(); i != mItemMap.end(); i++){
-		DeleteGraph(i->second);
-	}
+
 }
 
 
@@ -40,31 +38,31 @@ void loadResToMap(std::map<std::string, int> *map, std::string path){
 // MATERIAL_DATA_DIR下の各フォルダ内にあるリソースを読み込む
 void GraphManager::load(){
 
-	loadResToMap(&mCharaMap, std::string(MATERIAL_DATA_DIR) + CHARA_DIR);
-	loadResToMap(&mItemMap,  std::string(MATERIAL_DATA_DIR) + ITEM_DIR);
-	loadResToMap(&mMassMap,  std::string(MATERIAL_DATA_DIR) + MASS_DIR);
+	loadResToMap(&(mMap[map_id::MASS]),	 std::string(MATERIAL_DATA_DIR) + MASS_DIR);
+	loadResToMap(&(mMap[map_id::CHARA]), std::string(MATERIAL_DATA_DIR) + CHARA_DIR);
+	loadResToMap(&(mMap[map_id::ITEM]),  std::string(MATERIAL_DATA_DIR) + ITEM_DIR);
 }
 
 
-std::vector<int> getAllFromMap(const std::map<std::string, int>* map){
+std::vector<int> GraphManager::getAllIDFromMap(map_id mapId){
 	std::vector<int> rtn;
-	for(auto i = map->begin(); i != map->end(); i++){
+	for(auto i = mMap[mapId].begin(); i != mMap[mapId].end(); i++){
 		rtn.push_back(i->second);
 	}
 	return rtn;
 }
 
 
-std::vector<int> GraphManager::getAllMassID(){
-	return getAllFromMap(&mMassMap);
-}
+std::string GraphManager::searchPathFromMap(int id, map_id mapId){
+	
+	try{
+		for(std::pair<std::string, int> elem : mMap.at(mapId)){
+			if(elem.second == id){
+				return elem.first;
+			}
+		}
+	}
+	catch(std::out_of_range){}
 
-
-std::vector<int> GraphManager::getAllCharaID(){
-	return getAllFromMap(&mCharaMap);
-}
-
-
-std::vector<int> GraphManager::getAllItemID(){
-	return getAllFromMap(&mItemMap);
+	return "";
 }

@@ -8,7 +8,7 @@
 
 MaterialTab::MaterialTab(){
 
-	mMassGraphID = GraphManager::getInstance().getAllMassID();
+	mMassGraphID = GraphManager::getInstance().getAllIDFromMap(map_id::MASS);
 
 	mOrigin = {Param::STAGE_FRAME_SIZE.x, 50};
 
@@ -20,7 +20,7 @@ MaterialTab::MaterialTab(){
 }
 
 
-void MaterialTab::process(){
+void MaterialTab::clickDetectAndAction(){
 
 	// クリックされたときのマスグラフィックを選択状態とする
 	if(InputManager::getInstance().isPushedMouseLeft()){
@@ -35,7 +35,8 @@ void MaterialTab::process(){
 					// mMassGraphIDの何番目に入ってるものかを逆算
 					int elem = (y * mMassNum.x) + x;
 					if(elem < mMassGraphID.size()){
-						mSelectGraph = mMassGraphID[elem];
+						mSelectData.gID = mMassGraphID[elem];
+						mSelectData.gPath = GraphManager::getInstance().searchPathFromMap(mSelectData.gID, map_id::MASS);
 					}
 				}
 			}
@@ -56,7 +57,7 @@ void MaterialTab::draw(){
 			if(itr != mMassGraphID.end()){
 
 				// 選択されていた場合はハイライト
-				if(mSelectGraph == (*itr)){
+				if(mSelectData.gID == (*itr)){
 					DrawBox(mOrigin.x + (x * Param::MASS_SIZE),
 							mOrigin.y + (y * Param::MASS_SIZE),
 							mOrigin.x + ((x + 1) * Param::MASS_SIZE),
@@ -81,7 +82,7 @@ void MaterialTab::draw(){
 							  false,
 							  false);
 
-				if(mSelectGraph == (*itr)){
+				if(mSelectData.gID == (*itr)){
 					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, NULL);
 				}
 

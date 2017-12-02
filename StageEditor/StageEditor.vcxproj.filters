@@ -64,5 +64,8 @@
     <ClInclude Include="Codes\Vec2DUtils.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Codes\MassData.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
