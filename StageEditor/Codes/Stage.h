@@ -15,7 +15,14 @@
 class Stage{
 
 private:
-	static const int LAYER_NUM = 3;
+	enum layer_id{
+		MASS_0,
+		MASS_1,
+		MASS_2,
+		PASS,
+		CHARA,
+		ITEM
+	};
 
 public:
 	Stage();								// 何もないステージを開く
@@ -27,10 +34,10 @@ public:
 	void putDataToClickedTile(MassData);	// ログで保存したマスに引数のデータを置く
 
 private:
-	std::vector<std::vector<MassData>> mMass[LAYER_NUM];
+	std::vector<std::vector<MassData>> mMass;
 	std::string mName;
-	Vec2D<int> mClickLog;		// クリックされたときの情報を持つ
+	Vec2D<int> mPushLog;		// 押されたされたときの情報を持つ
 	Button *mLayerChangeBtn = nullptr;
-	int mCurrentLayer = 0;
+	layer_id mCurrentLayer = layer_id::MASS_0;
 
 };

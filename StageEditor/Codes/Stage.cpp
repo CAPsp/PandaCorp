@@ -10,15 +10,9 @@
 
 Stage::Stage(){
 
-	for(int lay = 0; lay < LAYER_NUM; lay++){
-		mMass[lay].resize(Param::MASS_NUM.y);
-		for(int y = 0; y < Param::MASS_NUM.y; y++){
-			mMass[lay][y].resize(Param::MASS_NUM.x);
-			for(int x = 0; x < Param::MASS_NUM.x; x++){
-				mMass[lay][y][x].gID = -1;
-				mMass[lay][y][x].gPath = "";
-			}
-		}
+	mMass.resize(Param::MASS_NUM.y);
+	for(int y = 0; y < Param::MASS_NUM.y; y++){
+		mMass[y].resize(Param::MASS_NUM.x);
 	}
 
 	Vec2D<int> v1 = {Param::STAGE_FRAME_SIZE.x + 250, 5};
@@ -39,29 +33,26 @@ Stage::Stage(std::string path):Stage(){
 			return;
 		}
 
-		picojson::array layArr = (picojson::value(v.get<picojson::object>()["Masses"] )).get<picojson::array>();
-		int layCnt = 0;
-		for(auto layItr = layArr.begin(); layItr != layArr.end(); layItr++){
+		int yCnt = 0;
+		picojson::array yArr = (picojson::value(v.get<picojson::object>()["Masses"])).get<picojson::array>();
+		for(auto yItr = yArr.begin(); yItr != yArr.end(); yItr++){
 
-			int yCnt = 0;
-			picojson::array yArr = picojson::value(*layItr).get<picojson::array>();
-			for(auto yItr = yArr.begin(); yItr != yArr.end(); yItr++){
-
-				int xCnt = 0;
-				picojson::array xArr = picojson::value(*yItr).get<picojson::array>();
-				for(auto xItr = xArr.begin(); xItr != xArr.end(); xItr++){
-					picojson::object obj = picojson::value(*xItr).get<picojson::object>();
+			int xCnt = 0;
+			picojson::array xArr = picojson::value(*yItr).get<picojson::array>();
+			for(auto xItr = xArr.begin(); xItr != xArr.end(); xItr++){
+				picojson::object obj = picojson::value(*xItr).get<picojson::object>();
 					
-					std::string tmp = obj.at("path").get<std::string>();
-					mMass[layCnt][yCnt][xCnt].gPath = tmp;
+				mMass[yCnt][xCnt].gPath[0]	= obj.at("mass_0").get<std::string>();
+				mMass[yCnt][xCnt].gPath[1]	= obj.at("mass_1").get<std::string>();
+				mMass[yCnt][xCnt].gPath[2]	= obj.at("mass_2").get<std::string>();
+				mMass[yCnt][xCnt].pass		= obj.at("pass").get<bool>();
+				mMass[yCnt][xCnt].charaPath = obj.at("chara").get<std::string>();
+				mMass[yCnt][xCnt].itemPath	= obj.at("item").get<std::string>();
 
-					xCnt++;
-				}
-
-				yCnt++;
+				xCnt++;
 			}
 
-			layCnt++;
+			yCnt++;
 		}
 
 	}
@@ -70,13 +61,14 @@ Stage::Stage(std::string path):Stage(){
 	}
 
 	// 読み込んだ各画像パスからグラフィックＩＤを読み込む
-	for(int lay = 0; lay < LAYER_NUM; lay++){
-		for(int y = 0; y < mMass[lay].size(); y++){
-			for(int x = 0; x < mMass[lay][y].size(); x++){
-				mMass[lay][y][x].gID = GraphManager::getInstance().checkID(mMass[lay][y][x].gPath, map_id::MASS);
+	for(int lay = 0; lay < JSON_LAYER_NUM; lay++){
+		for(int y = 0; y < Param::MASS_NUM.y; y++){
+			for(int x = 0; x < Param::MASS_NUM.x; x++){
+				mMass[y][x].gID[lay] = GraphManager::getInstance().checkID(mMass[y][x].gPath[lay], map_id::MASS);
 			}
 		}
 	}
+	
 }
 
 
@@ -90,18 +82,19 @@ Stage::~Stage(){
 void Stage::save(std::string path){
 
 	picojson::array parentArr;
-	for(int lay = 0; lay < LAYER_NUM; lay++){
-		picojson::array layArr;
-		for(int y = 0; y < Param::MASS_NUM.y; y++){
-			picojson::array yArr;
-			for(int x = 0; x < Param::MASS_NUM.x; x++){
-				picojson::object xObj;
-				xObj.insert( std::make_pair("path", mMass[lay][y][x].gPath) );
-				yArr.push_back(picojson::value(xObj));
-			}
-			layArr.push_back(picojson::value(yArr));
+	for(int y = 0; y < Param::MASS_NUM.y; y++){
+		picojson::array yArr;
+		for(int x = 0; x < Param::MASS_NUM.x; x++){
+			picojson::object xObj;
+			xObj.insert(std::make_pair("mass_0", mMass[y][x].gPath[0]));
+			xObj.insert(std::make_pair("mass_1", mMass[y][x].gPath[1]));
+			xObj.insert(std::make_pair("mass_2", mMass[y][x].gPath[2]));
+			xObj.insert(std::make_pair("pass", mMass[y][x].pass));
+			xObj.insert(std::make_pair("chara", mMass[y][x].charaPath));
+			xObj.insert(std::make_pair("item", mMass[y][x].itemPath));
+			yArr.push_back(picojson::value(xObj));
 		}
-		parentArr.push_back(picojson::value(layArr));
+		parentArr.push_back(picojson::value(yArr));
 	}
 	picojson::object obj;
 	obj.emplace(std::make_pair("Masses", parentArr));
@@ -116,17 +109,17 @@ void Stage::save(std::string path){
 void Stage::draw(){
 
 	// レイヤー順に描画
-	for(int lay = 0; lay < LAYER_NUM; lay++){
-		for(int y = 0; y < mMass[lay].size(); y++){
-			for(int x = 0; x < mMass[lay][y].size(); x++){
+	for(int lay = 0; lay < JSON_LAYER_NUM; lay++){
+		for(int y = 0; y < Param::MASS_NUM.y; y++){
+			for(int x = 0; x < Param::MASS_NUM.x; x++){
 
-				if(mMass[lay][y][x].gID != -1){
+				if(mMass[y][x].gID[lay] != -1){
 					Vec2D<int> gSize;
-					GetGraphSize(mMass[lay][y][x].gID, &gSize.x, &gSize.y);
+					GetGraphSize(mMass[y][x].gID[lay], &gSize.x, &gSize.y);
 
 					DrawRotaGraph((x * Param::MASS_SIZE) + (Param::MASS_SIZE / 2) - (gSize.x - Param::MASS_SIZE) / 2,
 								  (y * Param::MASS_SIZE) + (Param::MASS_SIZE / 2) - (gSize.y - Param::MASS_SIZE) / 2,
-								  1.0, 0, mMass[lay][y][x].gID, true);
+								  1.0, 0, mMass[y][x].gID[lay], true);
 
 				}
 			}
@@ -142,8 +135,34 @@ void Stage::draw(){
 		DrawLine((x * Param::MASS_SIZE), 0, (x * Param::MASS_SIZE), Param::STAGE_FRAME_SIZE.y, lineColor);
 	}
 
-	DrawFormatString(Param::STAGE_FRAME_SIZE.x + 20, 10, GetColor(255, 0, 0), "レイヤー = %d", mCurrentLayer);
+	std::string layerStr;
+	switch(mCurrentLayer){
+		case layer_id::MASS_0:	layerStr = "レイヤー 0";	break;
+		case layer_id::MASS_1:	layerStr = "レイヤー 1";	break;
+		case layer_id::MASS_2:	layerStr = "レイヤー 2";	break;
+		case layer_id::PASS:	layerStr = "通れるか";		break;
+		case layer_id::CHARA:	layerStr = "キャラ";		break;
+		case layer_id::ITEM:	layerStr = "アイテム";		break;
+	}
+	DrawString(Param::STAGE_FRAME_SIZE.x + 20, 10, layerStr.c_str(), GetColor(255, 0, 0));
 	mLayerChangeBtn->draw();
+
+	// 通れるかどうかを決めているときだけ〇、×マークを付ける
+	if(mCurrentLayer == layer_id::PASS){
+		lineColor = GetColor(0, 0, 0);
+		for(int y = 0; y < Param::MASS_NUM.y; y++){
+			for(int x = 0; x < Param::MASS_NUM.x; x++){
+
+				if(mMass[y][x].pass){
+					DrawCircle((x * Param::MASS_SIZE) + (Param::MASS_SIZE / 2), (y * Param::MASS_SIZE) + (Param::MASS_SIZE / 2), (Param::MASS_SIZE / 2), lineColor, false);
+				}
+				else{
+					DrawLine(x * Param::MASS_SIZE, y * Param::MASS_SIZE, (x + 1) * Param::MASS_SIZE, (y + 1) * Param::MASS_SIZE, lineColor);
+					DrawLine((x + 1) * Param::MASS_SIZE, y * Param::MASS_SIZE, x * Param::MASS_SIZE, (y + 1) * Param::MASS_SIZE, lineColor);
+				}
+			}
+		}
+	}
 
 }
 
@@ -153,13 +172,17 @@ bool Stage::clickDetectAndAction(){
 
 	// レイヤーの切り替え
 	if(mLayerChangeBtn->update()){
-		mCurrentLayer++;
-		if(mCurrentLayer >= LAYER_NUM){
-			mCurrentLayer = 0;
+		switch(mCurrentLayer){
+			case layer_id::MASS_0:	mCurrentLayer = layer_id::MASS_1;		break;
+			case layer_id::MASS_1:	mCurrentLayer = layer_id::MASS_2;		break;
+			case layer_id::MASS_2:	mCurrentLayer = layer_id::PASS;			break;
+			case layer_id::PASS:	mCurrentLayer = layer_id::CHARA;		break;
+			case layer_id::CHARA:	mCurrentLayer = layer_id::ITEM;			break;
+			case layer_id::ITEM:	mCurrentLayer = layer_id::MASS_0;		break;
 		}
 	}
 
-	if(InputManager::getInstance().isPushedMouseLeft()){
+	if(InputManager::getInstance().isPushMouseLeft()){
 
 		for(int y = 0; y < Param::MASS_NUM.y; y++){
 			for(int x = 0; x < Param::MASS_NUM.x; x++){
@@ -169,19 +192,51 @@ bool Stage::clickDetectAndAction(){
 
 				if(InputManager::getInstance().existCursorInArea(c1.x, c1.y, c2.x, c2.y)){
 
-					mClickLog = {x, y};
+					// 押し続けて何度も同じマスを上書きしてしまうのを防止
+					if(mPushLog.x == x && mPushLog.y == y){
+						break;
+					}
+
+					if(mCurrentLayer == layer_id::PASS){
+						mMass[y][x].pass = !mMass[y][x].pass;
+					}
+					mPushLog = {x, y};
 					return true;
 				}
 			}
 		}
 
 	}
+	else if(InputManager::getInstance().isUpMouseLeft()){	// クリックログは離された瞬間消える
+		mPushLog = {-1, -1};
+	}
 
 	return false;
 }
 
 
+// マスのグラフィックパスとIDは0番目の要素に入る
 void Stage::putDataToClickedTile(MassData data){
-	mMass[mCurrentLayer][mClickLog.y][mClickLog.x].gID = data.gID;
-	mMass[mCurrentLayer][mClickLog.y][mClickLog.x].gPath = data.gPath;
+
+	switch(mCurrentLayer){
+		case layer_id::MASS_0:
+			mMass[mPushLog.y][mPushLog.x].gID[0]	= data.gID[0];
+			mMass[mPushLog.y][mPushLog.x].gPath[0]	= data.gPath[0];
+			break;
+		case layer_id::MASS_1:
+			mMass[mPushLog.y][mPushLog.x].gID[1]	= data.gID[0];
+			mMass[mPushLog.y][mPushLog.x].gPath[1]	= data.gPath[0];
+			break;
+		case layer_id::MASS_2:
+			mMass[mPushLog.y][mPushLog.x].gID[2]	= data.gID[0];
+			mMass[mPushLog.y][mPushLog.x].gPath[2]	= data.gPath[0];
+			break;
+		case layer_id::CHARA:
+			mMass[mPushLog.y][mPushLog.x].charaPath	= data.charaPath;
+			break;
+		case layer_id::ITEM:
+			mMass[mPushLog.y][mPushLog.x].itemPath	= data.itemPath;
+			break;
+	}
+
 }

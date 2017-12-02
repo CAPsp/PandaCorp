@@ -23,7 +23,7 @@ MaterialTab::MaterialTab(){
 void MaterialTab::clickDetectAndAction(){
 
 	// クリックされたときのマスグラフィックを選択状態とする
-	if(InputManager::getInstance().isPushedMouseLeft()){
+	if(InputManager::getInstance().isUpMouseLeft()){
 		for(int y = 0; y < mMassNum.y; y++){
 			for(int x = 0; x < mMassNum.y; x++){
 
@@ -35,8 +35,8 @@ void MaterialTab::clickDetectAndAction(){
 					// mMassGraphIDの何番目に入ってるものかを逆算
 					int elem = (y * mMassNum.x) + x;
 					if(elem < mMassGraphID.size()){
-						mSelectData.gID = mMassGraphID[elem];
-						mSelectData.gPath = GraphManager::getInstance().searchPathFromMap(mSelectData.gID, map_id::MASS);
+						mSelectData.gID[0] = mMassGraphID[elem];
+						mSelectData.gPath[0] = GraphManager::getInstance().searchPathFromMap(mSelectData.gID[0], map_id::MASS);
 					}
 				}
 			}
@@ -57,7 +57,7 @@ void MaterialTab::draw(){
 			if(itr != mMassGraphID.end()){
 
 				// 選択されていた場合はハイライト
-				if(mSelectData.gID == (*itr)){
+				if(mSelectData.gID[0] == (*itr)){
 					DrawBox(mOrigin.x + (x * Param::MASS_SIZE),
 							mOrigin.y + (y * Param::MASS_SIZE),
 							mOrigin.x + ((x + 1) * Param::MASS_SIZE),
@@ -82,7 +82,7 @@ void MaterialTab::draw(){
 							  false,
 							  false);
 
-				if(mSelectData.gID == (*itr)){
+				if(mSelectData.gID[0] == (*itr)){
 					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, NULL);
 				}
 

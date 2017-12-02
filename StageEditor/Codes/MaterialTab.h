@@ -21,7 +21,7 @@ public:
 
 private:
 	std::vector<int> mMassGraphID;
-	MassData mSelectData;
+	MassData mSelectData;	// マス要素の1、２番目は使用しないことに注意
 	Vec2D<int> mOrigin;		// 左杖描画位置となる場所
 	Vec2D<int> mMassNum;	// このタブ上に何個のマスが置けるか
 

@@ -50,7 +50,7 @@ void Button::draw(){
 bool Button::update(){
 
 	bool isArea = InputManager::getInstance().existCursorInArea(mC1.x, mC1.y, mC2.x, mC2.y);
-	bool isPush = InputManager::getInstance().isPushedMouseLeft();
+	bool isPush = InputManager::getInstance().isPushMouseLeft();
 
 	// ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚±‚Æ‚ðŽ¦‚·
 	if(!isPush && isArea && mBeforeFramePress){

@@ -22,8 +22,10 @@ void InputManager::update() {
 	GetMousePoint(&mMouseX, &mMouseY);
 
 	int mouse = GetMouseInput();
-	mMouseL = (mouse & MOUSE_INPUT_LEFT)  ? true : false;
-	mMouseR = (mouse & MOUSE_INPUT_RIGHT) ? true : false;
+	mUpMouseL = !(mouse & MOUSE_INPUT_LEFT) && mPushMouseL;
+	mUpMouseR = !(mouse & MOUSE_INPUT_RIGHT) && mPushMouseR;
+	mPushMouseL = (mouse & MOUSE_INPUT_LEFT)  ? true : false;
+	mPushMouseR = (mouse & MOUSE_INPUT_RIGHT) ? true : false;
 
 }
 

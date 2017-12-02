@@ -27,13 +27,15 @@ public:
 	void update();
 	int checkPushFrame(int);						// キーの押されているフレーム数を返す
 	bool existCursorInArea(int, int, int, int);		// 引数に渡されたエリアにマウスカーソルが存在するか
-	inline bool isPushedMouseLeft()		{ return mMouseL; }
-	inline bool isPushedMouseRight()	{ return mMouseR; }
-
+	inline bool isPushMouseLeft()	{ return mPushMouseL; }
+	inline bool isPushMouseRight()	{ return mPushMouseR; }
+	inline bool isUpMouseLeft()		{ return mUpMouseL; }
+	inline bool isUpMouseRight()	{ return mUpMouseR; }
 
 private:
 	int mKeyFrame[256] = {0};	// 各キーボードが押されている時間
 	int mMouseX, mMouseY;
-	bool mMouseL, mMouseR;
+	bool mPushMouseL, mPushMouseR;
+	bool mUpMouseL, mUpMouseR;
 
 };
