@@ -3,6 +3,7 @@
 #include <string>
 #include "Param.h"
 #include "MainControll.h"
+#include "GraphManager.h"
 
 
 std::string init(){
@@ -31,6 +32,8 @@ std::string init(){
 	SetMainWindowText("ぱんだつ！: Stage Editor");	// ウィンドウの名前を変更
 
 	SetFontSize(Param::FONT_SIZE);	// フォントサイズ変更
+
+	GraphManager::getInstance().load(); // リソース読み込み
 
 	return "";
 }

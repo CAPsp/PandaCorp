@@ -12,17 +12,21 @@ MainControll::MainControll(){
 
 	// ボタンの設定
 	Vec2D<int> btnSize = {100, 30};
-	Vec2D<int> basePoint = {1100 - 90 - (btnSize.x / 2), 20 - (btnSize.y / 2)};
+	Vec2D<int> basePoint = { (Param::STAGE_FRAME_SIZE.x + (Param::RIGHT_FRAME_SIZE.x / 4) ) - (btnSize.x / 2),
+							20 - (btnSize.y / 2)};
 	mOpenStageBtn = new Button(basePoint, basePoint + btnSize, "OPEN");
-	basePoint.x = 1100 + 90 - (btnSize.x / 2);
+	basePoint.x = (Param::STAGE_FRAME_SIZE.x + (Param::RIGHT_FRAME_SIZE.x / 4 * 3) ) - (btnSize.x / 2);
 	mSaveStageBtn = new Button(basePoint, basePoint + btnSize, "SAVE");
+
+	mMaterialTab = new MaterialTab();
 }
 
 
 MainControll::~MainControll(){
-	delete mStage;	mStage = nullptr;
+	delete mStage;			mStage = nullptr;
 	delete mOpenStageBtn;	mOpenStageBtn = nullptr;
 	delete mSaveStageBtn;	mSaveStageBtn = nullptr;
+	delete mMaterialTab;	mMaterialTab = nullptr;
 }
 
 
@@ -35,6 +39,8 @@ void MainControll::draw(){
 	// ボタン
 	mOpenStageBtn->draw();
 	mSaveStageBtn->draw();
+
+	mMaterialTab->draw();
 }
 
 
@@ -98,6 +104,8 @@ void MainControll::doLoop(){
 				MessageBox(NULL, (std::string(path) + "に保存しました").c_str(), "ダイアログ", MB_OK);
 			}
 		}
+
+		mMaterialTab->process();
 
 		draw();
 	}

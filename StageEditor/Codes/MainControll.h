@@ -7,6 +7,7 @@
 
 #include "Button.h"
 #include "Stage.h"
+#include "MaterialTab.h"
 
 
 // ƒVƒ“ƒOƒ‹ƒgƒ“
@@ -37,5 +38,6 @@ private:
 	Button* mSaveStageBtn = nullptr;
 	Stage* mStage = nullptr;
 	std::string mFilePath = "";
+	MaterialTab* mMaterialTab = nullptr;
 
 };

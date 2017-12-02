@@ -37,7 +37,7 @@ void Button::draw(){
 
 	DrawBox(mC1.x, mC1.y, mC2.x, mC2.y, GetColor(0, 0, 0), false);	// ˜g
 
-	int width = GetDrawStringWidthToHandle(mName.c_str(), (int)(strlen(mName.c_str())), mFont);
+	int width = GetDrawStringWidthToHandle(mName.c_str(), (int)(mName.size()), mFont);
 	DrawStringToHandle((mC2.x + mC1.x) / 2 - width / 2,
 					   mC1.y + 2, 
 					   mName.c_str(),

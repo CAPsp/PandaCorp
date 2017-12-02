@@ -120,17 +120,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Codes\Button.cpp" />
+    <ClCompile Include="Codes\FileUtils.cpp" />
+    <ClCompile Include="Codes\GraphManager.cpp" />
     <ClCompile Include="Codes\InputManager.cpp" />
     <ClCompile Include="Codes\main.cpp" />
     <ClCompile Include="Codes\MainControll.cpp" />
+    <ClCompile Include="Codes\MaterialTab.cpp" />
     <ClCompile Include="Codes\Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Codes\Button.h" />
+    <ClInclude Include="Codes\FileUtils.h" />
+    <ClInclude Include="Codes\GraphManager.h" />
     <ClInclude Include="Codes\InputManager.h" />
     <ClInclude Include="Codes\MainControll.h" />
+    <ClInclude Include="Codes\MaterialTab.h" />
     <ClInclude Include="Codes\Param.h" />
     <ClInclude Include="Codes\Stage.h" />
+    <ClInclude Include="Codes\Vec2DUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
