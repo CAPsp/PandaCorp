@@ -40,7 +40,7 @@ public:
 
 	std::vector<int> getAllIDFromMap(map_id);	// map_idで指定したMap上にあるすべてのグラフィックIDを返す
 	std::string searchPathFromMap(int, map_id);	// 　　　　　〃　　　 　の要素から引数に渡したIDに対応するグラフィックのパスを返す
-
+	int checkID(std::string, map_id);			// 引数に対応するリソースＩＤを返す
 
 private:
 	std::map<map_id, std::map<std::string, int>> mMap;

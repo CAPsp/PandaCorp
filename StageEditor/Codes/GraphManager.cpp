@@ -66,3 +66,14 @@ std::string GraphManager::searchPathFromMap(int id, map_id mapId){
 
 	return "";
 }
+
+
+int GraphManager::checkID(std::string name, map_id mapId){
+
+	try{
+		return mMap[mapId].at(name);
+	}
+	catch(std::out_of_range){	// ë∂ç›ÇµÇ»Ç©Ç¡ÇΩèÍçá
+		return -1;
+	}
+}
