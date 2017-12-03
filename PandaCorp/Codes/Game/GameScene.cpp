@@ -14,7 +14,7 @@ bool GameScene::begin(){
 scene_sig GameScene::update(){
 	scene_sig rtn;
 
-	mStage.draw();
+	mStage.update();
 
 #ifdef _DEBUG
 	// UI‚Ì˜g‚ð•\Ž¦

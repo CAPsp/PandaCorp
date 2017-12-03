@@ -8,7 +8,7 @@
 class GameScene : public BaseScene{
 
 public:
-	GameScene(int num):mStageNum(num){}
+	GameScene(int num):mStageNum(num), mStage("Stage/test.json"){}
 	virtual ~GameScene() = default;
 	virtual scene_sig update();
 	virtual bool begin();

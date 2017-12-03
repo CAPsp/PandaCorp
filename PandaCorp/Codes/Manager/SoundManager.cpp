@@ -27,10 +27,7 @@ void SoundManager::load(){
 			mMap[*i] = tmp;
 		}
 	}
-
-
-	bool debug = 0;
-	debug++;
+	
 }
 
 

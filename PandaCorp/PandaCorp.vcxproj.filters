@@ -77,6 +77,15 @@
     <ClInclude Include="Codes\DebugMsgData.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Codes\Game\Mass.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Codes\Game\Character.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Codes\Game\Player.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Codes\main.cpp">
@@ -111,6 +120,9 @@
     </ClCompile>
     <ClCompile Include="Codes\DebugMsgData.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Codes\Game\Player.cpp">
+      <Filter>ソース ファイル\Game</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

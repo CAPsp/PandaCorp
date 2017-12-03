@@ -14,7 +14,6 @@ GraphManager::~GraphManager(){
 }
 
 
-// Map‚ÉŠi”[‚µ‚½‘Î‰‚·‚éƒŠƒ\[ƒX‚h‚c‚ğ•Ô‚·
 void GraphManager::load(){
 
 
@@ -31,16 +30,11 @@ void GraphManager::load(){
 		}
 	}
 
-	bool debug = 0;
-	debug++;
 }
 
 
 // Map‚ÉŠi”[‚µ‚½‘Î‰‚·‚éƒŠƒ\[ƒX‚h‚c‚ğ•Ô‚·
-// ˆø”‚É‚ÍGRAPH_DIR_PATH‚©‚ç‚Ì‘Š‘ÎƒpƒX‚ğw’è‚·‚é
 int GraphManager::checkID(std::string name){
-
-	name = GRAPH_DIR_PATH + name;
 
 	try{
 		return mMap.at(name);

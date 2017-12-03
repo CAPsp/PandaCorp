@@ -21,8 +21,11 @@
   <ItemGroup>
     <ClInclude Include="Codes\BaseScene.h" />
     <ClInclude Include="Codes\DebugMsgData.h" />
+    <ClInclude Include="Codes\Game\Character.h" />
     <ClInclude Include="Codes\Game\GameScene.h" />
     <ClInclude Include="Codes\Game\GameSceneParam.h" />
+    <ClInclude Include="Codes\Game\Mass.h" />
+    <ClInclude Include="Codes\Game\Player.h" />
     <ClInclude Include="Codes\Game\StageControll.h" />
     <ClInclude Include="Codes\GlobalParam.h" />
     <ClInclude Include="Codes\MainControll.h" />
@@ -40,6 +43,7 @@
   <ItemGroup>
     <ClCompile Include="Codes\DebugMsgData.cpp" />
     <ClCompile Include="Codes\Game\GameScene.cpp" />
+    <ClCompile Include="Codes\Game\Player.cpp" />
     <ClCompile Include="Codes\Game\StageControll.cpp" />
     <ClCompile Include="Codes\main.cpp" />
     <ClCompile Include="Codes\MainControll.cpp" />

@@ -6,18 +6,20 @@
 
 
 #include <vector>
+#include "Mass.h"
+#include "Character.h"
 
 
 class StageControll{
 
 public:
-	StageControll();
+	StageControll(std::string);		// 読み込むjsonファイルを指定する
 	~StageControll();
-	void draw();		// 描画処理
+	void update();					// 1フレーム毎の更新処理
 
 private:
-	std::vector<std::vector<int>> mMass;	// TODO: Mass型を作る
-	//std::vector<Character> mChara;
+	std::vector<std::vector<Mass>> mMass;
+	std::vector<Character*> mChara;
 	//std::vector<Animation> mAnim;
 
 };
