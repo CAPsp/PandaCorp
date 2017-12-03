@@ -207,7 +207,7 @@ bool Stage::clickDetectAndAction(){
 		}
 
 	}
-	else if(InputManager::getInstance().isUpMouseLeft()){	// クリックログは離された瞬間消える
+	else if(InputManager::getInstance().isUpMouseLeft()){	// 押されたときのログは離された瞬間消える
 		mPushLog = {-1, -1};
 	}
 

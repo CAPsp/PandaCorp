@@ -9,7 +9,7 @@
 
 
 #define GEN_DATA_DIR "GenData/"
-#define MATERIAL_DATA_DIR "Material/"
+#define MATERIAL_DATA_DIR "Res/Graph/"
 
 // MATERIAL_DATA_DIRâ∫Ç…ë∂ç›Ç∑ÇÈ
 #define CHARA_DIR "Chara/"

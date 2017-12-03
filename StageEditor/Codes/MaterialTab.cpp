@@ -9,6 +9,7 @@
 MaterialTab::MaterialTab(){
 
 	mMassGraphID = GraphManager::getInstance().getAllIDFromMap(map_id::MASS);
+	mMassGraphID.insert(mMassGraphID.begin(), -1);	// Á‚µƒSƒ€—p‚Ì‹óƒ}ƒX
 
 	mOrigin = {Param::STAGE_FRAME_SIZE.x, 100};
 
