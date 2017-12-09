@@ -18,8 +18,11 @@ public:
 	Mass(int, int, std::vector<int>, bool);
 	virtual ~Mass() = default;
 	virtual void update(){}			// updateŠÖ”‚É‚æ‚éXVˆ—‚ª‚È‚¢
-	virtual void hit(GameObj&);
+	virtual void hit(GameObj*);
 	void draw(int);					// Ä•`‰æ‚ÉŒÄ‚Ño‚·
+
+public:
+	inline bool isPass(){ return mPass; }
 
 private:
 	std::vector<int> mGraphs;

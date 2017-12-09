@@ -22,7 +22,7 @@ std::string openJson(std::string path, picojson::value& v){
 
 
 // jsonファイルの仕様はエディターと整合性を保つ必要があるため変更される可能性がある
-std::string StageFile::read(std::vector<Mass>& vector){
+std::string StageFile::read(std::vector<Mass*>& vector){
 
 	picojson::value v;
 	std::string err = openJson(mFilePath, v);
@@ -52,10 +52,10 @@ std::string StageFile::read(std::vector<Mass>& vector){
 			bool pass = obj.at("pass").get<bool>();
 
 			// マスを配置する中心点を座標として渡す
-			Mass mass( (xCnt * GameSceneParam::MASS_SIZE) + (GameSceneParam::MASS_SIZE / 2),
-					   (yCnt * GameSceneParam::MASS_SIZE) + (GameSceneParam::MASS_SIZE / 2),
-					   graph,
-					   pass);
+			Mass* mass = new Mass( (xCnt * GameSceneParam::MASS_SIZE) + (GameSceneParam::MASS_SIZE / 2),
+								  (yCnt * GameSceneParam::MASS_SIZE) + (GameSceneParam::MASS_SIZE / 2),
+								  graph,
+								  pass);
 
 			// マス達の描画順番から、先頭から詰めるように格納していく
 			vector.push_back(mass);

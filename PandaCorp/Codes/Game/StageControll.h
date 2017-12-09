@@ -20,7 +20,7 @@ public:
 
 private:
 	std::vector<GameObj*> mObjects;
-	std::vector<Mass> mMasses;
+	std::vector<Mass*> mMasses;
 	StageFile mStageFile;
 
 };

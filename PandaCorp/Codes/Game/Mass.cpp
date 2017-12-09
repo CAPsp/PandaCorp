@@ -36,6 +36,6 @@ void Mass::draw(int layer){
 }
 
 
-void Mass::hit(GameObj& other){
+void Mass::hit(GameObj* other){
 
 }
