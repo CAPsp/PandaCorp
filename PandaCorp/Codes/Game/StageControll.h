@@ -7,7 +7,8 @@
 
 #include <vector>
 #include "Mass.h"
-#include "Character.h"
+#include "GameObj.h"
+#include "StageFile.h"
 
 
 class StageControll{
@@ -18,8 +19,8 @@ public:
 	void update();					// 1フレーム毎の更新処理
 
 private:
-	std::vector<std::vector<Mass>> mMass;
-	std::vector<Character*> mChara;
-	//std::vector<Animation> mAnim;
+	std::vector<GameObj*> mObjects;
+	std::vector<Mass> mMasses;
+	StageFile mStageFile;
 
 };

@@ -11,4 +11,6 @@ namespace GameSceneParam{
 
 	const int MASS_GRAPH_LAYER_NUM = 3;
 
+	const int PLAYER_SPEED_PIXEL_PER_FRAME = 6;
+
 };
