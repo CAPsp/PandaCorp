@@ -92,6 +92,15 @@
     <ClInclude Include="Codes\Game\StageFile.h">
       <Filter>ソース ファイル\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Codes\Game\State.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Codes\Game\StateMachine.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Codes\Game\PlayerState.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Codes\main.cpp">
@@ -134,6 +143,9 @@
       <Filter>ソース ファイル\Game</Filter>
     </ClCompile>
     <ClCompile Include="Codes\Game\Mass.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Codes\Game\PlayerState.cpp">
       <Filter>ソース ファイル\Game</Filter>
     </ClCompile>
   </ItemGroup>

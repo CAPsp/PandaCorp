@@ -4,6 +4,7 @@
 #include "GameSceneParam.h"
 #include "InputManager.h"
 #include "Mass.h"
+#include "PlayerState.h"
 
 
 Player::Player(int x, int y){
@@ -11,6 +12,7 @@ Player::Player(int x, int y){
 	mPos = Vec2D<int>(x, y);
 	mHitAreaSize = Vec2D<int>(GameSceneParam::MASS_SIZE, GameSceneParam::MASS_SIZE);
 	mVel = Vec2D<double>(0, 0);
+	mStateMachine = new StateMachine<Player>(this, new PlayerStandState(), new PlayerGlobalState());
 }
 
 
@@ -18,48 +20,7 @@ Player::~Player(){}
 
 
 void Player::update(){
-
-	// 速度減退処理
-	if(mVel.x != 0.0){
-		mVel.x += (-1.0) * ((mVel.x) / (abs(mVel.x))) * (abs(mVel.x) * GameSceneParam::PLAYER_VEL_RESISTANCE);
-	}
-	if(mVel.y != 0.0){
-		mVel.y += (-1.0) * ((mVel.y) / (abs(mVel.y))) * (abs(mVel.y) * GameSceneParam::PLAYER_VEL_RESISTANCE);
-	}
-	
-	// 移動処理
-	Vec2D<double> addVel;
-	if(InputManager::getInstance().checkPushFrame(KEY_INPUT_UP) > 0){
-		addVel.y = (-1.0) * GameSceneParam::PLAYER_ACCELE_PER_FRAME;
-	}
-	if(InputManager::getInstance().checkPushFrame(KEY_INPUT_RIGHT) > 0){
-		addVel.x = GameSceneParam::PLAYER_ACCELE_PER_FRAME;
-	}
-	if(InputManager::getInstance().checkPushFrame(KEY_INPUT_DOWN) > 0){
-		addVel.y = GameSceneParam::PLAYER_ACCELE_PER_FRAME;
-	}
-	if(InputManager::getInstance().checkPushFrame(KEY_INPUT_LEFT) > 0){
-		addVel.x = (-1.0) * GameSceneParam::PLAYER_ACCELE_PER_FRAME;
-	}
-
-	// 最高速度を超えないように調整して速度を計算
-	if(abs(addVel.x + mVel.x) > GameSceneParam::PLAYER_MAX_SPEED){
-		mVel.x = (mVel.x) / abs(mVel.x) * GameSceneParam::PLAYER_MAX_SPEED;
-	}
-	else{
-		mVel.x += addVel.x;
-	}
-
-	if(abs(addVel.y + mVel.y) > GameSceneParam::PLAYER_MAX_SPEED){
-		mVel.y = (mVel.y) / abs(mVel.y) * GameSceneParam::PLAYER_MAX_SPEED;
-	}
-	else{
-		mVel.y += addVel.y;
-	}
-
-	// 速度反映処理
-	mPos += Vec2D<int>((int)mVel.x, (int)mVel.y);
-
+	mStateMachine->update();
 }
 
 

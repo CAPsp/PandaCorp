@@ -33,6 +33,7 @@ public:
 public:
 	inline Vec2D<int> checkPos()	{ return mPos; }
 	inline Vec2D<int> checkHitArea(){ return mHitAreaSize; }
+	inline void movePos(Vec2D<int> p){ mPos += p; }	// Œ»İ’n“_‚ğŠî“_‚Æ‚µ‚ÄˆÚ“®‚ğ‚·‚é
 
 protected:
 	Vec2D<int> mPos;

@@ -27,8 +27,11 @@
     <ClInclude Include="Codes\Game\GameSceneParam.h" />
     <ClInclude Include="Codes\Game\Mass.h" />
     <ClInclude Include="Codes\Game\Player.h" />
+    <ClInclude Include="Codes\Game\PlayerState.h" />
     <ClInclude Include="Codes\Game\StageControll.h" />
     <ClInclude Include="Codes\Game\StageFile.h" />
+    <ClInclude Include="Codes\Game\State.h" />
+    <ClInclude Include="Codes\Game\StateMachine.h" />
     <ClInclude Include="Codes\GlobalParam.h" />
     <ClInclude Include="Codes\MainControll.h" />
     <ClInclude Include="Codes\Manager\ChangeSceneManager.h" />
@@ -47,6 +50,7 @@
     <ClCompile Include="Codes\Game\GameScene.cpp" />
     <ClCompile Include="Codes\Game\Mass.cpp" />
     <ClCompile Include="Codes\Game\Player.cpp" />
+    <ClCompile Include="Codes\Game\PlayerState.cpp" />
     <ClCompile Include="Codes\Game\StageControll.cpp" />
     <ClCompile Include="Codes\Game\StageFile.cpp" />
     <ClCompile Include="Codes\main.cpp" />
@@ -124,7 +128,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>Codes\Utils;Codes\Title;Codes\StageSelect;Codes\Manager;Codes\Game;Codes;C:\Program Files %28x86%29\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -152,7 +156,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
