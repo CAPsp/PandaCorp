@@ -26,6 +26,12 @@ void Player::update(){
 
 void Player::draw(int){
 
+	Vec2D<int> gSize;
+	GetGraphSize(mCurrentGID, &gSize.x, &gSize.y);
+	DrawRotaGraph(mPos.x - (gSize.x - GameSceneParam::MASS_SIZE) / 2,
+				  mPos.y - (gSize.y - GameSceneParam::MASS_SIZE) / 2,
+				  1.0, 0, mCurrentGID, true);
+
 #ifdef _DEBUG
 
 	DrawFormatString(600, 0, GetColor(255, 0, 0), "V = (%.4lf, %.4lf)", mVel.x, mVel.y);

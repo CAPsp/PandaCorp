@@ -14,7 +14,10 @@ class StateMachine{
 public:
 	// 所有者、始めのステート、必要ならばグローバルステートを生成時に渡す
 	StateMachine(entity_type* ow, State<entity_type>* start, State<entity_type>* global = nullptr)
-		:mOwner(ow), mCurrentState(start), mGlobalState(global){}
+		:mOwner(ow), mCurrentState(start), mGlobalState(global){
+	
+		mCurrentState->Enter(mOwner);
+	}
 
 	~StateMachine(){
 		delete mCurrentState;

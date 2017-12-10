@@ -6,6 +6,9 @@
 
 #include "State.h"
 #include "Player.h"
+#include <string>
+#include <vector>
+#include <map>
 
 
 // èÌÇ…çXêVÇ∑ÇÈèàóù
@@ -31,6 +34,11 @@ public:
 	virtual void Execute(Player*);
 	virtual void Exit(Player*);
 
+private:
+	const std::string GRAPH_NAME = "stand_";
+	std::map<char, std::vector<int>> mKeepGraph;
+	int mAnimFrame = 0;
+
 };
 
 
@@ -43,6 +51,11 @@ public:
 	virtual void Enter(Player*);
 	virtual void Execute(Player*);
 	virtual void Exit(Player*);
+
+private:
+	const std::string GRAPH_NAME = "walk_";
+	std::map<char, std::vector<int>> mKeepGraph;
+	int mAnimFrame = 0;
 
 };
 
@@ -57,6 +70,9 @@ public:
 	virtual void Execute(Player*);
 	virtual void Exit(Player*);
 
+private:
+	const std::string GRAPH_NAME = "hold_";
+
 };
 
 
@@ -69,5 +85,8 @@ public:
 	virtual void Enter(Player*);
 	virtual void Execute(Player*);
 	virtual void Exit(Player*);
+
+private:
+	const std::string GRAPH_NAME = "item_get";
 
 };

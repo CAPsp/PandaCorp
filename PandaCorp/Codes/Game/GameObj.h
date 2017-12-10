@@ -11,6 +11,13 @@
 
 class GameObj{
 
+// Œü‚¢‚Ä‚¢‚é•ûŒü‚ğˆÓ–¡‚·‚é’è”
+public:
+	static const char DIRECTON_UP		= 'u';
+	static const char DIRECTON_DOWN		= 'd';
+	static const char DIRECTON_LEFT		= 'l';
+	static const char DIRECTON_RIGHT	= 'r';
+	
 public:
 	GameObj() = default;
 	virtual ~GameObj() = default;
