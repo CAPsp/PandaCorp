@@ -19,19 +19,22 @@ void InputManager::update() {
 	}
 
 	// --- ko-tin�N�̍��Ƃ����̈��i �O�ցO�j ---
-int i,cnt=0:
-int main(){
-while(){
-for(){
-	cnt++;
+static int cnt[256]={0}:
+for(j=0;j<256;j++){
+	if(cnt[j]>=20){
+		cnt[j]=0;
+		key_type_count[j]=0;
+	}
+	if(key_type_state[i] == TRUE){
+	if(cnt[j]<20){
+	key_type_count[j]++;
+	cnt[j]=0;
 }
-	key_type_count[i]=cnt;
-	if(cnt==0){key_type_count[i]=0;}
-
+}
+else{
+	cnt[j]++;
 }
 }
-
-
 
 	// ------
 
