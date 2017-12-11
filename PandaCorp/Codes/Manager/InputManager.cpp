@@ -18,13 +18,24 @@ void InputManager::update() {
 		}
 	}
 
-	// --- ko-tinŒN‚Ìì‹Æ‚·‚é—Ìˆæi OƒÖOj ---
+	// --- ko-tinï¿½Nï¿½Ìï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½Ìˆï¿½ï¿½i ï¿½Oï¿½ÖOï¿½j ---
+int i,cnt=0:
+int main(){
+while(){
+for(){
+	cnt++;
+}
+	key_type_count[i]=cnt;
+	if(cnt==0){key_type_count[i]=0;}
+
+}
+}
 
 
 
 	// ------
 
-	// debug—p
+	// debugï¿½p
 	DebugMsgData::getInstance().setMsg("key_left"	, "Left: " + std::to_string(checkPushFrame(KEY_INPUT_LEFT)));
 	DebugMsgData::getInstance().setMsg("key_right"	, "Right: " + std::to_string(checkPushFrame(KEY_INPUT_RIGHT)));
 	DebugMsgData::getInstance().setMsg("key_down"	, "Down: " + std::to_string(checkPushFrame(KEY_INPUT_DOWN)));
