@@ -43,7 +43,7 @@ void PlayerGenHitBox::update(){
 }
 
 
-void PlayerGenHitBox::draw(int){
+void PlayerGenHitBox::draw(){
 #ifdef _DEBUG
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 122);
 	DrawBox(mPos.x - (mHitAreaSize.x / 2),

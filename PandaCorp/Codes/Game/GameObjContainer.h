@@ -24,7 +24,9 @@ public:
 		for(GameObj* obj : mTempRemoveVec)	{ delete obj; }
 	}
 
-	inline std::vector<GameObj*> checkData(){ return mVec; }
+	inline int checkSize(){ return (int)(mVec.size()); }
+
+	inline GameObj* checkElem(int num){ return mVec.at(num); }
 
 	inline void add(GameObj* obj){ mTempAddVec.push_back(obj); }
 	

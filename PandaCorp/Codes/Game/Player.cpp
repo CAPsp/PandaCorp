@@ -24,7 +24,7 @@ void Player::update(){
 }
 
 
-void Player::draw(int){
+void Player::draw(){
 
 	Vec2D<int> gSize;
 	GetGraphSize(mCurrentGID, &gSize.x, &gSize.y);

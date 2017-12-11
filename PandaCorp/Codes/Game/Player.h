@@ -11,7 +11,7 @@ public:
 	Player(GameObjContainer*, Vec2D<int>);
 	virtual ~Player();
 	virtual void update();
-	virtual void draw(int);
+	virtual void draw();
 	virtual void hit(GameObj*);
 	void genHitBox();			// PlayerGenHitBoxオブジェクトの生成
 	

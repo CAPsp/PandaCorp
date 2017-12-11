@@ -6,15 +6,22 @@
 #include "Mass.h"
 
 
+const int lay = GameSceneParam::MASS_GRAPH_LAYER_NUM;
+
+
 StageControll::StageControll(std::string jsonPath)
 	:mStageFile(jsonPath){
 	
-	std::string msg = mStageFile.read(&mMasses);
+	std::string msg = mStageFile.read(mObjects);
 	if(msg != ""){
 		MessageBox(NULL, msg.c_str(), "エラー", MB_OK);
 	}
 
-	mObjects.add(new Player(&mObjects, Vec2D<int>(100, 100) ));
+	mObjects[lay].add(new Player(&mObjects[lay], Vec2D<int>(100, 100) ));
+
+	for(int i = 0; i <= lay; i++){
+		mObjects[i].update();
+	}
 }
 
 
@@ -22,51 +29,41 @@ StageControll::~StageControll(){}
 
 
 void StageControll::update(){
-
-	std::vector<GameObj*>& masses = mMasses.checkData();
-	std::vector<GameObj*>& objs = mObjects.checkData();
-
+	
 	// 1フレーム毎の更新処理
-	for(auto mass : masses){ mass->update();	}
-	for(auto obj : objs){ obj->update();	}
+	for(int i = 0; i <= lay; i++){
+		for(int num = 0; num < mObjects[i].checkSize(); num++){
+			mObjects[i].checkElem(num)->update();
+		}
+	}
 
-	// あたり判定処理
-	for(auto obj : objs){
+	// レイヤー1以上のもの全てでオブジェクト同士のあたり判定を処理
+	for(int i = 1; i < lay; i++){
+		for(int j = i + 1; j <= lay; j++){
 
-		// マスとのあたり判定
-		for(auto mass : masses){
+			for(int numI = 0; numI < mObjects[i].checkSize(); numI++){
+				for(int numJ = 0; numJ < mObjects[j].checkSize(); numJ++){
 
-			if(obj->checkCollide(mass)){
-				obj->hit(mass);
-				mass->hit(obj);
+					if( mObjects[i].checkElem(numI)->checkCollide( mObjects[j].checkElem(numJ) ) ){
+						mObjects[i].checkElem(numI)->hit(mObjects[j].checkElem(numJ));
+						mObjects[j].checkElem(numJ)->hit(mObjects[i].checkElem(numI));
+					}
+				}
 			}
-		}
 
-		// 他オブジェクトとのあたり判定
-		for(auto other : objs){
-			if(other == obj){ continue; }
-
-			if(obj->checkCollide(other)){
-				obj->hit(other);
-				other->hit(obj);
-			}
-		}
-
-	}
-
-	// マスはレイヤー順に描画処理を行う
-	for(int i = 0; i < Mass::LAYER_NUM; i++){
-		for(auto mass : masses){
-			mass->draw(i);
 		}
 	}
-	// ゲームオブジェクト描画
-	for(auto obj : objs){
-		obj->draw(0);
+
+	// レイヤー順に描画処理を行う
+	for(int i = 0; i <= lay; i++){
+		for(int num = 0; num < mObjects[i].checkSize(); num++){
+			mObjects[i].checkElem(num)->draw();
+		}
 	}
 
-	// GameObjを入れてあるコンテナの更新処理（追加、削除処理のために必須）
-	mObjects.update();
-	mMasses.update();
+	// コンテナの更新処理（追加、削除処理のために必須）
+	for(int i = 0; i <= lay; i++){
+		mObjects[i].update();
+	}
 
 }

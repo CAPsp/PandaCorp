@@ -29,10 +29,17 @@ public:
 		:mOwner(ow), mPos(pos), mHitAreaSize(hit){}
 	virtual ~GameObj() = default;
 	virtual void update()		= 0;	// 1フレーム毎の更新処理
-	virtual void draw(int)		= 0;	// 描画処理(引数は実装クラスによって扱いが変わる)
+	virtual void draw()		= 0;	// 描画処理(引数は実装クラスによって扱いが変わる)
 	virtual void hit(GameObj*)	= 0;	// 他のオブジェクトと衝突したときの処理
 
 	bool checkCollide(const GameObj* other){
+
+		// あたり判定エリアが0のものの場合、計算の考慮をしない
+		if( (mHitAreaSize.x == 0 && mHitAreaSize.y == 0) || 
+			(other->mHitAreaSize.x == 0 && other->mHitAreaSize.y == 0) ){
+		
+			return false;
+		}
 
 		// 基準点を左上にする
 		Vec2D<int> p(mPos.x - mHitAreaSize.x / 2,					mPos.y - mHitAreaSize.y / 2);

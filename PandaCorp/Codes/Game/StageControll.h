@@ -5,10 +5,9 @@
 #pragma once
 
 
-#include <vector>
-#include "GameObj.h"
 #include "StageFile.h"
 #include "GameObjContainer.h"
+#include "GameSceneParam.h"
 
 
 class StageControll{
@@ -19,8 +18,7 @@ public:
 	void update();					// 1フレーム毎の更新処理
 
 private:
-	GameObjContainer mObjects;
-	GameObjContainer mMasses;
+	GameObjContainer mObjects[GameSceneParam::MASS_GRAPH_LAYER_NUM + 1];	// マス + 他ゲームオブジェクト
 	StageFile mStageFile;
 
 };

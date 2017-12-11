@@ -16,7 +16,7 @@ public:
 	PlayerGenHitBox(GameObjContainer*, Player*);
 	virtual ~PlayerGenHitBox() = default;
 	virtual void update();	// 1ƒtƒŒ[ƒ€Œã‚ÉÁ–Å‚·‚é
-	virtual void draw(int);
+	virtual void draw();
 	virtual void hit(GameObj*);
 
 private:
