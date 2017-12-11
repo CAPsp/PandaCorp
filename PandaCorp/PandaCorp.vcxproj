@@ -21,12 +21,13 @@
   <ItemGroup>
     <ClInclude Include="Codes\BaseScene.h" />
     <ClInclude Include="Codes\DebugMsgData.h" />
-    <ClInclude Include="Codes\Game\Character.h" />
     <ClInclude Include="Codes\Game\GameObj.h" />
+    <ClInclude Include="Codes\Game\GameObjContainer.h" />
     <ClInclude Include="Codes\Game\GameScene.h" />
     <ClInclude Include="Codes\Game\GameSceneParam.h" />
     <ClInclude Include="Codes\Game\Mass.h" />
     <ClInclude Include="Codes\Game\Player.h" />
+    <ClInclude Include="Codes\Game\PlayerGenHitBox.h" />
     <ClInclude Include="Codes\Game\PlayerState.h" />
     <ClInclude Include="Codes\Game\StageControll.h" />
     <ClInclude Include="Codes\Game\StageFile.h" />
@@ -50,6 +51,7 @@
     <ClCompile Include="Codes\Game\GameScene.cpp" />
     <ClCompile Include="Codes\Game\Mass.cpp" />
     <ClCompile Include="Codes\Game\Player.cpp" />
+    <ClCompile Include="Codes\Game\PlayerGenHitBox.cpp" />
     <ClCompile Include="Codes\Game\PlayerState.cpp" />
     <ClCompile Include="Codes\Game\StageControll.cpp" />
     <ClCompile Include="Codes\Game\StageFile.cpp" />

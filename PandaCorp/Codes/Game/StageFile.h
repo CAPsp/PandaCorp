@@ -7,7 +7,8 @@
 
 #include <string>
 #include <vector>
-#include "Mass.h"
+#include "GameObj.h"
+#include "GameObjContainer.h"
 
 
 class StageFile{
@@ -15,7 +16,7 @@ class StageFile{
 public:
 	StageFile(std::string);
 	~StageFile() = default;
-	std::string read(std::vector<Mass*>&);	// 渡されたvectorにマスオブジェクトを読み込む
+	std::string read(GameObjContainer*);	// 渡されたvectorにマスオブジェクトを読み込む
 
 private:
 	std::string mFilePath;

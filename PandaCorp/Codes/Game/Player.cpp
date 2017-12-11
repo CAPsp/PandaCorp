@@ -5,12 +5,12 @@
 #include "InputManager.h"
 #include "Mass.h"
 #include "PlayerState.h"
+#include "PlayerGenHitBox.h"
 
 
-Player::Player(int x, int y){
+Player::Player(GameObjContainer* ow, Vec2D<int> pos)
+:GameObj(ow, pos, Vec2D<int>(GameSceneParam::MASS_SIZE, GameSceneParam::MASS_SIZE)){
 
-	mPos = Vec2D<int>(x, y);
-	mHitAreaSize = Vec2D<int>(GameSceneParam::MASS_SIZE, GameSceneParam::MASS_SIZE);
 	mVel = Vec2D<double>(0, 0);
 	mStateMachine = new StateMachine<Player>(this, new PlayerStandState(), new PlayerGlobalState());
 }
@@ -89,4 +89,9 @@ void Player::hit(GameObj* other){
 		return;
 	}
 
+}
+
+
+void Player::genHitBox(){
+	mOwner->add(new PlayerGenHitBox(mOwner, this));
 }

@@ -7,6 +7,11 @@
 
 
 #include "Vec2DUtils.h"
+#include <vector>
+#include "GameObjContainer.h"
+
+
+class GameObjContainer;// GameObjContainer// GameObjクラスと循環インクルード関係にあるため、その解決処理クラスと循環インクルード関係にあるため、その解決処理
 
 
 class GameObj{
@@ -19,7 +24,9 @@ public:
 	static const char DIRECTON_RIGHT	= 'r';
 	
 public:
-	GameObj() = default;
+	GameObj() = delete;
+	GameObj(GameObjContainer* ow, Vec2D<int> pos, Vec2D<int> hit)
+		:mOwner(ow), mPos(pos), mHitAreaSize(hit){}
 	virtual ~GameObj() = default;
 	virtual void update()		= 0;	// 1フレーム毎の更新処理
 	virtual void draw(int)		= 0;	// 描画処理(引数は実装クラスによって扱いが変わる)
@@ -45,5 +52,6 @@ public:
 protected:
 	Vec2D<int> mPos;
 	Vec2D<int> mHitAreaSize;
+	GameObjContainer* mOwner;	// 自身を管理しているvectorへのポインタ
 
 };

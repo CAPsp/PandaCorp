@@ -4,19 +4,14 @@
 #include "DxLib.h"
 
 
-Mass::Mass(int x, int y, std::vector<int> graphs, bool pass)
-	:mPass(pass){
+Mass::Mass(GameObjContainer* ow, Vec2D<int> pos, std::vector<int> graphs, bool pass)
+	:mPass(pass),
+	 GameObj(ow, pos, Vec2D<int>(GameSceneParam::MASS_SIZE, GameSceneParam::MASS_SIZE)){
 
 	if(graphs.size() != LAYER_NUM){
 		throw std::exception("Massクラスに不適切な引数が渡されました(第３引数)");
 	}
 	mGraphs = graphs;
-
-	mPos.x = x;
-	mPos.y = y;
-
-	mHitAreaSize.x = GameSceneParam::MASS_SIZE;
-	mHitAreaSize.y = GameSceneParam::MASS_SIZE;
 }
 
 
@@ -36,6 +31,4 @@ void Mass::draw(int layer){
 }
 
 
-void Mass::hit(GameObj* other){
-
-}
+void Mass::hit(GameObj*){}

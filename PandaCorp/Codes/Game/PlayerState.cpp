@@ -73,6 +73,10 @@ void PlayerStandState::Execute(Player* player){
 
 		player->getStateMachine()->changeState(new PlayerWalkState());
 	}
+
+	if(InputManager::getInstance().checkPushFrame(KEY_INPUT_Z) == 1){
+		player->genHitBox();
+	}
 }
 
 void PlayerStandState::Exit(Player*){
@@ -165,11 +169,29 @@ void PlayerHoldState::Exit(Player*){}
 
 
 // ------PlayerItemGetStateƒNƒ‰ƒX‚ÌŽÀ‘•------
-void PlayerItemGetState::Enter(Player*){}
+void PlayerItemGetState::Enter(Player* player){
 
-void PlayerItemGetState::Execute(Player*){
+	mAnimFrame = 0;
+	for(int i = 0;; i++){
+		int id = genAnimGraph(GRAPH_NAME + ".png", i);
+		if(id == -1){ break; }
+		mKeepGraph.push_back(id);
+	}
+	player->changeGraphic(mKeepGraph[0]);
+}
 
+void PlayerItemGetState::Execute(Player* player){
+	mAnimFrame++;
+	if((mAnimFrame / GameSceneParam::ANIME_CHANGE_FRAME_QUICK) >= mKeepGraph.size()){
+		player->getStateMachine()->changeState(new PlayerStandState());
+		return;
+	}
+	player->changeGraphic(mKeepGraph[mAnimFrame / GameSceneParam::ANIME_CHANGE_FRAME_QUICK]);
 
 }
 
-void PlayerItemGetState::Exit(Player*){}
+void PlayerItemGetState::Exit(Player*){
+	for(int id : mKeepGraph){
+		DeleteGraph(id);
+	}
+}

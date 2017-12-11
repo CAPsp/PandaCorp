@@ -88,5 +88,7 @@ public:
 
 private:
 	const std::string GRAPH_NAME = "item_get";
+	std::vector<int> mKeepGraph;
+	int mAnimFrame = 0;
 
 };
