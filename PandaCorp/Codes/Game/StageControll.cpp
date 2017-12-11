@@ -56,17 +56,13 @@ void StageControll::update(){
 
 	// マスはレイヤー順に描画処理を行う
 	for(int i = 0; i < Mass::LAYER_NUM; i++){
-		
-		// レイヤー2より前に他ゲームオブジェクトは描画される
-		if(i == 1){
-			for(auto obj : objs){
-				obj->draw(0);
-			}
-		}
-		
 		for(auto mass : masses){
 			mass->draw(i);
 		}
+	}
+	// ゲームオブジェクト描画
+	for(auto obj : objs){
+		obj->draw(0);
 	}
 
 	// GameObjを入れてあるコンテナの更新処理（追加、削除処理のために必須）

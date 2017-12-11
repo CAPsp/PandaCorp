@@ -157,15 +157,86 @@ void PlayerWalkState::Exit(Player*){
 
 
 // ------PlayerHoldStateクラスの実装------
-void PlayerHoldState::Enter(Player*){}
+void PlayerHoldState::Enter(Player* player){
 
-void PlayerHoldState::Execute(Player*){
+	mAnimFrame = 0;
+	for(int i = 0;; i++){
+		int id = genAnimGraph(GRAPH_NAME + player->checkDirection() + ".png", i);
+		if(id == -1){ break; }
+		mKeepGraph.push_back(id);
+	}
+	player->changeGraphic(mKeepGraph[0]);
 
-
+	mPreviousPlayerPos = player->checkPos();
 }
 
-void PlayerHoldState::Exit(Player*){}
+// アニメーションは半分進んだ時点で「掴んだ」モーションになることに注意
+void PlayerHoldState::Execute(Player* player){
 
+	if(mAnimFrame < (mKeepGraph.size() / 2) * GameSceneParam::ANIME_CHANGE_FRAME_QUICK){	// 掴む前
+		mAnimFrame++;
+		
+	}
+	else if(mAnimFrame > (mKeepGraph.size() / 2) * GameSceneParam::ANIME_CHANGE_FRAME_QUICK){	// 離す時
+		mAnimFrame++;
+		if((mAnimFrame / GameSceneParam::ANIME_CHANGE_FRAME_QUICK) >= mKeepGraph.size()){
+			player->getStateMachine()->changeState(new PlayerStandState());
+			return;
+		}
+	}
+	else{	// 掴んでいるとき
+	
+		holdAction(player);
+
+		// 決定キーで掴むのを止める
+		if(InputManager::getInstance().checkPushFrame(KEY_INPUT_Z) == 1){
+			mAnimFrame++;
+		}
+	}
+
+	player->changeGraphic(mKeepGraph[mAnimFrame / GameSceneParam::ANIME_CHANGE_FRAME_QUICK]);
+}
+
+void PlayerHoldState::Exit(Player*){
+	for(int id : mKeepGraph){
+		DeleteGraph(id);
+	}
+}
+
+void PlayerHoldState::holdAction(Player* player){
+
+	// 加算する速度と向きを計算
+	Vec2D<double> addVel;
+	if(InputManager::getInstance().checkPushFrame(KEY_INPUT_UP) > 0){
+		addVel.y = (-1.0) * GameSceneParam::PLAYER_ACCELE_PER_FRAME;
+	}
+	if(InputManager::getInstance().checkPushFrame(KEY_INPUT_RIGHT) > 0){
+		addVel.x = GameSceneParam::PLAYER_ACCELE_PER_FRAME;
+	}
+	if(InputManager::getInstance().checkPushFrame(KEY_INPUT_DOWN) > 0){
+		addVel.y = GameSceneParam::PLAYER_ACCELE_PER_FRAME;
+	}
+	if(InputManager::getInstance().checkPushFrame(KEY_INPUT_LEFT) > 0){
+		addVel.x = (-1.0) * GameSceneParam::PLAYER_ACCELE_PER_FRAME;
+	}
+
+	// 最高速度を超えないように加算する速度を調整
+	Vec2D<double> currentVel = player->checkVelocity();
+	if(abs(addVel.x + currentVel.x) > GameSceneParam::PLAYER_MAX_SPEED){
+		addVel.x = GameSceneParam::PLAYER_MAX_SPEED - abs(currentVel.x);
+		addVel.x *= currentVel.x / abs(currentVel.x);
+	}
+	if(abs(addVel.y + currentVel.y) > GameSceneParam::PLAYER_MAX_SPEED){
+		addVel.y = GameSceneParam::PLAYER_MAX_SPEED - abs(currentVel.y);
+		addVel.y *= currentVel.y / abs(currentVel.y);
+	}
+	player->addVelocity(addVel);
+
+	// 掴んでいるオブジェクトをプレイヤーに合わせて動かす
+	Vec2D<int> diff = player->checkPos() - mPreviousPlayerPos;
+	mMass->movePos(diff);
+	mPreviousPlayerPos = player->checkPos();
+}
 
 
 // ------PlayerItemGetStateクラスの実装------

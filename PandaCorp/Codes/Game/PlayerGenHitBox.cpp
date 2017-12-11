@@ -57,9 +57,17 @@ void PlayerGenHitBox::draw(int){
 
 void PlayerGenHitBox::hit(GameObj* other){
 
+	
+	// ’Í‚ß‚é‚à‚Ì‚ª‚ ‚Á‚½‚ç’Í‚Þ
 	Mass* tmp = dynamic_cast<Mass*>(other);
+	if(tmp != NULL && !tmp->isPass()){
+		mPlayer->getStateMachine()->changeState(new PlayerHoldState(tmp));
+	}
+
+	// ƒAƒCƒeƒ€Žæ“¾
+	/*
 	if(tmp != NULL && !tmp->isPass()){
 		mPlayer->getStateMachine()->changeState(new PlayerItemGetState());
 	}
-
+	*/
 }

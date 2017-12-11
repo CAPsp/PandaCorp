@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include "Mass.h"
 
 
 // 常に更新する処理
@@ -64,14 +65,21 @@ private:
 class PlayerHoldState : public State<Player>{
 
 public:
-	PlayerHoldState() = default;
+	PlayerHoldState(Mass* mass) :mMass(mass){}
 	virtual ~PlayerHoldState() = default;
 	virtual void Enter(Player*);
 	virtual void Execute(Player*);
 	virtual void Exit(Player*);
 
 private:
+	void holdAction(Player*);
+
+private:
 	const std::string GRAPH_NAME = "hold_";
+	Mass* mMass;
+	std::vector<int> mKeepGraph;
+	int mAnimFrame = 0;
+	Vec2D<int> mPreviousPlayerPos;	// オブジェクトを動かす処理で必要
 
 };
 
