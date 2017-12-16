@@ -29,8 +29,7 @@ public:
 	int checkCount(int);
 
 private:
-	char key_type_state[256] = {0};	//各キーボードの状態
-	int key_type_time[256] = {0};	//各キーボードが押されている時間
-	int key_type_count[256] = {0};	//各キーボードの連打数
-
+	char key_type_state[256]	= {0};	//各キーボードの状態
+	int key_type_time[256]		= {0};	//各キーボードが押されている時間
+	int key_type_count[256]		= {0};	//各キーボードの連打数
 };

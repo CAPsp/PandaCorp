@@ -5,10 +5,12 @@
 
 
 void InputManager::update() {
-	int i;
+
+	int i, j;
 
 	GetHitKeyStateAll(key_type_state);
 
+	// キーフレームの保存
 	for (i = 0; i < 256; i++) {
 		if (key_type_state[i] == TRUE) {
 			key_type_time[i]++;
@@ -18,31 +20,31 @@ void InputManager::update() {
 		}
 	}
 
-	// --- ko-tin�N�̍��Ƃ����̈��i �O�ցO�j ---
-static int cnt[256]={0}:
-for(j=0;j<256;j++){
-	if(cnt[j]>=20){
-		cnt[j]=0;
-		key_type_count[j]=0;
+	// キー連打保存
+	static int cnt[256] = {0};
+	for(j = 0; j < 256; j++){
+
+		if(cnt[j] >= 20){
+			cnt[j] = 0;
+			key_type_count[j] = 0;
+		}
+
+		if(key_type_time[j] == 1 && cnt[j] < 20){
+			key_type_count[j]++;
+			cnt[j] = 0;
+		}
+		else{
+			cnt[j]++;
+		}
 	}
-	if(key_type_state[i] == TRUE){
-	if(cnt[j]<20){
-	key_type_count[j]++;
-	cnt[j]=0;
-}
-}
-else{
-	cnt[j]++;
-}
-}
-
-	// ------
-
-	// debug�p
-	DebugMsgData::getInstance().setMsg("key_left"	, "Left: " + std::to_string(checkPushFrame(KEY_INPUT_LEFT)));
-	DebugMsgData::getInstance().setMsg("key_right"	, "Right: " + std::to_string(checkPushFrame(KEY_INPUT_RIGHT)));
-	DebugMsgData::getInstance().setMsg("key_down"	, "Down: " + std::to_string(checkPushFrame(KEY_INPUT_DOWN)));
-	DebugMsgData::getInstance().setMsg("key_up"		, "Up: " + std::to_string(checkPushFrame(KEY_INPUT_UP)));
+	
+	// キーフレームの様子
+#ifdef _DEBUG
+	DebugMsgData::getInstance().setMsg("key_left"	, "Left: "	+ std::to_string(checkPushFrame(KEY_INPUT_LEFT)));
+	DebugMsgData::getInstance().setMsg("key_right"	, "Right: "	+ std::to_string(checkPushFrame(KEY_INPUT_RIGHT)));
+	DebugMsgData::getInstance().setMsg("key_down"	, "Down: "	+ std::to_string(checkPushFrame(KEY_INPUT_DOWN)));
+	DebugMsgData::getInstance().setMsg("key_up"		, "Up: "	+ std::to_string(checkPushFrame(KEY_INPUT_UP)));
+#endif
 
 }
 
