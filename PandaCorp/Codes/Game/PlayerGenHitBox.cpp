@@ -7,7 +7,7 @@
 
 
 PlayerGenHitBox::PlayerGenHitBox(GameObjContainer* ow, Player* p)
-	:mPlayer(p), GameObj(ow, Vec2D<int>(), Vec2D<int>()){
+	:mPlayer(p), GameObj(ow, Vec2D<int>(), HitArea{}){
 
 	// プレイヤーの前方に置く
 	Vec2D<int> pos = mPlayer->checkPos();
@@ -27,7 +27,7 @@ PlayerGenHitBox::PlayerGenHitBox(GameObjContainer* ow, Player* p)
 	}
 	mPos = pos;
 
-	mHitAreaSize = Vec2D<int>(GameSceneParam::MASS_SIZE / 4, GameSceneParam::MASS_SIZE / 4);
+	mHitArea.size = Vec2D<int>(GameSceneParam::MASS_SIZE / 4, GameSceneParam::MASS_SIZE / 4);
 }
 
 
@@ -46,10 +46,11 @@ void PlayerGenHitBox::update(){
 void PlayerGenHitBox::draw(){
 #ifdef _DEBUG
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 122);
-	DrawBox(mPos.x - (mHitAreaSize.x / 2),
-			mPos.y - (mHitAreaSize.y / 2),
-			mPos.x + (mHitAreaSize.x / 2),
-			mPos.y + (mHitAreaSize.y / 2), GetColor(255, 0, 0), TRUE);
+	DrawBox(mPos.x - (mHitArea.size.x / 2) + mHitArea.center.x,
+			mPos.y - (mHitArea.size.y / 2) + mHitArea.center.y,
+			mPos.x + (mHitArea.size.x / 2) + mHitArea.center.x,
+			mPos.y + (mHitArea.size.y / 2) + mHitArea.center.y,
+			GetColor(255, 0, 0), TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, NULL);
 #endif
 }
@@ -70,4 +71,5 @@ void PlayerGenHitBox::hit(GameObj* other){
 		mPlayer->getStateMachine()->changeState(new PlayerItemGetState());
 	}
 	*/
+
 }

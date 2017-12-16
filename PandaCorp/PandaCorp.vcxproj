@@ -25,6 +25,7 @@
     <ClInclude Include="Codes\Game\GameObjContainer.h" />
     <ClInclude Include="Codes\Game\GameScene.h" />
     <ClInclude Include="Codes\Game\GameSceneParam.h" />
+    <ClInclude Include="Codes\Game\HitArea.h" />
     <ClInclude Include="Codes\Game\Mass.h" />
     <ClInclude Include="Codes\Game\Player.h" />
     <ClInclude Include="Codes\Game\PlayerGenHitBox.h" />

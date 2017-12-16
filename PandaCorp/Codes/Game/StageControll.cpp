@@ -38,11 +38,13 @@ void StageControll::update(){
 	}
 
 	// レイヤー1以上のもの全てでオブジェクト同士のあたり判定を処理
-	for(int i = 1; i < lay; i++){
-		for(int j = i + 1; j <= lay; j++){
+	for(int i = 1; i <= lay; i++){
+		for(int j = i; j <= lay; j++){
 
 			for(int numI = 0; numI < mObjects[i].checkSize(); numI++){
 				for(int numJ = 0; numJ < mObjects[j].checkSize(); numJ++){
+
+					if(i == j && numI == numJ){ continue; }
 
 					if( mObjects[i].checkElem(numI)->checkCollide( mObjects[j].checkElem(numJ) ) ){
 						mObjects[i].checkElem(numI)->hit(mObjects[j].checkElem(numJ));

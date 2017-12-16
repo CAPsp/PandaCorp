@@ -3,6 +3,7 @@
 
 #include "GameObj.h"
 #include "StateMachine.h"
+#include "Mass.h"
 
 
 class Player : public GameObj{

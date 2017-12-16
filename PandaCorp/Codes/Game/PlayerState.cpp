@@ -167,7 +167,32 @@ void PlayerHoldState::Enter(Player* player){
 	}
 	player->changeGraphic(mKeepGraph[0]);
 
-	mPreviousPlayerPos = player->checkPos();
+	// あたり判定をつかんだマスに沿って変える
+	HitArea diffHitArea;
+	diffHitArea.center = Vec2D<int>(0, 0);
+	diffHitArea.size = Vec2D<int>(0, 0);
+	switch(player->checkDirection()){
+		case GameObj::DIRECTON_UP:
+			diffHitArea.size.y += GameSceneParam::MASS_SIZE;
+			diffHitArea.center.y -= GameSceneParam::MASS_SIZE / 2;
+			break;
+		case GameObj::DIRECTON_DOWN:
+			diffHitArea.size.y += GameSceneParam::MASS_SIZE;
+			diffHitArea.center.y += GameSceneParam::MASS_SIZE / 2;
+			break;
+		case GameObj::DIRECTON_RIGHT:
+			diffHitArea.size.x += GameSceneParam::MASS_SIZE;
+			diffHitArea.center.x += GameSceneParam::MASS_SIZE / 2;
+			break;
+		case GameObj::DIRECTON_LEFT:
+			diffHitArea.size.x += GameSceneParam::MASS_SIZE;
+			diffHitArea.center.x -= GameSceneParam::MASS_SIZE / 2;
+	}
+	player->changeHitAreaCenter(diffHitArea.center);
+	player->changeHitAreaSize(player->checkHitArea().size + diffHitArea.size);
+
+	// 掴んだマスのあたり判定を一時的に消す
+	mMass->changeHitAreaSize(Vec2D<int>(0, 0));
 }
 
 // アニメーションは半分進んだ時点で「掴んだ」モーションになることに注意
@@ -175,7 +200,7 @@ void PlayerHoldState::Execute(Player* player){
 
 	if(mAnimFrame < (mKeepGraph.size() / 2) * GameSceneParam::ANIME_CHANGE_FRAME_QUICK){	// 掴む前
 		mAnimFrame++;
-		
+		mPreviousPlayerPos = player->checkPos();
 	}
 	else if(mAnimFrame > (mKeepGraph.size() / 2) * GameSceneParam::ANIME_CHANGE_FRAME_QUICK){	// 離す時
 		mAnimFrame++;
@@ -197,7 +222,13 @@ void PlayerHoldState::Execute(Player* player){
 	player->changeGraphic(mKeepGraph[mAnimFrame / GameSceneParam::ANIME_CHANGE_FRAME_QUICK]);
 }
 
-void PlayerHoldState::Exit(Player*){
+void PlayerHoldState::Exit(Player* player){
+
+	// あたり判定を元に戻す
+	player->changeHitAreaCenter(Vec2D<int>(0, 0));
+	player->changeHitAreaSize(Vec2D<int>(GameSceneParam::MASS_SIZE, GameSceneParam::MASS_SIZE));
+	mMass->changeHitAreaSize(Vec2D<int>(GameSceneParam::MASS_SIZE, GameSceneParam::MASS_SIZE));
+
 	for(int id : mKeepGraph){
 		DeleteGraph(id);
 	}
@@ -233,9 +264,9 @@ void PlayerHoldState::holdAction(Player* player){
 	player->addVelocity(addVel);
 
 	// 掴んでいるオブジェクトをプレイヤーに合わせて動かす
-	Vec2D<int> diff = player->checkPos() - mPreviousPlayerPos;
-	mMass->movePos(diff);
+	mMass->movePos(player->checkPos() - mPreviousPlayerPos);
 	mPreviousPlayerPos = player->checkPos();
+	
 }
 
 

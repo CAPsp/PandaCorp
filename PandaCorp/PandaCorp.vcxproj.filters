@@ -110,6 +110,9 @@
     <ClInclude Include="Codes\Game\GameObjContainer.h">
       <Filter>ソース ファイル\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Codes\Game\HitArea.h">
+      <Filter>ソース ファイル\Game\GameObj</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Codes\main.cpp">

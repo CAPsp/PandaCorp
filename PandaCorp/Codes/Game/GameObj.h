@@ -9,9 +9,10 @@
 #include "Vec2DUtils.h"
 #include <vector>
 #include "GameObjContainer.h"
+#include "HitArea.h"
 
 
-class GameObjContainer;// GameObjContainer// GameObjクラスと循環インクルード関係にあるため、その解決処理クラスと循環インクルード関係にあるため、その解決処理
+class GameObjContainer;	// GameObjContainer// GameObjクラスと循環インクルード関係にあるため、その解決処理クラスと循環インクルード関係にあるため、その解決処理
 
 
 class GameObj{
@@ -25,40 +26,44 @@ public:
 	
 public:
 	GameObj() = delete;
-	GameObj(GameObjContainer* ow, Vec2D<int> pos, Vec2D<int> hit)
-		:mOwner(ow), mPos(pos), mHitAreaSize(hit){}
+	GameObj(GameObjContainer* ow, Vec2D<int> pos, HitArea hit)
+		:mOwner(ow), mPos(pos), mHitArea(hit){}
 	virtual ~GameObj() = default;
 	virtual void update()		= 0;	// 1フレーム毎の更新処理
-	virtual void draw()		= 0;	// 描画処理(引数は実装クラスによって扱いが変わる)
+	virtual void draw()			= 0;	// 描画処理(引数は実装クラスによって扱いが変わる)
 	virtual void hit(GameObj*)	= 0;	// 他のオブジェクトと衝突したときの処理
 
 	bool checkCollide(const GameObj* other){
 
 		// あたり判定エリアが0のものの場合、計算の考慮をしない
-		if( (mHitAreaSize.x == 0 && mHitAreaSize.y == 0) || 
-			(other->mHitAreaSize.x == 0 && other->mHitAreaSize.y == 0) ){
+		if( (mHitArea.size.x == 0 && mHitArea.size.y == 0) ||
+			(other->mHitArea.size.x == 0 && other->mHitArea.size.y == 0) ){
 		
 			return false;
 		}
 
 		// 基準点を左上にする
-		Vec2D<int> p(mPos.x - mHitAreaSize.x / 2,					mPos.y - mHitAreaSize.y / 2);
-		Vec2D<int> op(other->mPos.x - other->mHitAreaSize.x / 2,	other->mPos.y - other->mHitAreaSize.y / 2);
+		Vec2D<int> p(mPos.x - mHitArea.size.x / 2 + mHitArea.center.x,
+					 mPos.y - mHitArea.size.y / 2 + mHitArea.center.y);
+		Vec2D<int> op(other->mPos.x - other->mHitArea.size.x / 2 + other->mHitArea.center.x,
+					  other->mPos.y - other->mHitArea.size.y / 2 + other->mHitArea.center.y);
 		
-		return ((p.x	< (op.x	+ other->mHitAreaSize.x		)) &&
-				(op.x	< (p.x		+ mHitAreaSize.x		)) &&
-				(p.y	< (op.y	+ other->mHitAreaSize.y		)) &&
-				(op.y	< (p.y		+ mHitAreaSize.y		)) );
+		return ((p.x	< (op.x	+ other->mHitArea.size.x)) &&
+				(op.x	< (p.x	+ mHitArea.size.x)) &&
+				(p.y	< (op.y	+ other->mHitArea.size.y)) &&
+				(op.y	< (p.y	+ mHitArea.size.y)) );
 	}
 
 public:
-	inline Vec2D<int> checkPos()	{ return mPos; }
-	inline Vec2D<int> checkHitArea(){ return mHitAreaSize; }
-	inline void movePos(Vec2D<int> p){ mPos += p; }	// 現在地点を基点として移動をする
+	inline Vec2D<int> checkPos()		{ return mPos; }
+	inline HitArea checkHitArea()		{ return mHitArea; }
+	inline void movePos(Vec2D<int> p)	{ mPos += p; }	// 現在地点を基点として移動をする
+	inline void changeHitAreaSize(Vec2D<int> size)		{ mHitArea.size = size; }
+	inline void changeHitAreaCenter(Vec2D<int> center)	{ mHitArea.center = center; }
 
 protected:
 	Vec2D<int> mPos;
-	Vec2D<int> mHitAreaSize;
-	GameObjContainer* mOwner;	// 自身を管理しているvectorへのポインタ
+	HitArea mHitArea;
+	GameObjContainer* mOwner;			// 自身を管理しているvectorへのポインタ
 
 };

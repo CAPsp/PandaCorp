@@ -79,7 +79,7 @@ private:
 	Mass* mMass;
 	std::vector<int> mKeepGraph;
 	int mAnimFrame = 0;
-	Vec2D<int> mPreviousPlayerPos;	// オブジェクトを動かす処理で必要
+	Vec2D<int> mPreviousPlayerPos;	// 掴んでいるオブジェクトを動かすために必要
 
 };
 

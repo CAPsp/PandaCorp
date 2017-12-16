@@ -6,6 +6,7 @@
 
 
 #include "GameObj.h"
+#include "Player.h"
 
 
 class Mass : public GameObj{
