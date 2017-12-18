@@ -24,12 +24,6 @@
     <Filter Include="ソース ファイル\Utils">
       <UniqueIdentifier>{d4460c70-7444-4a9b-902b-84a74cdf2ed4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Game\GameObj">
-      <UniqueIdentifier>{bd214034-0099-4499-b4b3-76110ff9433b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Game\State">
-      <UniqueIdentifier>{b8d5f5b3-2013-4143-b720-a40e8b105a60}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Codes\BaseScene.h">
@@ -71,54 +65,6 @@
     <ClInclude Include="Codes\Game\GameScene.h">
       <Filter>ソース ファイル\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Codes\Game\GameSceneParam.h">
-      <Filter>ソース ファイル\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Codes\Utils\Vec2DUtils.h">
-      <Filter>ソース ファイル\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Codes\Game\StageControll.h">
-      <Filter>ソース ファイル\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Codes\DebugMsgData.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Codes\Game\StageFile.h">
-      <Filter>ソース ファイル\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Codes\Game\GameObj.h">
-      <Filter>ソース ファイル\Game\GameObj</Filter>
-    </ClInclude>
-    <ClInclude Include="Codes\Game\Mass.h">
-      <Filter>ソース ファイル\Game\GameObj</Filter>
-    </ClInclude>
-    <ClInclude Include="Codes\Game\Player.h">
-      <Filter>ソース ファイル\Game\GameObj</Filter>
-    </ClInclude>
-    <ClInclude Include="Codes\Game\PlayerGenHitBox.h">
-      <Filter>ソース ファイル\Game\GameObj</Filter>
-    </ClInclude>
-    <ClInclude Include="Codes\Game\PlayerState.h">
-      <Filter>ソース ファイル\Game\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Codes\Game\State.h">
-      <Filter>ソース ファイル\Game\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Codes\Game\StateMachine.h">
-      <Filter>ソース ファイル\Game\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Codes\Game\GameObjContainer.h">
-      <Filter>ソース ファイル\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Codes\Game\HitArea.h">
-      <Filter>ソース ファイル\Game\GameObj</Filter>
-    </ClInclude>
-    <ClInclude Include="Codes\Game\Enemy.h">
-      <Filter>ソース ファイル\Game\GameObj</Filter>
-    </ClInclude>
-    <ClInclude Include="Codes\Game\EnemyState.h">
-      <Filter>ソース ファイル\Game\State</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Codes\main.cpp">
@@ -148,35 +94,8 @@
     <ClCompile Include="Codes\Game\GameScene.cpp">
       <Filter>ソース ファイル\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Codes\Game\StageControll.cpp">
-      <Filter>ソース ファイル\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Codes\DebugMsgData.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Codes\Game\StageFile.cpp">
-      <Filter>ソース ファイル\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Codes\Game\Mass.cpp">
-      <Filter>ソース ファイル\Game\GameObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Codes\Game\Player.cpp">
-      <Filter>ソース ファイル\Game\GameObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Codes\Game\PlayerGenHitBox.cpp">
-      <Filter>ソース ファイル\Game\GameObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Codes\Game\PlayerState.cpp">
-      <Filter>ソース ファイル\Game\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Codes\Game\Enemy.cpp">
-      <Filter>ソース ファイル\Game\GameObj</Filter>
-    </ClCompile>
-    <ClCompile Include="Codes\Game\EnemyState.cpp">
-      <Filter>ソース ファイル\Game\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Codes\Game\GameObjContainer.cpp">
-      <Filter>ソース ファイル\Game</Filter>
+    <ClCompile Include="Codes\StageSelect\StageSelectScene.cpp">
+      <Filter>ソース ファイル\StageSelect</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

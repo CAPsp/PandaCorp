@@ -25,13 +25,13 @@ public:
 	BaseScene() = default;
 	virtual ~BaseScene() = default;
 
-	// 1フレーム毎の更新処理をここでやる。
-	// 戻り値によって他のシーンに遷移するかどうかが分かる
-	virtual scene_sig update() = 0;
-
 	// シーン開始の処理
 	// trueを返すまでは処理が終わったことにならない
 	virtual bool begin() = 0;
+
+	// 1フレーム毎の更新処理をここでやる。
+	// 戻り値によって他のシーンに遷移するかどうかが分かる
+	virtual scene_sig update() = 0;
 	
 	// シーン終了時の処理
 	// trueを返すまでは処理が終わったことにならない

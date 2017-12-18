@@ -20,22 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Codes\BaseScene.h" />
-    <ClInclude Include="Codes\DebugMsgData.h" />
-    <ClInclude Include="Codes\Game\Enemy.h" />
-    <ClInclude Include="Codes\Game\EnemyState.h" />
-    <ClInclude Include="Codes\Game\GameObj.h" />
-    <ClInclude Include="Codes\Game\GameObjContainer.h" />
     <ClInclude Include="Codes\Game\GameScene.h" />
-    <ClInclude Include="Codes\Game\GameSceneParam.h" />
-    <ClInclude Include="Codes\Game\HitArea.h" />
-    <ClInclude Include="Codes\Game\Mass.h" />
-    <ClInclude Include="Codes\Game\Player.h" />
-    <ClInclude Include="Codes\Game\PlayerGenHitBox.h" />
-    <ClInclude Include="Codes\Game\PlayerState.h" />
-    <ClInclude Include="Codes\Game\StageControll.h" />
-    <ClInclude Include="Codes\Game\StageFile.h" />
-    <ClInclude Include="Codes\Game\State.h" />
-    <ClInclude Include="Codes\Game\StateMachine.h" />
     <ClInclude Include="Codes\GlobalParam.h" />
     <ClInclude Include="Codes\MainControll.h" />
     <ClInclude Include="Codes\Manager\ChangeSceneManager.h" />
@@ -46,21 +31,10 @@
     <ClInclude Include="Codes\MSecTimer.h" />
     <ClInclude Include="Codes\StageSelect\StageSelectScene.h" />
     <ClInclude Include="Codes\Title\TitleScene.h" />
-    <ClInclude Include="Codes\Utils\Vec2DUtils.h" />
     <ClInclude Include="Codes\Utils\FileUtils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Codes\DebugMsgData.cpp" />
-    <ClCompile Include="Codes\Game\Enemy.cpp" />
-    <ClCompile Include="Codes\Game\EnemyState.cpp" />
-    <ClCompile Include="Codes\Game\GameObjContainer.cpp" />
     <ClCompile Include="Codes\Game\GameScene.cpp" />
-    <ClCompile Include="Codes\Game\Mass.cpp" />
-    <ClCompile Include="Codes\Game\Player.cpp" />
-    <ClCompile Include="Codes\Game\PlayerGenHitBox.cpp" />
-    <ClCompile Include="Codes\Game\PlayerState.cpp" />
-    <ClCompile Include="Codes\Game\StageControll.cpp" />
-    <ClCompile Include="Codes\Game\StageFile.cpp" />
     <ClCompile Include="Codes\main.cpp" />
     <ClCompile Include="Codes\MainControll.cpp" />
     <ClCompile Include="Codes\Manager\ChangeSceneManager.cpp" />
@@ -68,6 +42,7 @@
     <ClCompile Include="Codes\Manager\GraphManager.cpp" />
     <ClCompile Include="Codes\Manager\InputManager.cpp" />
     <ClCompile Include="Codes\Manager\SoundManager.cpp" />
+    <ClCompile Include="Codes\StageSelect\StageSelectScene.cpp" />
     <ClCompile Include="Codes\Utils\FileUtils.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -136,14 +111,14 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>Codes\Utils;Codes\Title;Codes\StageSelect;Codes\Manager;Codes\Game;Codes;C:\Program Files %28x86%29\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\myPC\Desktop\DxLib_VC\プロジェクトに追加すべきファイル_VC用;Codes\Title;Codes\StageSelect;Codes\Manager;Codes\Utils;Codes\Game;Codes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\myPC\Desktop\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -164,18 +139,18 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>Codes\Utils;Codes\Title;Codes\StageSelect;Codes\Manager;Codes\Game;Codes;C:\Program Files %28x86%29\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\myPC\Desktop\DxLib_VC\プロジェクトに追加すべきファイル_VC用;Codes\Title;Codes\StageSelect;Codes\Manager;Codes\Utils;Codes\Game;Codes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\myPC\Desktop\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
