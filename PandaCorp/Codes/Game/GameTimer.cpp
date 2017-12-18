@@ -3,7 +3,7 @@
 
 GameTimer::GameTimer(int limit){
   mFrame=0;
-  mFrameLimit==limit;
+  mFrameLimit=limit;
 }
 
 bool GameTimer::update(){
