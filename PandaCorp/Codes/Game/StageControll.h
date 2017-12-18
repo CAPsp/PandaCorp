@@ -18,7 +18,7 @@ public:
 	void update();					// 1フレーム毎の更新処理
 
 private:
-	GameObjContainer mObjects[GameSceneParam::MASS_GRAPH_LAYER_NUM + 1];	// マス + 他ゲームオブジェクト
+	GameObjContainer mObjects[2];	// マス + 他ゲームオブジェクト
 	StageFile mStageFile;
 
 };

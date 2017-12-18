@@ -175,5 +175,8 @@
     <ClCompile Include="Codes\Game\EnemyState.cpp">
       <Filter>ソース ファイル\Game\State</Filter>
     </ClCompile>
+    <ClCompile Include="Codes\Game\GameObjContainer.cpp">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

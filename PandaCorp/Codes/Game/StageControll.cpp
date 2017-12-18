@@ -7,7 +7,7 @@
 #include "Enemy.h"
 
 
-const int lay = GameSceneParam::MASS_GRAPH_LAYER_NUM;
+//const int lay = GameSceneParam::MASS_GRAPH_LAYER_NUM;
 
 
 StageControll::StageControll(std::string jsonPath)
@@ -19,10 +19,10 @@ StageControll::StageControll(std::string jsonPath)
 	}
 
 	// Debug: プレイヤーと敵を適当に生成
-	mObjects[lay].add(new Player(&mObjects[lay], Vec2D<int>(100, 100) ));
-	mObjects[lay].add(new Enemy(&mObjects[lay], Vec2D<int>(400, 400) ));
+	mObjects[1].add(new Player(&mObjects[1], Vec2D<int>(100, 100) ));
+	mObjects[1].add(new Enemy(&mObjects[1], Vec2D<int>(400, 400) ));
 
-	for(int i = 0; i <= lay; i++){
+	for(int i = 0; i < 2; i++){
 		mObjects[i].update();
 	}
 }
@@ -34,41 +34,35 @@ StageControll::~StageControll(){}
 void StageControll::update(){
 	
 	// 1フレーム毎の更新処理
-	for(int i = 0; i <= lay; i++){
+	for(int i = 0; i < 2; i++){
 		for(int num = 0; num < mObjects[i].checkSize(); num++){
 			mObjects[i].checkElem(num)->update();
 		}
 	}
 
-	// レイヤー1以上のもの全てでオブジェクト同士のあたり判定を処理
-	for(int i = 1; i <= lay; i++){
-		for(int j = i; j <= lay; j++){
+	// オブジェクト同士のあたり判定を処理	
+	for(int i = 0; i < mObjects[1].checkSize(); i++){
+		for(int j = 0; j < mObjects[1].checkSize(); j++){
 
-			for(int numI = 0; numI < mObjects[i].checkSize(); numI++){
-				for(int numJ = 0; numJ < mObjects[j].checkSize(); numJ++){
+			if(i == j && i == j){ continue; }
 
-					if(i == j && numI == numJ){ continue; }
-
-					if( mObjects[i].checkElem(numI)->checkCollide( mObjects[j].checkElem(numJ) ) ){
-						mObjects[i].checkElem(numI)->hit(mObjects[j].checkElem(numJ));
-						mObjects[j].checkElem(numJ)->hit(mObjects[i].checkElem(numI));
-					}
-				}
+			if( mObjects[1].checkElem(i)->checkCollide( mObjects[1].checkElem(j) ) ){
+				mObjects[1].checkElem(i)->hit(mObjects[1].checkElem(j));
+				mObjects[1].checkElem(j)->hit(mObjects[1].checkElem(i));
 			}
-
 		}
+	}
+
+	// コンテナの更新処理（追加、削除、描画順ソート処理のために必須）
+	for(int i = 0; i < 2; i++){
+		mObjects[i].update();
 	}
 
 	// レイヤー順に描画処理を行う
-	for(int i = 0; i <= lay; i++){
+	for(int i = 0; i < 2; i++){
 		for(int num = 0; num < mObjects[i].checkSize(); num++){
 			mObjects[i].checkElem(num)->draw();
 		}
-	}
-
-	// コンテナの更新処理（追加、削除処理のために必須）
-	for(int i = 0; i <= lay; i++){
-		mObjects[i].update();
 	}
 
 }

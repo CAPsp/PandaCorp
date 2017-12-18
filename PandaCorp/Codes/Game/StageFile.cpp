@@ -39,7 +39,7 @@ std::string StageFile::read(GameObjContainer* container){
 		for(auto xItr = xArr.begin(); xItr != xArr.end(); xItr++){
 			picojson::object obj = picojson::value(*xItr).get<picojson::object>();
 
-			for(int i = 0; i < GameSceneParam::MASS_GRAPH_LAYER_NUM - 1; i++){
+			for(int i = 0; i < 2; i++){
 				std::string valueName = "mass_" + std::to_string(i);
 				int id = GraphManager::getInstance().checkID(obj.at(valueName).get<std::string>());
 				if(id == -1){ continue; }

@@ -30,6 +30,17 @@ void Enemy::draw(){
 	DrawRotaGraph(mPos.x - (gSize.x - GameSceneParam::MASS_SIZE) / 2,
 				  mPos.y - (gSize.y - GameSceneParam::MASS_SIZE) / 2,
 				  1.0, 0, mCurrentGID, true);
+
+
+#ifdef _DEBUG
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 122);
+	DrawBox(mPos.x - (mHitArea.size.x / 2) + mHitArea.center.x,
+			mPos.y - (mHitArea.size.y / 2) + mHitArea.center.y,
+			mPos.x + (mHitArea.size.x / 2) + mHitArea.center.x,
+			mPos.y + (mHitArea.size.y / 2) + mHitArea.center.y,
+			GetColor(255, 0, 0), TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, NULL);
+#endif
 }
 
 
