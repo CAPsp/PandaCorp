@@ -27,7 +27,6 @@ void EnemySearchState::Enter(Enemy* enemy){
 		}
 	}
 	enemy->changeGraphic(mKeepGraph[enemy->checkDirection()][0]);
-	
 }
 
 
@@ -37,6 +36,11 @@ void EnemySearchState::Execute(Enemy* enemy){
 	mAnimFrame++;
 	if((mAnimFrame / GameSceneParam::ANIME_CHANGE_FRAME_NORMAL) >= mKeepGraph[enemy->checkDirection()].size()){ mAnimFrame = 0; }
 	enemy->changeGraphic(mKeepGraph[enemy->checkDirection()][mAnimFrame / GameSceneParam::ANIME_CHANGE_FRAME_NORMAL]);
+
+	// 怪しいものを見つけたらEnemyCautionStateに変化
+	if(enemy->isFinding()){
+		enemy->getStateMachine()->changeState(new EnemyCautionState());
+	}
 
 }
 
@@ -51,13 +55,39 @@ void EnemySearchState::Exit(Enemy*){
 
 
 // ------EnemyCautionStateクラスの実装------
-void EnemyCautionState::Enter(Enemy*){}
+void EnemyCautionState::Enter(Enemy* enemy){
+	mTimer = GameTimer(DELAY_FRAME);
+
+	mKeepGraph = GraphManager::getInstance().getDerivGraph(ENEMY_DIR_NAME + GRAPH_NAME + enemy->checkDirection() + ".png", 0, GameSceneParam::MASS_SIZE);
+	enemy->changeGraphic(mKeepGraph);
+}
 
 
-void EnemyCautionState::Execute(Enemy*){}
+void EnemyCautionState::Execute(Enemy* enemy){
+
+	// 最初の何フレームかは感知しない状態がある
+	if(!mTimer.update()){
+		if(!mDelayFinished){
+			mTimer = GameTimer(CAUTION_FRAME);
+			mDelayFinished = true;
+		}
+		else{
+			enemy->getStateMachine()->changeState(new EnemySearchState());
+			return;
+		}
+	}
+
+	// 怪しいものをみつけたらガメオベラ
+	if(mDelayFinished && enemy->isFinding()){
+		enemy->getStateMachine()->changeState(new EnemyFindState());
+	}
+
+}
 
 
-void EnemyCautionState::Exit(Enemy*){}
+void EnemyCautionState::Exit(Enemy*){
+	DeleteGraph(mKeepGraph);
+}
 
 
 // ------EnemyDownStateクラスの実装------

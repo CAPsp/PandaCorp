@@ -10,16 +10,21 @@ Enemy::Enemy(GameObjContainer* ow, Vec2D<int> pos)
 	:GameObj(ow, pos, HitArea{Vec2D<int>(0, 0), Vec2D<int>(GameSceneParam::MASS_SIZE, GameSceneParam::MASS_SIZE)}){
 
 	mStateMachine = new StateMachine<Enemy>(this, new EnemySearchState(), new EnemyGlobalState());
+
+	mVision = new EnemyVision(mOwner, this);
+	mOwner->add(mVision);
 }
 
 
 Enemy::~Enemy(){
 	delete mStateMachine;
+	delete mVision;
 }
 
 
 void Enemy::update(){
 	mStateMachine->update();
+	mCurrentFind = false;
 }
 
 
@@ -82,6 +87,62 @@ void Enemy::hit(GameObj* other){
 		else{
 			mPos.y += dy;
 		}
+	}
+
+}
+
+// -------------------------------------------------------------------------------------------- //
+// ------------------------------EnemyVisionクラスの実装--------------------------------------- //
+// -------------------------------------------------------------------------------------------- //
+
+EnemyVision::EnemyVision(GameObjContainer* ow, Enemy* enemy)
+	:GameObj(ow, enemy->checkPos(), HitArea{Vec2D<int>(), Vec2D<int>()}){
+
+	mEnemy = enemy;
+}
+
+void EnemyVision::update(){
+
+	// Enemyの向きと座標に合わせてあたり判定と自分の座標を変化させる
+	mPos = mEnemy->checkPos();
+	int sign = 1;
+	switch(mEnemy->checkDirection()){
+
+		case DIRECTON_UP:
+			sign = -1;
+		case DIRECTON_DOWN:
+			mHitArea.size.x = GameSceneParam::ENEMY_VISION_WIDTH;
+			mHitArea.size.y = GameSceneParam::ENEMY_VISION_HEIGHT;
+			mPos.y += sign * GameSceneParam::ENEMY_VISION_HEIGHT / 2;
+			break;
+
+
+		case DIRECTON_LEFT:
+			sign = -1;
+		case DIRECTON_RIGHT:
+			mHitArea.size.y = GameSceneParam::ENEMY_VISION_WIDTH;
+			mHitArea.size.x = GameSceneParam::ENEMY_VISION_HEIGHT;
+			mPos.x += sign * GameSceneParam::ENEMY_VISION_HEIGHT / 2;
+	}
+}
+
+void EnemyVision::draw(){
+#ifdef _DEBUG
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 122);
+	DrawBox(mPos.x - (mHitArea.size.x / 2) + mHitArea.center.x,
+			mPos.y - (mHitArea.size.y / 2) + mHitArea.center.y,
+			mPos.x + (mHitArea.size.x / 2) + mHitArea.center.x,
+			mPos.y + (mHitArea.size.y / 2) + mHitArea.center.y,
+			GetColor(0, 255, 0), TRUE);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, NULL);
+#endif
+}
+
+// プレイヤー or 怪しいものを発見したらEnemyへ通知する
+void EnemyVision::hit(GameObj* other){
+
+	if(dynamic_cast<Player*>(other) != NULL){
+		mEnemy->findMystericObj();
 	}
 
 }

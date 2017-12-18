@@ -7,6 +7,8 @@
 #include "State.h"
 #include "Enemy.h"
 #include <map>
+#include "GameTimer.h"
+#include "GlobalParam.h"
 
 
 // 常に更新する処理
@@ -40,7 +42,7 @@ private:
 };
 
 
-// 警戒
+// 警戒(グラフィックは棒立ち)
 class EnemyCautionState : public State<Enemy>{
 
 public:
@@ -49,6 +51,15 @@ public:
 	virtual void Enter(Enemy*);
 	virtual void Execute(Enemy*);
 	virtual void Exit(Enemy*);
+
+private:
+	const std::string GRAPH_NAME = "stand_";
+	const int DELAY_FRAME = GlobalParam::FPS;		// 最初のこのフレーム分は怪しい動きをみてもガメオベラにならない
+	const int CAUTION_FRAME = GlobalParam::FPS * 5;	// このフレーム中に怪しいうごきをみたらガメオベラ。このフレームが終了したらステートが変わる
+
+	int mKeepGraph;
+	GameTimer mTimer = GameTimer(0);
+	bool mDelayFinished = false;
 
 };
 

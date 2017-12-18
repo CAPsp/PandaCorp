@@ -19,4 +19,8 @@ namespace GameSceneParam{
 	const int ANIME_CHANGE_FRAME_NORMAL = 30;	
 	const int ANIME_CHANGE_FRAME_QUICK	= 5;
 
+	// “G‚ÌŽ‹ŠE‹——£‚Ì’è‹`
+	const int ENEMY_VISION_HEIGHT	= 200;
+	const int ENEMY_VISION_WIDTH	= 80;
+
 };
