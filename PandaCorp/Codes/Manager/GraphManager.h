@@ -29,8 +29,9 @@ public:
 		static GraphManager obj;
 		return obj;
 	}
-	void load();				// リソースを読み込む
-	int checkID(std::string);	// 引数に対応するリソースＩＤを返す
+	void load();									// リソースを読み込む
+	int checkID(std::string);						// 引数に対応するリソースＩＤを返す
+	int getDerivGraph(std::string, int, int);	// 大きい画像に対して引数に応じた領域を抜き出す
 
 private:
 	std::map<std::string, int> mMap;

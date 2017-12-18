@@ -4,6 +4,7 @@
 #include "DxLib.h"
 #include "Player.h"
 #include "Mass.h"
+#include "Enemy.h"
 
 
 const int lay = GameSceneParam::MASS_GRAPH_LAYER_NUM;
@@ -17,7 +18,9 @@ StageControll::StageControll(std::string jsonPath)
 		MessageBox(NULL, msg.c_str(), "エラー", MB_OK);
 	}
 
+	// Debug: プレイヤーと敵を適当に生成
 	mObjects[lay].add(new Player(&mObjects[lay], Vec2D<int>(100, 100) ));
+	mObjects[lay].add(new Enemy(&mObjects[lay], Vec2D<int>(400, 400) ));
 
 	for(int i = 0; i <= lay; i++){
 		mObjects[i].update();

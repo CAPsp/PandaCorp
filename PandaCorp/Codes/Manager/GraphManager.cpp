@@ -43,3 +43,18 @@ int GraphManager::checkID(std::string name){
 		return -1;
 	}
 }
+
+
+// 画像から渡されたアニメーション数に応じた領域を抜き出し、新たなグラフィックハンドルとして生成する
+// 抜き出せない場合-1が返る
+int GraphManager::getDerivGraph(std::string path, int num, int w){
+
+	int id = checkID(path);
+	if(id == -1){ return -1; }
+
+	int width, height;
+	GetGraphSize(id, &width, &height);
+	id = DerivationGraph(w * num, 0, w, height, id);
+
+	return id;
+}

@@ -113,6 +113,12 @@
     <ClInclude Include="Codes\Game\HitArea.h">
       <Filter>ソース ファイル\Game\GameObj</Filter>
     </ClInclude>
+    <ClInclude Include="Codes\Game\Enemy.h">
+      <Filter>ソース ファイル\Game\GameObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Codes\Game\EnemyState.h">
+      <Filter>ソース ファイル\Game\State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Codes\main.cpp">
@@ -161,6 +167,12 @@
       <Filter>ソース ファイル\Game\GameObj</Filter>
     </ClCompile>
     <ClCompile Include="Codes\Game\PlayerState.cpp">
+      <Filter>ソース ファイル\Game\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Codes\Game\Enemy.cpp">
+      <Filter>ソース ファイル\Game\GameObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Codes\Game\EnemyState.cpp">
       <Filter>ソース ファイル\Game\State</Filter>
     </ClCompile>
   </ItemGroup>

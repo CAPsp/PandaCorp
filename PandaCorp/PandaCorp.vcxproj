@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClInclude Include="Codes\BaseScene.h" />
     <ClInclude Include="Codes\DebugMsgData.h" />
+    <ClInclude Include="Codes\Game\Enemy.h" />
+    <ClInclude Include="Codes\Game\EnemyState.h" />
     <ClInclude Include="Codes\Game\GameObj.h" />
     <ClInclude Include="Codes\Game\GameObjContainer.h" />
     <ClInclude Include="Codes\Game\GameScene.h" />
@@ -49,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Codes\DebugMsgData.cpp" />
+    <ClCompile Include="Codes\Game\Enemy.cpp" />
+    <ClCompile Include="Codes\Game\EnemyState.cpp" />
     <ClCompile Include="Codes\Game\GameScene.cpp" />
     <ClCompile Include="Codes\Game\Mass.cpp" />
     <ClCompile Include="Codes\Game\Player.cpp" />

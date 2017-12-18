@@ -1,60 +1,41 @@
-#include "Player.h"
-
-#include "DxLib.h"
-#include "GameSceneParam.h"
-#include "InputManager.h"
-#include "Mass.h"
-#include "PlayerState.h"
-#include "PlayerGenHitBox.h"
-#include "DebugMsgData.h"
 #include "Enemy.h"
 
+#include "GameSceneParam.h"
+#include "DxLib.h"
+#include "EnemyState.h"
+#include "Mass.h"
 
-Player::Player(GameObjContainer* ow, Vec2D<int> pos)
+
+Enemy::Enemy(GameObjContainer* ow, Vec2D<int> pos)
 	:GameObj(ow, pos, HitArea{Vec2D<int>(0, 0), Vec2D<int>(GameSceneParam::MASS_SIZE, GameSceneParam::MASS_SIZE)}){
 
-	mVel = Vec2D<double>(0, 0);
-	mStateMachine = new StateMachine<Player>(this, new PlayerStandState(), new PlayerGlobalState());
+	mStateMachine = new StateMachine<Enemy>(this, new EnemySearchState(), new EnemyGlobalState());
 }
 
 
-Player::~Player(){
+Enemy::~Enemy(){
 	delete mStateMachine;
 }
 
 
-void Player::update(){
+void Enemy::update(){
 	mStateMachine->update();
 }
 
 
-void Player::draw(){
+void Enemy::draw(){
 
 	Vec2D<int> gSize;
 	GetGraphSize(mCurrentGID, &gSize.x, &gSize.y);
 	DrawRotaGraph(mPos.x - (gSize.x - GameSceneParam::MASS_SIZE) / 2,
 				  mPos.y - (gSize.y - GameSceneParam::MASS_SIZE) / 2,
 				  1.0, 0, mCurrentGID, true);
-
-#ifdef _DEBUG
-
-	DebugMsgData::getInstance().setMsg("PlayerV", std::string("V = ") + std::to_string(mVel.x) + " : " + std::to_string(mVel.y));
-
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 122);
-	DrawBox(mPos.x - (mHitArea.size.x / 2) + mHitArea.center.x,
-			mPos.y - (mHitArea.size.y / 2) + mHitArea.center.y,
-			mPos.x + (mHitArea.size.x / 2) + mHitArea.center.x,
-			mPos.y + (mHitArea.size.y / 2) + mHitArea.center.y,
-			GetColor(255, 0, 0), TRUE);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, NULL);
-#endif
-
 }
 
 
-void Player::hit(GameObj* other){
+void Enemy::hit(GameObj* other){
 
-	// マス、敵との衝突を判定
+	// マス、他の敵との衝突を判定
 	if( (dynamic_cast<Mass*>(other) != NULL && !(dynamic_cast<Mass*>(other)->isPass())) ||
 		(dynamic_cast<Enemy*>(other) != NULL)
 	   ){
@@ -84,17 +65,12 @@ void Player::hit(GameObj* other){
 		// マスのつなぎ目で動けなくなるバグをなくすために比較演算子をランダムに変更する
 		static bool flag;
 		flag = GetRand(1);
-		if( (flag && abs(dy) >= abs(dx)) || (!flag && abs(dy) > abs(dx)) ){
+		if((flag && abs(dy) >= abs(dx)) || (!flag && abs(dy) > abs(dx))){
 			mPos.x += dx;
 		}
 		else{
 			mPos.y += dy;
 		}
-
 	}
 
-}
-
-void Player::genHitBox(){
-	mOwner->add(new PlayerGenHitBox(mOwner, this));
 }

@@ -11,19 +11,6 @@
 
 const std::string PLAYER_DIR_NAME = std::string(GRAPH_DIR_PATH) + "Player/";
 
-// 画像から渡されたアニメーション数に応じた領域を抜き出し、新たなグラフィックハンドルとして生成する
-// 抜き出せない場合-1が返る
-int genAnimGraph(std::string fileName, int& num){
-	int id = GraphManager::getInstance().checkID(PLAYER_DIR_NAME + fileName);
-	if(id == -1){ return -1; }
-	
-	int width, height;
-	GetGraphSize(id, &width, &height);
-	id = DerivationGraph(GameSceneParam::MASS_SIZE * num, 0, GameSceneParam::MASS_SIZE, height, id);
-
-	return id;
-}
-
 
 // ------PlayerGlobalStateクラスの実装------
 void PlayerGlobalState::Execute(Player* player){
@@ -51,7 +38,7 @@ void PlayerStandState::Enter(Player* player){
 	char dir[4] = {GameObj::DIRECTON_UP, GameObj::DIRECTON_DOWN, GameObj::DIRECTON_RIGHT, GameObj::DIRECTON_LEFT};
 	for(int d = 0; d < 4; d++){
 		for(int i = 0;; i++){
-			int id = genAnimGraph(GRAPH_NAME + dir[d] + ".png", i);
+			int id = GraphManager::getInstance().getDerivGraph(PLAYER_DIR_NAME + GRAPH_NAME + dir[d] + ".png", i, GameSceneParam::MASS_SIZE);
 			if(id == -1){ break; }
 			mKeepGraph[dir[d]].push_back(id);
 		}
@@ -94,7 +81,7 @@ void PlayerWalkState::Enter(Player* player){
 	char dir[4] = {GameObj::DIRECTON_UP, GameObj::DIRECTON_DOWN, GameObj::DIRECTON_RIGHT, GameObj::DIRECTON_LEFT};
 	for(int d = 0; d < 4; d++){
 		for(int i = 0;; i++){
-			int id = genAnimGraph(GRAPH_NAME + dir[d] + ".png", i);
+			int id = GraphManager::getInstance().getDerivGraph(PLAYER_DIR_NAME + GRAPH_NAME + dir[d] + ".png", i, GameSceneParam::MASS_SIZE);
 			if(id == -1){ break; }
 			mKeepGraph[dir[d]].push_back(id);
 		}
@@ -161,7 +148,7 @@ void PlayerHoldState::Enter(Player* player){
 
 	mAnimFrame = 0;
 	for(int i = 0;; i++){
-		int id = genAnimGraph(GRAPH_NAME + player->checkDirection() + ".png", i);
+		int id = GraphManager::getInstance().getDerivGraph(PLAYER_DIR_NAME + GRAPH_NAME + player->checkDirection() + ".png", i, GameSceneParam::MASS_SIZE);
 		if(id == -1){ break; }
 		mKeepGraph.push_back(id);
 	}
@@ -275,7 +262,7 @@ void PlayerItemGetState::Enter(Player* player){
 
 	mAnimFrame = 0;
 	for(int i = 0;; i++){
-		int id = genAnimGraph(GRAPH_NAME + ".png", i);
+		int id = GraphManager::getInstance().getDerivGraph(PLAYER_DIR_NAME + GRAPH_NAME + ".png", i, GameSceneParam::MASS_SIZE);
 		if(id == -1){ break; }
 		mKeepGraph.push_back(id);
 	}
