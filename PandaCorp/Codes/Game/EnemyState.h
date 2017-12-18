@@ -33,7 +33,7 @@ public:
 	virtual void Exit(Enemy*);
 
 private:
-	const std::string GRAPH_NAME = "walk_";
+	const std::string GRAPH_NAME = "stand_";
 	std::map<char, std::vector<int>> mKeepGraph;
 	int mAnimFrame = 0;
 

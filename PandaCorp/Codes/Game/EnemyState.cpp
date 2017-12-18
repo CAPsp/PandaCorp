@@ -7,7 +7,7 @@
 #include "GameSceneParam.h"
 
 
-const std::string ENEMY_DIR_NAME = std::string(GRAPH_DIR_PATH) + "Player/";
+const std::string ENEMY_DIR_NAME = std::string(GRAPH_DIR_PATH) + "Enemy/";
 
 
 // ------EnemyGlobalStateクラスの実装------
@@ -35,8 +35,8 @@ void EnemySearchState::Execute(Enemy* enemy){
 
 	// アニメーション遷移
 	mAnimFrame++;
-	if((mAnimFrame / GameSceneParam::ANIME_CHANGE_FRAME_QUICK) >= mKeepGraph[enemy->checkDirection()].size()){ mAnimFrame = 0; }
-	enemy->changeGraphic(mKeepGraph[enemy->checkDirection()][mAnimFrame / GameSceneParam::ANIME_CHANGE_FRAME_QUICK]);
+	if((mAnimFrame / GameSceneParam::ANIME_CHANGE_FRAME_NORMAL) >= mKeepGraph[enemy->checkDirection()].size()){ mAnimFrame = 0; }
+	enemy->changeGraphic(mKeepGraph[enemy->checkDirection()][mAnimFrame / GameSceneParam::ANIME_CHANGE_FRAME_NORMAL]);
 
 }
 
