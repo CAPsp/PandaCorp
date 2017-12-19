@@ -5,6 +5,7 @@
 #include "DxLib.h"
 #include "GraphManager.h"
 #include "GameSceneParam.h"
+#include "SoundManager.h"
 
 
 const std::string ENEMY_DIR_NAME = std::string(GRAPH_DIR_PATH) + "Player/";
@@ -71,7 +72,9 @@ void EnemyDownState::Exit(Enemy*){}
 
 
 // ------EnemyFindStateƒNƒ‰ƒX‚ÌŽÀ‘•------
-void EnemyFindState::Enter(Enemy*){}
+void EnemyFindState::Enter(Enemy*){
+	PlaySoundMem(SoundManager::getInstance().checkID("mitukaru.ogg"), DX_PLAYTYPE_BACK);
+}
 
 
 void EnemyFindState::Execute(Enemy*){}
