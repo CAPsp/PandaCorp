@@ -32,7 +32,7 @@ private:
 	int mCurrentGID = -1;
 	char mDirection = DIRECTON_DOWN;
 	bool mCurrentFind = false;		// Œ»İ‹ŠE“à‚É‰ö‚µ‚¢‚à‚Ì‚ğ‚Æ‚ç‚¦‚Ä‚¢‚é‚©
-	GameObj* mVision;				// éŒ¾‡‚ÌŠÖŒWã‚±‚±EnemyVision‚ğ‘‚¯‚È‚¢‚Ì‚ÅGameObj‚Å‘ã—p
+	//GameObj* mVision;				// éŒ¾‡‚ÌŠÖŒWã‚±‚±EnemyVision‚ğ‘‚¯‚È‚¢‚Ì‚ÅGameObj‚Å‘ã—p
 
 };
 

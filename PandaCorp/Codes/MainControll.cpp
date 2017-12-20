@@ -36,7 +36,7 @@ void MainControll::doMainLoop(){
 			
 			scene_sig signal = mScene->update();
 			if(signal.next != scene_id::NONE){
-				mChangeSceneMan = new ChangeSceneManager(mScene, signal);
+				mChangeSceneMan = new ChangeSceneManager(&mScene, signal);
 			}
 		}
 		else{	// ƒV[ƒ“‘JˆÚ’†

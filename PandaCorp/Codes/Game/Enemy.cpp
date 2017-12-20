@@ -11,14 +11,12 @@ Enemy::Enemy(GameObjContainer* ow, Vec2D<int> pos)
 
 	mStateMachine = new StateMachine<Enemy>(this, new EnemySearchState(), new EnemyGlobalState());
 
-	mVision = new EnemyVision(mOwner, this);
-	mOwner->add(mVision);
+	mOwner->add(new EnemyVision(mOwner, this));
 }
 
 
 Enemy::~Enemy(){
 	delete mStateMachine;
-	delete mVision;
 }
 
 

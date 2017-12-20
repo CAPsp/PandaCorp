@@ -6,13 +6,16 @@
 #include "GameSceneParam.h"
 
 
+StageEndProcess GameScene::sEndProcess;
+
+
 bool GameScene::begin(){
+	sEndProcess.init();
 	return true;
 }
 
 
 scene_sig GameScene::update(){
-	scene_sig rtn;
 
 	mStage.update();
 
@@ -32,8 +35,7 @@ scene_sig GameScene::update(){
 	}
 #endif
 
-	rtn.next = scene_id::NONE;
-	return rtn;
+	return sEndProcess.update();	// ゲームオーバーやクリア処理をしてないときはシーンを切り替えないようにしてる
 }
 
 

@@ -119,6 +119,9 @@
     <ClInclude Include="Codes\GameTimer.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Codes\Game\StageEndProcess.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Codes\main.cpp">
@@ -183,6 +186,9 @@
     </ClCompile>
     <ClCompile Include="Codes\GameTimer.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Codes\Game\StageEndProcess.cpp">
+      <Filter>ソース ファイル\Game</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

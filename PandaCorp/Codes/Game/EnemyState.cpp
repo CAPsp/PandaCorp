@@ -5,6 +5,8 @@
 #include "DxLib.h"
 #include "GraphManager.h"
 #include "GameSceneParam.h"
+#include "SoundManager.h"
+#include "GameScene.h"
 
 
 const std::string ENEMY_DIR_NAME = std::string(GRAPH_DIR_PATH) + "Enemy/";
@@ -77,7 +79,7 @@ void EnemyCautionState::Execute(Enemy* enemy){
 		}
 	}
 
-	// 怪しいものをみつけたらガメオベラ
+	// 怪しいものをみつけたら発見ステートに移行
 	if(mDelayFinished && enemy->isFinding()){
 		enemy->getStateMachine()->changeState(new EnemyFindState());
 	}
@@ -101,10 +103,16 @@ void EnemyDownState::Exit(Enemy*){}
 
 
 // ------EnemyFindStateクラスの実装------
-void EnemyFindState::Enter(Enemy*){}
+void EnemyFindState::Enter(Enemy*){
+	PlaySoundMem(SoundManager::getInstance().checkID("find.ogg"), DX_PLAYTYPE_BACK);
+}
 
 
-void EnemyFindState::Execute(Enemy*){}
+void EnemyFindState::Execute(Enemy*){
+	if(!mDelayTimer.update()){
+		GameScene::toGameOver();
+	}
+}
 
 
 void EnemyFindState::Exit(Enemy*){}

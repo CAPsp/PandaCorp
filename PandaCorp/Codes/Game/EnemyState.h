@@ -87,4 +87,7 @@ public:
 	virtual void Execute(Enemy*);
 	virtual void Exit(Enemy*);
 
+private:
+	GameTimer mDelayTimer = GameTimer(GlobalParam::FPS);	// Œ©‚Â‚©‚Á‚½Œã‚Ì—P—\ƒtƒŒ[ƒ€
+
 };

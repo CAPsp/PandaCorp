@@ -16,26 +16,26 @@ bool ChangeSceneManager::update(){
 	if(!mIsEndBefore){
 
 		// 終了処理が終わったら次のシーンのインスタンスを生成
-		if(mScene->end()){
+		if((*mScene)->end()){
 
 			// シーン切り替え時にデバッグメッセージを初期化する
 			DebugMsgData::getInstance().deleteData();
 
-			delete mScene;
-			mScene = nullptr;
+			delete *mScene;
+			*mScene = nullptr;
 			
 			switch(mSignal.next){
 
 				case scene_id::TITLE:
-					mScene = new TitleScene();
+					*mScene = new TitleScene();
 					break;
 
 				case scene_id::STAGE_SELECT:
-					mScene = new StageSelectScene();
+					*mScene = new StageSelectScene();
 					break;
 
 				case scene_id::GAME:
-					mScene = new GameScene(mSignal.meta);
+					*mScene = new GameScene(mSignal.meta);
 					break;
 
 				default:
@@ -49,5 +49,5 @@ bool ChangeSceneManager::update(){
 	}
 
 	//  次シーンの開始処理
-	return mScene->begin();
+	return (*mScene)->begin();
 }
