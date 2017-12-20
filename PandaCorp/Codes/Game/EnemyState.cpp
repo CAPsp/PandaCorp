@@ -34,6 +34,15 @@ void EnemySearchState::Enter(Enemy* enemy){
 
 void EnemySearchState::Execute(Enemy* enemy){
 
+	// パトロール地点に一直線に向かう処理。先にx座標を合わせようとする
+	Vec2D<int> p = enemy->nextPatrolPoint();
+	Vec2D<int> move;
+	if(p.x > enemy->checkPos().x)		{ move.x = 1;	enemy->changeDirection(GameObj::DIRECTON_RIGHT);	}
+	else if(p.x < enemy->checkPos().x)	{ move.x = -1;	enemy->changeDirection(GameObj::DIRECTON_LEFT);		}
+	else if(p.y > enemy->checkPos().y)	{ move.y = 1;	enemy->changeDirection(GameObj::DIRECTON_DOWN);		}
+	else if(p.y < enemy->checkPos().y)	{ move.y = -1;	enemy->changeDirection(GameObj::DIRECTON_UP);		}
+	enemy->movePos(move);
+
 	// アニメーション遷移
 	mAnimFrame++;
 	if((mAnimFrame / GameSceneParam::ANIME_CHANGE_FRAME_NORMAL) >= mKeepGraph[enemy->checkDirection()].size()){ mAnimFrame = 0; }
@@ -103,8 +112,31 @@ void EnemyDownState::Exit(Enemy*){}
 
 
 // ------EnemyFindStateクラスの実装------
-void EnemyFindState::Enter(Enemy*){
+void EnemyFindState::Enter(Enemy* enemy){
+
 	PlaySoundMem(SoundManager::getInstance().checkID("find.ogg"), DX_PLAYTYPE_BACK);
+
+	int enemyG = GraphManager::getInstance().getDerivGraph(ENEMY_DIR_NAME + GRAPH_NAME + enemy->checkDirection() + ".png", 0, GameSceneParam::MASS_SIZE);
+	
+	// 敵画像とエフェクトのサイズを決定
+	Vec2D<int> enemySize;
+	GetGraphSize(enemyG, &(enemySize.x), &(enemySize.y));
+	int effectEdgeSize = enemySize.x;
+
+	// 描画対象となるグラフィックを新しく生成
+	mKeepGraph = MakeScreen(enemySize.x, enemySize.y + effectEdgeSize, true);
+
+	// 敵の頭にビックリマークがでるようなエフェクトを合成した画像を作る
+	SetDrawScreen(mKeepGraph);
+	DrawGraph(0, effectEdgeSize, enemyG, true);
+	DrawCircle(effectEdgeSize / 2, effectEdgeSize / 2, effectEdgeSize / 2, GetColor(255, 255, 0), true);
+	DrawCircle(effectEdgeSize / 2, effectEdgeSize / 4 * 3, effectEdgeSize / 8, GetColor(255, 0, 0), true);
+	DrawOval(effectEdgeSize / 2, effectEdgeSize / 5, effectEdgeSize / 8, effectEdgeSize / 4, GetColor(255, 0, 0), true);
+	SetDrawScreen(DX_SCREEN_BACK);
+
+	enemy->changeGraphic(mKeepGraph);
+
+	DeleteGraph(enemyG);
 }
 
 
@@ -115,4 +147,6 @@ void EnemyFindState::Execute(Enemy*){
 }
 
 
-void EnemyFindState::Exit(Enemy*){}
+void EnemyFindState::Exit(Enemy*){
+	DeleteGraph(mKeepGraph);
+}

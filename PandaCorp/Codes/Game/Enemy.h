@@ -7,6 +7,8 @@
 
 #include "GameObj.h"
 #include "StateMachine.h"
+#include <vector>
+#include "Vec2DUtils.h"
 
 
 class Enemy : public GameObj{
@@ -17,6 +19,7 @@ public:
 	virtual void update();
 	virtual void draw();
 	virtual void hit(GameObj*);
+	Vec2D<int> nextPatrolPoint();	// Ÿ‚ÉŒü‚©‚¤„‰ñæ‚ğ•Ô‚·
 
 	inline StateMachine<Enemy>* getStateMachine(){ return mStateMachine; }
 	inline void changeGraphic(int id){
@@ -31,8 +34,9 @@ private:
 	StateMachine<Enemy>* mStateMachine = nullptr;
 	int mCurrentGID = -1;
 	char mDirection = DIRECTON_DOWN;
-	bool mCurrentFind = false;		// Œ»İ‹ŠE“à‚É‰ö‚µ‚¢‚à‚Ì‚ğ‚Æ‚ç‚¦‚Ä‚¢‚é‚©
-	//GameObj* mVision;				// éŒ¾‡‚ÌŠÖŒWã‚±‚±EnemyVision‚ğ‘‚¯‚È‚¢‚Ì‚ÅGameObj‚Å‘ã—p
+	bool mCurrentFind = false;				// Œ»İ‹ŠE“à‚É‰ö‚µ‚¢‚à‚Ì‚ğ‚Æ‚ç‚¦‚Ä‚¢‚é‚©
+	std::vector<Vec2D<int>> mPatrolPoint;	// „‰ñ‚·‚éÀ•W‚ğ•Û
+	int mNextPatrolPointElem = 0;
 
 };
 

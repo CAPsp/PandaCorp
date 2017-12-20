@@ -12,6 +12,11 @@ Enemy::Enemy(GameObjContainer* ow, Vec2D<int> pos)
 	mStateMachine = new StateMachine<Enemy>(this, new EnemySearchState(), new EnemyGlobalState());
 
 	mOwner->add(new EnemyVision(mOwner, this));
+
+	// Debug: 適当にパトロール地点を決める
+	mPatrolPoint.push_back(Vec2D<int>(300, 200));
+	mPatrolPoint.push_back(Vec2D<int>(400, 200));
+	mPatrolPoint.push_back(Vec2D<int>(400, 300));
 }
 
 
@@ -87,6 +92,23 @@ void Enemy::hit(GameObj* other){
 		}
 	}
 
+}
+
+
+Vec2D<int> Enemy::nextPatrolPoint(){
+
+	// 目的地に到達したら次の目的地へ行くように仕向ける
+	if(mPatrolPoint[abs(mNextPatrolPointElem)] == mPos){
+		
+		//  方向転換
+		if( (mNextPatrolPointElem + 1) >= mPatrolPoint.size() ){
+			mNextPatrolPointElem *= -1;
+		}
+
+		mNextPatrolPointElem++;
+	}
+
+	return mPatrolPoint[abs(mNextPatrolPointElem)];
 }
 
 // -------------------------------------------------------------------------------------------- //

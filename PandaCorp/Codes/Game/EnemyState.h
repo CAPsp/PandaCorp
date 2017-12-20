@@ -88,6 +88,8 @@ public:
 	virtual void Exit(Enemy*);
 
 private:
+	const std::string GRAPH_NAME = "stand_";
+	int mKeepGraph;
 	GameTimer mDelayTimer = GameTimer(GlobalParam::FPS);	// Œ©‚Â‚©‚Á‚½Œã‚Ì—P—\ƒtƒŒ[ƒ€
 
 };
