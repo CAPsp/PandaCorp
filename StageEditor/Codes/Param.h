@@ -9,12 +9,15 @@
 
 
 #define GEN_DATA_DIR "GenData/"
-#define MATERIAL_DATA_DIR "Res/Graph/"
 
-// MATERIAL_DATA_DIRâ∫Ç…ë∂ç›Ç∑ÇÈ
-#define CHARA_DIR "Chara/"
-#define ITEM_DIR "Item/"
-#define MASS_DIR "Mass/"
+
+struct graph_info{
+	int gid = -1;
+	std::string path = "";
+	Vec2D<int> point;	// ç∂è„ç¿ïW
+	bool is60h;			// çÇÇ≥60pxÇÃÇ‡ÇÃÇ©
+};
+
 
 
 namespace Param{
@@ -28,6 +31,6 @@ namespace Param{
 	const int MASS_SIZE = 40;
 	const Vec2D<int> MASS_NUM = {23, 18};
 
-	const int FONT_SIZE = 30;
+	const int FONT_SIZE = 26;
 
 }

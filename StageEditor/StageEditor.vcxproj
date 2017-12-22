@@ -130,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Codes\Button.h" />
+    <ClInclude Include="Codes\EnemyData.h" />
     <ClInclude Include="Codes\MassData.h" />
     <ClInclude Include="Codes\FileUtils.h" />
     <ClInclude Include="Codes\GraphManager.h" />

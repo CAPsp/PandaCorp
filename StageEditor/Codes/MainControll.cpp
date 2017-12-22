@@ -16,7 +16,11 @@ MainControll::MainControll(){
 	basePoint.x = (Param::STAGE_FRAME_SIZE.x + (Param::RIGHT_FRAME_SIZE.x / 4 * 3)) - (btnSize.x / 2);
 	mSaveStageBtn = new Button(basePoint, basePoint + btnSize, "SAVE");
 
-	mMaterialTab = new MaterialTab();
+	mMaterialMaps[map_id::MASS] = new MaterialTab(map_id::MASS);
+	mMaterialMaps[map_id::ITEM] = new MaterialTab(map_id::ITEM);
+	mMaterialMaps[map_id::CHARA] = new MaterialTab(map_id::CHARA);
+	mCurrentTabID = map_id::MASS;
+
 	mStage = new Stage();
 }
 
@@ -25,7 +29,9 @@ MainControll::~MainControll(){
 	delete mStage;			mStage = nullptr;
 	delete mOpenStageBtn;	mOpenStageBtn = nullptr;
 	delete mSaveStageBtn;	mSaveStageBtn = nullptr;
-	delete mMaterialTab;	mMaterialTab = nullptr;
+	for(auto itr = mMaterialMaps.begin(); itr != mMaterialMaps.end(); itr++){
+		delete itr->second;
+	}
 }
 
 
@@ -39,7 +45,7 @@ void MainControll::draw(){
 	mOpenStageBtn->draw();
 	mSaveStageBtn->draw();
 
-	mMaterialTab->draw();
+	mMaterialMaps.at(mCurrentTabID)->draw();
 	mStage->draw();
 }
 
@@ -73,6 +79,7 @@ void MainControll::doLoop(){
 
 		InputManager::getInstance().update();
 
+		/*
 		// ファイル選択ダイアログを使って開くファイルを選択
 		if(mOpenStageBtn->update()){
 
@@ -93,13 +100,17 @@ void MainControll::doLoop(){
 				MessageBox(NULL, (std::string(path) + "に保存しました").c_str(), "ダイアログ", MB_OK);
 			}
 		}
+		*/
 
-		mMaterialTab->clickDetectAndAction();
+		mMaterialMaps.at(mCurrentTabID)->clickDetectAndAction();
 
 		// ステージ上のマスがクリックされたらmMaterialTabで選択されている要素を置く
 		if(mStage->clickDetectAndAction()){	
-			mStage->putDataToClickedTile(mMaterialTab->getMassData());
+			mStage->putDataToClickedTile(mMaterialMaps.at(mCurrentTabID)->getMassData());
 		}
+
+		// タブの切り替えが必要かを判定
+		mCurrentTabID = mStage->checkCurrentTab();
 
 		draw();
 	}

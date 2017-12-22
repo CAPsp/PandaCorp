@@ -12,14 +12,18 @@
 class Button{
 
 public:
-	//Button():mName(""), mFont(-1){ sBtnCnt++; }
-	~Button();
+	Button();
 	Button(Vec2D<int>, Vec2D<int>, std::string);
+	~Button();
 	void draw();
 	bool update();	// 毎フレーム呼び出す必要がある
+	
+	inline void changeName(std::string name){ mName = name; }
+	inline void changePos(int x, int y){ mPos.x = x; mPos.y = y; }
+	void changeSize(int, int);
 
 private:
-	Vec2D<int> mC1, mC2;
+	Vec2D<int> mPos, mSize;
 	bool mBeforeFramePress = false;
 	std::string mName;
 	int mFont;

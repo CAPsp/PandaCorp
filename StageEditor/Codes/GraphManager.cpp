@@ -3,33 +3,59 @@
 #include "DxLib.h"
 #include "FileUtils.h"
 #include <vector>
-#include "Param.h"
 
+
+#define MATERIAL_DATA_DIR "Res/Graph/"
+
+// MATERIAL_DATA_DIR下に存在する
+#define CHARA_DIR "Chara/"
+#define ITEM_DIR "Item/"
+#define MASS_40_DIR "Mass/h40/"
+#define MASS_60_DIR "Mass/h60/"
 
 GraphManager::~GraphManager(){
 
-	for(auto i = mMap.begin(); i != mMap.end(); i++){
+	for(auto i = mVec.begin(); i != mVec.end(); i++){
 
-		for(auto elem = mMap[i->first].begin(); elem != mMap[i->first].end(); elem++){
-			DeleteGraph(elem->second);
+		for(auto elem = mVec[i->first].begin(); elem != mVec[i->first].end(); elem++){
+			DeleteGraph(elem->gid);
 		}
 	}
 
 }
 
 
-void loadResToMap(std::map<std::string, int> *map, std::string path){
-	
-	for(auto i = map->begin(); i != map->end(); i++){
-		DeleteGraph(i->second);
-	}
-	map->erase(map->begin(), map->end());
+void loadResToMap(std::vector<graph_info> &vec, std::string path, bool is60h = false){
+
+	int gHeight = (is60h ? 60 : Param::MASS_SIZE);
 
 	std::vector<std::string> files = FileUtils::readPathInDir(path);
 	for(auto i = files.begin(); i != files.end(); i++){
-		int tmp = LoadGraph((*i).c_str());
-		if(tmp != -1){
-			(*map)[*i] = tmp;
+		int loadG = LoadGraph((*i).c_str());
+		if(loadG != -1){
+
+			// 画像サイズから何分割のデータなのかを計算
+			Vec2D<int> size;
+			GetGraphSize(loadG, &(size.x), &(size.y));
+			int xNum = size.x / Param::MASS_SIZE;
+			int yNum = size.y / gHeight;
+			int *graphIDs = new int[yNum * xNum];
+
+			// 分割画像を各メモリに読み込む
+			LoadDivGraph((*i).c_str(), yNum * xNum, xNum, yNum, Param::MASS_SIZE, gHeight, graphIDs);
+			for(int y = 0; y < yNum; y++){
+				for(int x = 0; x < xNum; x++){
+					graph_info tmp;
+					tmp.gid = graphIDs[y * xNum + x];
+					tmp.is60h = is60h;
+					tmp.path = (*i);
+					tmp.point = Vec2D<int>(x * Param::MASS_SIZE, y * gHeight);
+					vec.push_back(tmp);
+				}
+			}
+		
+			DeleteGraph(loadG);
+			delete[] graphIDs;
 		}
 	}
 }
@@ -38,21 +64,23 @@ void loadResToMap(std::map<std::string, int> *map, std::string path){
 // MATERIAL_DATA_DIR下の各フォルダ内にあるリソースを読み込む
 void GraphManager::load(){
 
-	loadResToMap(&(mMap[map_id::MASS]),	 std::string(MATERIAL_DATA_DIR) + MASS_DIR);
-	loadResToMap(&(mMap[map_id::CHARA]), std::string(MATERIAL_DATA_DIR) + CHARA_DIR);
-	loadResToMap(&(mMap[map_id::ITEM]),  std::string(MATERIAL_DATA_DIR) + ITEM_DIR);
+	loadResToMap((mVec[map_id::MASS]),	std::string(MATERIAL_DATA_DIR) + MASS_40_DIR);
+	loadResToMap((mVec[map_id::MASS]),	std::string(MATERIAL_DATA_DIR) + MASS_60_DIR, true);
+	loadResToMap((mVec[map_id::CHARA]), std::string(MATERIAL_DATA_DIR) + CHARA_DIR,	true);
+	loadResToMap((mVec[map_id::ITEM]),  std::string(MATERIAL_DATA_DIR) + ITEM_DIR);
 }
 
 
-std::vector<int> GraphManager::getAllIDFromMap(map_id mapId){
+std::vector<int> GraphManager::getAllIDFromVec(map_id mapId){
 	std::vector<int> rtn;
-	for(auto i = mMap[mapId].begin(); i != mMap[mapId].end(); i++){
-		rtn.push_back(i->second);
+	for(auto i = mVec[mapId].begin(); i != mVec[mapId].end(); i++){
+		rtn.push_back(i->gid);
 	}
 	return rtn;
 }
 
 
+/*
 std::string GraphManager::searchPathFromMap(int id, map_id mapId){
 	
 	try{
@@ -68,12 +96,15 @@ std::string GraphManager::searchPathFromMap(int id, map_id mapId){
 }
 
 
-int GraphManager::checkID(std::string name, map_id mapId){
+graph_info GraphManager::checkID(std::string name, map_id mapId){
 
 	try{
 		return mMap[mapId].at(name);
 	}
 	catch(std::out_of_range){	// 存在しなかった場合
-		return -1;
+		graph_info tmp;
+		tmp.gid = -1;
+		return tmp;
 	}
 }
+*/

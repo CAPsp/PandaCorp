@@ -8,6 +8,8 @@
 #include "Button.h"
 #include "Stage.h"
 #include "MaterialTab.h"
+#include <map>
+#include "GraphManager.h"
 
 
 // ƒVƒ“ƒOƒ‹ƒgƒ“
@@ -38,6 +40,7 @@ private:
 	Button* mSaveStageBtn = nullptr;
 	Stage* mStage = nullptr;
 	std::string mFilePath = "";
-	MaterialTab* mMaterialTab = nullptr;
+	std::map<map_id, MaterialTab*> mMaterialMaps;
+	map_id mCurrentTabID;
 
 };

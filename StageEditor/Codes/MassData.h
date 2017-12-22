@@ -6,13 +6,18 @@
 
 
 #include <string>
+#include "Param.h"
 
-const int JSON_LAYER_NUM = 3;
+
+enum mass_elem{
+	NORMAL,
+	NOT_PASS,
+	OBSTACLE
+};
+
 
 typedef struct{
-	int gID[JSON_LAYER_NUM]				= {-1, -1, -1};
-	std::string gPath[JSON_LAYER_NUM]	= {"", "", ""};
-	bool pass							= true;
-	std::string charaPath				= "";
-	std::string itemPath				= "";
+	int gID			= -1;
+	mass_elem elem	= NORMAL;
+	int gItemID		= -1;
 }MassData;

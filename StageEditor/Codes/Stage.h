@@ -10,18 +10,23 @@
 #include "MassData.h"
 #include "Vec2DUtils.h"
 #include "Button.h"
+#include "GraphManager.h"
+#include "EnemyData.h"
+
+
+const int GRAPH_LAYER_NUM = 3;
 
 
 class Stage{
 
 private:
 	enum layer_id{
-		MASS_0,
+		MASS_0 = 0,
 		MASS_1,
 		MASS_2,
-		PASS,
-		CHARA,
-		ITEM
+		MASS_ELEM,
+		ITEM,
+		CHARA
 	};
 
 public:
@@ -31,13 +36,18 @@ public:
 	void save(std::string);					// 引数に指定されたpathに現状のステージを保存する
 	void draw();
 	bool clickDetectAndAction();			// trueが返したときはMainControllの方にそのマスに置く情報を欲している				
-	void putDataToClickedTile(MassData);	// ログで保存したマスに引数のデータを置く
+	void putDataToClickedTile(int);			// ログで保存したマスに現在のレイヤー、属性に従った操作を行う
+
+	map_id checkCurrentTab();
 
 private:
-	std::vector<std::vector<MassData>> mMass;
+	std::vector<std::vector<MassData>> mMass[GRAPH_LAYER_NUM];
 	std::string mName;
-	Vec2D<int> mPushLog;		// 押されたされたときの情報を持つ
-	Button *mLayerChangeBtn = nullptr;
-	layer_id mCurrentLayer = layer_id::MASS_0;
+	Vec2D<int> mPushLog;						// 押されたされたときの情報を持つ
+	Button mLayerChangeBtn;						// レイヤーの変更(マス、アイテム、キャラ)
+	layer_id mCurrentLayer	= layer_id::MASS_0;
+	Vec2D<int> mPlayerPos;
+	std::vector<EnemyData> mEnemies;
+	int mHoldEnemyElem = -1;							// 現在パトロール順決めで捜査中の敵データ
 
 };

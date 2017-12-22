@@ -1,14 +1,13 @@
 #include "MaterialTab.h"
 
-#include "GraphManager.h"
 #include "DxLib.h"
 #include "Param.h"
 #include "InputManager.h"
 
 
-MaterialTab::MaterialTab(){
+MaterialTab::MaterialTab(map_id id){
 
-	mMassGraphID = GraphManager::getInstance().getAllIDFromMap(map_id::MASS);
+	mMassGraphID = GraphManager::getInstance().getAllIDFromVec(id);
 	mMassGraphID.insert(mMassGraphID.begin(), -1);	// 消しゴム用の空マス
 
 	mOrigin = {Param::STAGE_FRAME_SIZE.x, 100};
@@ -36,8 +35,7 @@ void MaterialTab::clickDetectAndAction(){
 					// mMassGraphIDの何番目に入ってるものかを逆算
 					int elem = (y * mMassNum.x) + x;
 					if(elem < mMassGraphID.size()){
-						mSelectData.gID[0] = mMassGraphID[elem];
-						mSelectData.gPath[0] = GraphManager::getInstance().searchPathFromMap(mSelectData.gID[0], map_id::MASS);
+						mSelectDataGID = mMassGraphID[elem];
 					}
 				}
 			}
@@ -58,7 +56,7 @@ void MaterialTab::draw(){
 			if(itr != mMassGraphID.end()){
 
 				// 選択されていた場合はハイライト
-				if(mSelectData.gID[0] == (*itr)){
+				if(mSelectDataGID == (*itr)){
 					DrawBox(mOrigin.x + (x * Param::MASS_SIZE),
 							mOrigin.y + (y * Param::MASS_SIZE),
 							mOrigin.x + ((x + 1) * Param::MASS_SIZE),
@@ -66,13 +64,12 @@ void MaterialTab::draw(){
 							GetColor(255, 0, 0),
 							true);
 					SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
-
 					
 				}
 
 				// グラフィックの下部分(40×40)だけが見えるように描画
 				Vec2D<int> gSize;
-				GetGraphSize((*itr), &(gSize.x), &(gSize.y));
+				GetGraphSize(*itr, &(gSize.x), &(gSize.y));
 				DrawRectGraph(mOrigin.x + (x * Param::MASS_SIZE),
 							  mOrigin.y + (y * Param::MASS_SIZE),
 							  gSize.x - Param::MASS_SIZE,
@@ -83,7 +80,7 @@ void MaterialTab::draw(){
 							  false,
 							  false);
 
-				if(mSelectData.gID[0] == (*itr)){
+				if(mSelectDataGID == (*itr)){
 					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, NULL);
 				}
 

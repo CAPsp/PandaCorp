@@ -10,19 +10,26 @@
 
 Stage::Stage(){
 
-	mMass.resize(Param::MASS_NUM.y);
-	for(int y = 0; y < Param::MASS_NUM.y; y++){
-		mMass[y].resize(Param::MASS_NUM.x);
+	for(int lay = 0; lay < GRAPH_LAYER_NUM; lay++){
+		mMass[lay].resize(Param::MASS_NUM.y);
+		for(int y = 0; y < Param::MASS_NUM.y; y++){
+			mMass[lay][y].resize(Param::MASS_NUM.x);
+		}
 	}
 
-	Vec2D<int> v1 = {Param::STAGE_FRAME_SIZE.x + 250, 5};
-	Vec2D<int> v2 = {Param::WINDOW_SIZE.x, 45};
-	mLayerChangeBtn = new Button(v1, v2, "変更");
+	int btnWidth = 180;
+	int btnHeight = 35;
+
+	mLayerChangeBtn.changeName("レイヤー変更");
+	mLayerChangeBtn.changePos(Param::WINDOW_SIZE.x - btnWidth, 5);
+	mLayerChangeBtn.changeSize(btnWidth, btnHeight);
 }
 
 
-Stage::Stage(std::string path):Stage(){
+Stage::Stage(std::string path):
+	Stage(){
 
+	/*
 	// pathで示したjsonファイルからの入力
 	try{
 		std::ifstream ifs(path);
@@ -68,19 +75,17 @@ Stage::Stage(std::string path):Stage(){
 			}
 		}
 	}
-	
+	*/
 }
 
 
-Stage::~Stage(){
-	delete mLayerChangeBtn;	mLayerChangeBtn = nullptr;
-}
+Stage::~Stage(){}
 
 
 
 // jsonファイルへ現在のステージデータを出力
 void Stage::save(std::string path){
-
+	/*
 	picojson::array parentArr;
 	for(int y = 0; y < Param::MASS_NUM.y; y++){
 		picojson::array yArr;
@@ -103,28 +108,63 @@ void Stage::save(std::string path){
 
 	std::ofstream ofs(path);
 	ofs <<  v;
+	*/
 }
 
 
 void Stage::draw(){
 
 	// レイヤー順に描画
-	for(int lay = 0; lay < JSON_LAYER_NUM; lay++){
+	for(int lay = 0; lay < GRAPH_LAYER_NUM; lay++){
 		for(int y = 0; y < Param::MASS_NUM.y; y++){
 			for(int x = 0; x < Param::MASS_NUM.x; x++){
 
-				if(mMass[y][x].gID[lay] != -1){
+				if(mMass[lay][y][x].gID != -1){
 					Vec2D<int> gSize;
-					GetGraphSize(mMass[y][x].gID[lay], &gSize.x, &gSize.y);
+					GetGraphSize(mMass[lay][y][x].gID, &gSize.x, &gSize.y);
 
 					DrawRotaGraph((x * Param::MASS_SIZE) + (Param::MASS_SIZE / 2) - (gSize.x - Param::MASS_SIZE) / 2,
 								  (y * Param::MASS_SIZE) + (Param::MASS_SIZE / 2) - (gSize.y - Param::MASS_SIZE) / 2,
-								  1.0, 0, mMass[y][x].gID[lay], true);
+								  1.0, 0, mMass[lay][y][x].gID, true);
 
+				}
+
+				if(mMass[lay][y][x].gItemID != -1){
+					DrawGraph(x * Param::MASS_SIZE, y * Param::MASS_SIZE, mMass[lay][y][x].gItemID, true);
 				}
 			}
 		}
 	}
+
+	// 敵とそのパトロール位置を描画
+	for(auto itr = mEnemies.begin(); itr != mEnemies.end(); itr++){
+
+		Vec2D<int> gSize;
+		GetGraphSize(itr->gID, &gSize.x, &gSize.y);
+
+		DrawRotaGraph(	(itr->patrolVec.at(0).x * Param::MASS_SIZE) + (Param::MASS_SIZE / 2) - (gSize.x - Param::MASS_SIZE) / 2,
+						(itr->patrolVec.at(0).y * Param::MASS_SIZE) + (Param::MASS_SIZE / 2) - (gSize.y - Param::MASS_SIZE) / 2,
+						1.0, 0, itr->gID, true);
+
+		int red = 255;
+		for(int i = 1; i < (int)(itr->patrolVec.size()); i++){
+			DrawLine(itr->patrolVec.at(i - 1).x * Param::MASS_SIZE + Param::MASS_SIZE / 2,
+					 itr->patrolVec.at(i - 1).y * Param::MASS_SIZE + Param::MASS_SIZE / 2,
+					 itr->patrolVec.at(i).x * Param::MASS_SIZE + Param::MASS_SIZE / 2,
+					 itr->patrolVec.at(i).y * Param::MASS_SIZE + Param::MASS_SIZE / 2,
+					 GetColor(red, 0, 0));
+			red -= (red >= 20) ? 20 : 0;
+		}
+	}
+
+	// プレイヤーの位置を描画
+	DrawCircle(mPlayerPos.x * Param::MASS_SIZE + Param::MASS_SIZE / 2,
+			   mPlayerPos.y * Param::MASS_SIZE + Param::MASS_SIZE / 2,
+			   Param::MASS_SIZE / 3,
+			   GetColor(255, 0, 0), true);
+	DrawString(mPlayerPos.x * Param::MASS_SIZE + Param::MASS_SIZE / 4,
+			   mPlayerPos.y * Param::MASS_SIZE + Param::MASS_SIZE / 4,
+			   "P", GetColor(0, 0, 0));
 
 	// 格子
 	int lineColor = GetColor(255, 0, 0);
@@ -137,28 +177,44 @@ void Stage::draw(){
 
 	std::string layerStr;
 	switch(mCurrentLayer){
-		case layer_id::MASS_0:	layerStr = "レイヤー 0";	break;
-		case layer_id::MASS_1:	layerStr = "レイヤー 1";	break;
-		case layer_id::MASS_2:	layerStr = "レイヤー 2";	break;
-		case layer_id::PASS:	layerStr = "通れるか";		break;
-		case layer_id::CHARA:	layerStr = "キャラ";		break;
-		case layer_id::ITEM:	layerStr = "アイテム";		break;
+		case layer_id::MASS_0:		layerStr = "レイヤー 0";	break;
+		case layer_id::MASS_1:		layerStr = "レイヤー 1";	break;
+		case layer_id::MASS_2:		layerStr = "レイヤー 2";	break;
+		case layer_id::MASS_ELEM:	layerStr = "属性";			break;
+		case layer_id::CHARA:		layerStr = "キャラ";		break;
+		case layer_id::ITEM:		layerStr = "アイテム";		break;
 	}
 	DrawString(Param::STAGE_FRAME_SIZE.x + 20, 10, layerStr.c_str(), GetColor(255, 0, 0));
-	mLayerChangeBtn->draw();
+	mLayerChangeBtn.draw();
 
-	// 通れるかどうかを決めているときだけ〇、×マークを付ける
-	if(mCurrentLayer == layer_id::PASS){
+	// 障害物 or Pass を決めているときは〇、×、△マークを付ける
+	if(mCurrentLayer == layer_id::MASS_ELEM){
 		lineColor = GetColor(0, 0, 0);
 		for(int y = 0; y < Param::MASS_NUM.y; y++){
 			for(int x = 0; x < Param::MASS_NUM.x; x++){
 
-				if(mMass[y][x].pass){
-					DrawCircle((x * Param::MASS_SIZE) + (Param::MASS_SIZE / 2), (y * Param::MASS_SIZE) + (Param::MASS_SIZE / 2), (Param::MASS_SIZE / 2), lineColor, false);
+				int lay;
+				for(lay = 0; lay < GRAPH_LAYER_NUM; lay++){
+
+					if(mMass[lay][y][x].elem == mass_elem::NOT_PASS){
+						DrawLine(x * Param::MASS_SIZE, y * Param::MASS_SIZE, (x + 1) * Param::MASS_SIZE, (y + 1) * Param::MASS_SIZE, lineColor);
+						DrawLine((x + 1) * Param::MASS_SIZE, y * Param::MASS_SIZE, x * Param::MASS_SIZE, (y + 1) * Param::MASS_SIZE, lineColor);
+						break;
+					}
+
+					if(mMass[lay][y][x].elem == mass_elem::OBSTACLE){
+						DrawTriangle(
+							x * Param::MASS_SIZE + (Param::MASS_SIZE / 2),	y * Param::MASS_SIZE,
+							x * Param::MASS_SIZE,							(y + 1) * Param::MASS_SIZE,
+							(x + 1) * Param::MASS_SIZE,						(y + 1) * Param::MASS_SIZE,
+							lineColor, false
+						);
+						break;
+					}
 				}
-				else{
-					DrawLine(x * Param::MASS_SIZE, y * Param::MASS_SIZE, (x + 1) * Param::MASS_SIZE, (y + 1) * Param::MASS_SIZE, lineColor);
-					DrawLine((x + 1) * Param::MASS_SIZE, y * Param::MASS_SIZE, x * Param::MASS_SIZE, (y + 1) * Param::MASS_SIZE, lineColor);
+				
+				if(lay == 3){
+					DrawCircle((x * Param::MASS_SIZE) + (Param::MASS_SIZE / 2), (y * Param::MASS_SIZE) + (Param::MASS_SIZE / 2), (Param::MASS_SIZE / 2), lineColor, false);
 				}
 			}
 		}
@@ -171,14 +227,30 @@ void Stage::draw(){
 bool Stage::clickDetectAndAction(){
 
 	// レイヤーの切り替え
-	if(mLayerChangeBtn->update()){
-		switch(mCurrentLayer){
-			case layer_id::MASS_0:	mCurrentLayer = layer_id::MASS_1;		break;
-			case layer_id::MASS_1:	mCurrentLayer = layer_id::MASS_2;		break;
-			case layer_id::MASS_2:	mCurrentLayer = layer_id::PASS;			break;
-			case layer_id::PASS:	mCurrentLayer = layer_id::CHARA;		break;
-			case layer_id::CHARA:	mCurrentLayer = layer_id::ITEM;			break;
-			case layer_id::ITEM:	mCurrentLayer = layer_id::MASS_0;		break;
+	if(mLayerChangeBtn.update()){
+		mHoldEnemyElem = -1;
+		mCurrentLayer = (mCurrentLayer == layer_id::CHARA) ? layer_id::MASS_0 : layer_id(mCurrentLayer + 1);
+	}
+
+	// 右クリックでプレイヤーの位置を変更 or ホールド中の敵を解除
+	if(InputManager::getInstance().isPushMouseRight()){
+
+		if(mCurrentLayer == layer_id::CHARA){
+			mHoldEnemyElem = -1;
+		}
+		else{
+			for(int y = 0; y < Param::MASS_NUM.y; y++){
+				for(int x = 0; x < Param::MASS_NUM.x; x++){
+
+					Vec2D<int> c1 = {x * Param::MASS_SIZE,			y * Param::MASS_SIZE};
+					Vec2D<int> c2 = {(x + 1) * Param::MASS_SIZE,	(y + 1) * Param::MASS_SIZE};
+
+					if(InputManager::getInstance().existCursorInArea(c1.x, c1.y, c2.x, c2.y)){
+						mPlayerPos.x = x;
+						mPlayerPos.y = y;
+					}
+				}
+			}
 		}
 	}
 
@@ -197,9 +269,6 @@ bool Stage::clickDetectAndAction(){
 						break;
 					}
 
-					if(mCurrentLayer == layer_id::PASS){
-						mMass[y][x].pass = !mMass[y][x].pass;
-					}
 					mPushLog = {x, y};
 					return true;
 				}
@@ -215,28 +284,67 @@ bool Stage::clickDetectAndAction(){
 }
 
 
-// マスのグラフィックパスとIDは0番目の要素に入る
-void Stage::putDataToClickedTile(MassData data){
+void Stage::putDataToClickedTile(int id){
 
 	switch(mCurrentLayer){
+
 		case layer_id::MASS_0:
-			mMass[mPushLog.y][mPushLog.x].gID[0]	= data.gID[0];
-			mMass[mPushLog.y][mPushLog.x].gPath[0]	= data.gPath[0];
-			break;
 		case layer_id::MASS_1:
-			mMass[mPushLog.y][mPushLog.x].gID[1]	= data.gID[0];
-			mMass[mPushLog.y][mPushLog.x].gPath[1]	= data.gPath[0];
-			break;
 		case layer_id::MASS_2:
-			mMass[mPushLog.y][mPushLog.x].gID[2]	= data.gID[0];
-			mMass[mPushLog.y][mPushLog.x].gPath[2]	= data.gPath[0];
+			mMass[(int)mCurrentLayer][mPushLog.y][mPushLog.x].gID = id;
+			
+			// そのマスの属性を全て消す
+			for(int lay = 0; lay < GRAPH_LAYER_NUM; lay++){
+				mMass[lay][mPushLog.y][mPushLog.x].elem = mass_elem::NORMAL;
+			}
 			break;
-		case layer_id::CHARA:
-			mMass[mPushLog.y][mPushLog.x].charaPath	= data.charaPath;
+
+		case layer_id::MASS_ELEM:		// グラフィックレイヤー的に一番上に存在するグラフィックに適用する
+			for(int lay = GRAPH_LAYER_NUM - 1; lay >= 0; lay--){
+				if(mMass[lay][mPushLog.y][mPushLog.x].gID != -1){
+
+					if(mMass[lay][mPushLog.y][mPushLog.x].elem == mass_elem::OBSTACLE){
+						mMass[lay][mPushLog.y][mPushLog.x].elem = mass_elem::NORMAL;
+					}
+					else{
+						mMass[lay][mPushLog.y][mPushLog.x].elem = mass_elem(mMass[lay][mPushLog.y][mPushLog.x].elem + 1);
+					}
+					break;
+				}
+			}
+			break;
+
+		case layer_id::CHARA:	// パトロール決め中かどうかで分岐する
+			if(mHoldEnemyElem != -1){
+				mEnemies.at(mHoldEnemyElem).patrolVec.push_back(Vec2D<int>(mPushLog.x, mPushLog.y));
+			}
+			else{
+				if(id == -1){
+					for(auto itr = mEnemies.begin(); itr != mEnemies.end(); itr++){
+						if(itr->patrolVec.at(0).x == mPushLog.x && itr->patrolVec.at(0).y == mPushLog.y){
+							mEnemies.erase(itr);
+							break;
+						}
+					}
+				}
+				else{
+					EnemyData tmp;
+					tmp.gID = id;
+					tmp.patrolVec.push_back(Vec2D<int>(mPushLog.x, mPushLog.y));
+					mEnemies.push_back(tmp);
+					mHoldEnemyElem = (int)(mEnemies.size()) - 1;
+				}
+			}
 			break;
 		case layer_id::ITEM:
-			mMass[mPushLog.y][mPushLog.x].itemPath	= data.itemPath;
+			mMass[GRAPH_LAYER_NUM - 1][mPushLog.y][mPushLog.x].gItemID = id;
 			break;
 	}
 
+}
+
+map_id Stage::checkCurrentTab(){
+	if(mCurrentLayer == layer_id::ITEM)			{ return map_id::ITEM; }
+	else if(mCurrentLayer == layer_id::CHARA)	{ return map_id::CHARA; }
+	return map_id::MASS;
 }
