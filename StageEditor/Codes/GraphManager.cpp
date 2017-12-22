@@ -96,31 +96,16 @@ graph_info GraphManager::searchInfoFromMap(int gID, map_id mapId){
 }
 
 
-/*
-std::string GraphManager::searchPathFromMap(int id, map_id mapId){
-	
+int GraphManager::checkGID(std::string path, Vec2D<int> point, map_id mapId){
+
 	try{
-		for(std::pair<std::string, int> elem : mMap.at(mapId)){
-			if(elem.second == id){
-				return elem.first;
+		for(graph_info info : mVec.at(mapId)){
+			if(info.path == path && info.point == point){
+				return info.gid;
 			}
 		}
 	}
 	catch(std::out_of_range){}
 
-	return "";
+	return -1;
 }
-
-
-graph_info GraphManager::checkID(std::string name, map_id mapId){
-
-	try{
-		return mMap[mapId].at(name);
-	}
-	catch(std::out_of_range){	// ë∂ç›ÇµÇ»Ç©Ç¡ÇΩèÍçá
-		graph_info tmp;
-		tmp.gid = -1;
-		return tmp;
-	}
-}
-*/

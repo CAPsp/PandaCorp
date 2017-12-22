@@ -29,7 +29,6 @@ Stage::Stage(){
 Stage::Stage(std::string path):
 	Stage(){
 
-	/*
 	// pathで示したjsonファイルからの入力
 	try{
 		std::ifstream ifs(path);
@@ -48,13 +47,37 @@ Stage::Stage(std::string path):
 			picojson::array xArr = picojson::value(*yItr).get<picojson::array>();
 			for(auto xItr = xArr.begin(); xItr != xArr.end(); xItr++){
 				picojson::object obj = picojson::value(*xItr).get<picojson::object>();
-					
-				mMass[yCnt][xCnt].gPath[0]	= obj.at("mass_0").get<std::string>();
-				mMass[yCnt][xCnt].gPath[1]	= obj.at("mass_1").get<std::string>();
-				mMass[yCnt][xCnt].gPath[2]	= obj.at("mass_2").get<std::string>();
-				mMass[yCnt][xCnt].pass		= obj.at("pass").get<bool>();
-				mMass[yCnt][xCnt].charaPath = obj.at("chara").get<std::string>();
-				mMass[yCnt][xCnt].itemPath	= obj.at("item").get<std::string>();
+
+				int elemID = 0;
+				for(int i = 0; i < GRAPH_LAYER_NUM; i++){
+					picojson::object mass = picojson::value(obj.at(std::to_string(i))).get<picojson::object>();
+					std::string gPath = mass.at("path").get<std::string>();
+					Vec2D<int> point;
+					point.x = (int)(mass.at("x").get<double>());
+					point.y = (int)(mass.at("y").get<double>());
+					mMass[i][yCnt][xCnt].gID = GraphManager::getInstance().checkGID(gPath, point, map_id::MASS);
+				
+					if(mMass[i][yCnt][xCnt].gID != -1){
+						elemID = i;
+					}
+				}
+
+				if(obj.at("obstacle").get<bool>()){
+					mMass[elemID][yCnt][xCnt].elem = mass_elem::OBSTACLE;
+				}
+				else if(!(obj.at("pass").get<bool>())){
+					mMass[elemID][yCnt][xCnt].elem = mass_elem::NOT_PASS;
+				}
+				else{
+					mMass[elemID][yCnt][xCnt].elem = mass_elem::NORMAL;
+				}
+
+				picojson::object itemObj = picojson::value(obj.at("item")).get<picojson::object>();
+				std::string gPath = itemObj.at("path").get<std::string>();
+				Vec2D<int> point;
+				point.x = (int)(itemObj.at("x").get<double>());
+				point.y = (int)(itemObj.at("y").get<double>());
+				mMass[GRAPH_LAYER_NUM - 1][yCnt][xCnt].gItemID = GraphManager::getInstance().checkGID(gPath, point, map_id::ITEM);
 
 				xCnt++;
 			}
@@ -62,20 +85,34 @@ Stage::Stage(std::string path):
 			yCnt++;
 		}
 
+		// プレイヤーの初期座標
+		picojson::object playerObj = (v.get<picojson::object>()["Player"]).get<picojson::object>();
+		mPlayerPos.x = (int)(playerObj.at("x").get<double>());
+		mPlayerPos.y = (int)(playerObj.at("y").get<double>());
+
+		// 敵情報
+		picojson::array enemyArr = (v.get<picojson::object>()["Enemy"]).get<picojson::array>();
+		for(auto enemy = enemyArr.begin(); enemy != enemyArr.end(); enemy++){
+			picojson::array patrolArr = enemy->get<picojson::array>();
+			EnemyData data;
+			for(auto point = patrolArr.begin(); point != patrolArr.end(); point++){
+				picojson::array pointArr = point->get<picojson::array>();
+				
+				Vec2D<int> p;
+				p.x = (int)(pointArr.at(0).get<double>());
+				p.y = (int)(pointArr.at(1).get<double>());
+				data.patrolVec.push_back(p);
+			}
+			data.gID = GraphManager::getInstance().getAllIDFromVec(map_id::CHARA).at(0);
+
+			mEnemies.push_back(data);
+		}
+		
 	}
 	catch(...){
-		MessageBox(NULL, "ファイルが読み込めませんでした(　´_ゝ｀)", "エラー", MB_OK);
+		MessageBox(NULL, "ファイルが読み込めませんでしたとさ(　´_ゝ｀)", "エラー", MB_OK);
 	}
 
-	// 読み込んだ各画像パスからグラフィックＩＤを読み込む
-	for(int lay = 0; lay < JSON_LAYER_NUM; lay++){
-		for(int y = 0; y < Param::MASS_NUM.y; y++){
-			for(int x = 0; x < Param::MASS_NUM.x; x++){
-				mMass[y][x].gID[lay] = GraphManager::getInstance().checkID(mMass[y][x].gPath[lay], map_id::MASS);
-			}
-		}
-	}
-	*/
 }
 
 
@@ -86,6 +123,7 @@ Stage::~Stage(){}
 // jsonファイルへ現在のステージデータを出力
 void Stage::save(std::string path){
 
+	// マス情報
 	picojson::array parentArr;
 	for(int y = 0; y < Param::MASS_NUM.y; y++){
 		picojson::array yArr;
@@ -122,6 +160,29 @@ void Stage::save(std::string path){
 	picojson::object obj;
 	obj.emplace(std::make_pair("Masses", parentArr));
 	
+	// プレイヤーの初期座標
+	picojson::object playerObj;
+	playerObj.insert(std::make_pair("x", (double)(mPlayerPos.x)));
+	playerObj.insert(std::make_pair("y", (double)(mPlayerPos.y)));
+	obj.emplace(std::make_pair("Player", playerObj));
+
+	// 敵情報
+	picojson::array enemyArr;
+	for(EnemyData enemy : mEnemies){
+		picojson::array patrolArr;
+		for(Vec2D<int> point : enemy.patrolVec){
+			picojson::array pointArr;
+			pointArr.push_back(picojson::value((double)(point.x)));
+			pointArr.push_back(picojson::value((double)(point.y)));
+			patrolArr.push_back(picojson::value(pointArr));
+		}
+		enemyArr.push_back(picojson::value(patrolArr));
+	}
+	obj.emplace(std::make_pair("Enemy", enemyArr));
+
+	// スコア情報
+	obj.emplace(std::make_pair("Score", -1.0));
+
 	picojson::value v = picojson::value(obj);
 
 	std::ofstream ofs(path);
