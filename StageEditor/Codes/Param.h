@@ -11,15 +11,6 @@
 #define GEN_DATA_DIR "GenData/"
 
 
-struct graph_info{
-	int gid = -1;
-	std::string path = "";
-	Vec2D<int> point;	// ç∂è„ç¿ïW
-	bool is60h;			// çÇÇ≥60pxÇÃÇ‡ÇÃÇ©
-};
-
-
-
 namespace Param{
 
 	const Vec2D<int> WINDOW_SIZE = {1280, 720};

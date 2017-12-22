@@ -80,6 +80,22 @@ std::vector<int> GraphManager::getAllIDFromVec(map_id mapId){
 }
 
 
+graph_info GraphManager::searchInfoFromMap(int gID, map_id mapId){
+	
+	try{
+		for(graph_info info : mVec.at(mapId)){
+			if(info.gid == gID){
+				return info;
+			}
+		}
+	}
+	catch(std::out_of_range){}
+
+	graph_info tmp;
+	return tmp;
+}
+
+
 /*
 std::string GraphManager::searchPathFromMap(int id, map_id mapId){
 	

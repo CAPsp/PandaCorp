@@ -85,18 +85,36 @@ Stage::~Stage(){}
 
 // jsonファイルへ現在のステージデータを出力
 void Stage::save(std::string path){
-	/*
+
 	picojson::array parentArr;
 	for(int y = 0; y < Param::MASS_NUM.y; y++){
 		picojson::array yArr;
 		for(int x = 0; x < Param::MASS_NUM.x; x++){
 			picojson::object xObj;
-			xObj.insert(std::make_pair("mass_0", mMass[y][x].gPath[0]));
-			xObj.insert(std::make_pair("mass_1", mMass[y][x].gPath[1]));
-			xObj.insert(std::make_pair("mass_2", mMass[y][x].gPath[2]));
-			xObj.insert(std::make_pair("pass", mMass[y][x].pass));
-			xObj.insert(std::make_pair("chara", mMass[y][x].charaPath));
-			xObj.insert(std::make_pair("item", mMass[y][x].itemPath));
+			int elemID = 0;
+			for(int i = 0; i < GRAPH_LAYER_NUM; i++){
+				picojson::object massObj;
+
+				graph_info info = GraphManager::getInstance().searchInfoFromMap(mMass[i][y][x].gID, map_id::MASS);
+
+				massObj.insert(std::make_pair("path", info.path));
+				massObj.insert(std::make_pair("x", (double)(info.point.x)));
+				massObj.insert(std::make_pair("y", (double)(info.point.y)));
+				massObj.insert(std::make_pair("60px", info.is60h));
+
+				xObj.insert(std::make_pair(std::to_string(i), picojson::value(massObj)));
+				if(mMass[i][y][x].gID != -1){ elemID = i;}
+			}
+			xObj.insert(std::make_pair("pass", mMass[elemID][y][x].elem != mass_elem::NOT_PASS));
+			xObj.insert(std::make_pair("obstacle", mMass[elemID][y][x].elem == mass_elem::OBSTACLE));
+			
+			graph_info itemInfo = GraphManager::getInstance().searchInfoFromMap(mMass[GRAPH_LAYER_NUM - 1][y][x].gItemID, map_id::ITEM);
+			picojson::object itemObj;
+			itemObj.insert(std::make_pair("path", itemInfo.path));
+			itemObj.insert(std::make_pair("x", (double)(itemInfo.point.x)));
+			itemObj.insert(std::make_pair("y", (double)(itemInfo.point.y)));
+			xObj.insert(std::make_pair("item", picojson::value(itemObj)));
+			
 			yArr.push_back(picojson::value(xObj));
 		}
 		parentArr.push_back(picojson::value(yArr));
@@ -108,7 +126,6 @@ void Stage::save(std::string path){
 
 	std::ofstream ofs(path);
 	ofs <<  v;
-	*/
 }
 
 

@@ -18,6 +18,12 @@ enum map_id{
 	ITEM
 };
 
+struct graph_info{
+	int gid = -1;
+	std::string path = "";
+	Vec2D<int> point;		// 左上座標
+	bool is60h = false;		// 高さ60pxのものか
+};
 
 // ちょっと特殊なシングルトンパターン
 class GraphManager{
@@ -40,8 +46,14 @@ public:
 
 	void load();	// リソースを読み込む
 
-	std::vector<int> getAllIDFromVec(map_id);	// map_idで指定したMap上にあるすべてのグラフィックIDを返す
+	std::vector<int> getAllIDFromVec(map_id);			// map_idで指定したMap上にあるすべてのグラフィックIDを返す
 	//std::string searchPathFromMap(int, map_id);			// 　　　　　〃　　　 　の要素から引数に渡したIDに対応するグラフィックのパスを返す
+	//Vec2D<int> searchPosFromMap(int, map_id);
+	//bool searchIs60pxFromMap(int, map_id);
+
+	graph_info searchInfoFromMap(int, map_id);
+
+
 	//graph_info checkID(std::string, map_id);			// 引数に対応するリソースＩＤを返す
 
 private:

@@ -10,11 +10,10 @@ MainControll::MainControll(){
 
 	// ボタンの設定
 	Vec2D<int> btnSize = {100, 30};
-	Vec2D<int> basePoint = {(Param::STAGE_FRAME_SIZE.x + (Param::RIGHT_FRAME_SIZE.x / 4)) - (btnSize.x / 2),
-							70 - (btnSize.y / 2)};
-	mOpenStageBtn = new Button(basePoint, basePoint + btnSize, "OPEN");
-	basePoint.x = (Param::STAGE_FRAME_SIZE.x + (Param::RIGHT_FRAME_SIZE.x / 4 * 3)) - (btnSize.x / 2);
-	mSaveStageBtn = new Button(basePoint, basePoint + btnSize, "SAVE");
+	int midPosX = Param::STAGE_FRAME_SIZE.x + (Param::RIGHT_FRAME_SIZE.x / 2);
+	int baseY	= 70 - (btnSize.y / 2);
+	mOpenStageBtn = new Button(Vec2D<int>(midPosX - btnSize.x, baseY), btnSize, "OPEN");
+	mSaveStageBtn = new Button(Vec2D<int>(midPosX, baseY), btnSize, "SAVE");
 
 	mMaterialMaps[map_id::MASS] = new MaterialTab(map_id::MASS);
 	mMaterialMaps[map_id::ITEM] = new MaterialTab(map_id::ITEM);
@@ -79,7 +78,6 @@ void MainControll::doLoop(){
 
 		InputManager::getInstance().update();
 
-		/*
 		// ファイル選択ダイアログを使って開くファイルを選択
 		if(mOpenStageBtn->update()){
 
@@ -100,7 +98,6 @@ void MainControll::doLoop(){
 				MessageBox(NULL, (std::string(path) + "に保存しました").c_str(), "ダイアログ", MB_OK);
 			}
 		}
-		*/
 
 		mMaterialMaps.at(mCurrentTabID)->clickDetectAndAction();
 
