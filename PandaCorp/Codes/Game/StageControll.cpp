@@ -42,6 +42,12 @@ void StageControll::update(){
 
 			if(i == j && i == j){ continue; }
 
+			// ƒ}ƒX“¯m‚Ì‚ ‚½‚è”»’è‚Íl—¶‚µ‚È‚¢
+			if( (dynamic_cast<Mass*>(mObjects[1].checkElem(i)) != NULL) &&
+				(dynamic_cast<Mass*>(mObjects[1].checkElem(j)) != NULL) ){
+				continue;
+			}
+
 			if( mObjects[1].checkElem(i)->checkCollide( mObjects[1].checkElem(j) ) ){
 				mObjects[1].checkElem(i)->hit(mObjects[1].checkElem(j));
 				mObjects[1].checkElem(j)->hit(mObjects[1].checkElem(i));

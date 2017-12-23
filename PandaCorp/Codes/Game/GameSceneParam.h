@@ -2,14 +2,15 @@
 
 
 #include "Vec2DUtils.h"
+#include "GlobalParam.h"
 
 
 namespace GameSceneParam{
 
-	const int MASS_SIZE = 40;
-	const Vec2D<int> MASS_NUM = {24, 18};
+	const Vec2D<int> STAGE_FRAME_SIZE = {920, GlobalParam::WINDOW_SIZE.y};
 
-	//const int MASS_GRAPH_LAYER_NUM = 4;
+	const int MASS_SIZE = 40;
+	const Vec2D<int> MASS_NUM = {23, 18};
 
 	const double PLAYER_MAX_SPEED			= 4.0;
 	const double PLAYER_ACCELE_PER_FRAME	= 1.0;
@@ -22,5 +23,9 @@ namespace GameSceneParam{
 	// 敵の視界距離の定義
 	const int ENEMY_VISION_HEIGHT	= 200;
 	const int ENEMY_VISION_WIDTH	= 80;
+
+	// 終業時間（ゲームはここから開始する）
+	const int CLOSING_TIME_HOUR		= 18;
+	const int CLOSING_TIME_MINUTE	= 30;
 
 };

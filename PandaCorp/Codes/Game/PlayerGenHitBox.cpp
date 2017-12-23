@@ -61,7 +61,7 @@ void PlayerGenHitBox::hit(GameObj* other){
 	
 	// ’Í‚ß‚é‚à‚Ì‚ª‚ ‚Á‚½‚ç’Í‚Þ
 	Mass* tmp = dynamic_cast<Mass*>(other);
-	if(tmp != NULL && !tmp->isPass()){
+	if(tmp != NULL && tmp->isObstacle()){
 		mPlayer->getStateMachine()->changeState(new PlayerHoldState(tmp));
 	}
 

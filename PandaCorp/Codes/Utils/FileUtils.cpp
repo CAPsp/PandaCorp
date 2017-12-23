@@ -1,6 +1,7 @@
 #include "FileUtils.h"
 
 #include <Windows.h>
+#include <fstream>
 
 
 
@@ -84,4 +85,14 @@ std::vector<std::string> FileUtils::readDirPathBelowDir(std::string path){
 	FindClose(handle);
 
 	return vec;
+}
+
+
+std::string FileUtils::openJson(std::string path, picojson::value& v){
+
+	std::ifstream ifs(path);
+	if(!ifs.is_open()){
+		return (path + "‚ðŠJ‚¯‚Ü‚¹‚ñ‚Å‚µ‚½");
+	}
+	return picojson::parse(v, ifs);
 }

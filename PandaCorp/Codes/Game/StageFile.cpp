@@ -1,33 +1,23 @@
 #include "StageFile.h"
 
-#include <fstream>
 #include "picojson.h"
 #include "GraphManager.h"
 #include "GameSceneParam.h"
 #include "Mass.h"
 #include "Enemy.h"
 #include "Player.h"
+#include "FileUtils.h"
 
 
 StageFile::StageFile(std::string path)
 	:mFilePath(path){}
 
 
-std::string openJson(std::string path, picojson::value& v){
-	
-	std::ifstream ifs(path);
-	if(!ifs.is_open()){
-		return (path + "を開けませんでした");
-	}
-	return picojson::parse(v, ifs);
-}
-
-
 // jsonファイルの仕様はエディターと整合性を保つ必要があるため変更される可能性がある
 std::string StageFile::read(GameObjContainer* container, int& score){
 
 	picojson::value v;
-	std::string err = openJson(mFilePath, v);
+	std::string err = FileUtils::openJson(mFilePath, v);
 	if(err != ""){
 		return err;
 	}

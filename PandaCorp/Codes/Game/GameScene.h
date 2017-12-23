@@ -9,11 +9,12 @@
 class GameScene : public BaseScene{
 
 public:
-	GameScene(int num) :mStageNum(num), mStage("Stage/test.json"){}
+	GameScene(int){}
 	virtual ~GameScene() = default;
 	virtual scene_sig update();
 	virtual bool begin();
 	virtual bool end();
+	void uiDraw();	// UIを描画する処理
 
 // ステージ終了をしたいときに呼ばれる静的関数群
 public:
@@ -22,8 +23,10 @@ public:
 	static void toStageSelect(){ sEndProcess.returnStageSelect(); }
 
 private:
-	int mStageNum;
-	StageControll mStage;
+	StageControll* mStage;
 	static StageEndProcess sEndProcess;
+	int mStageNameFontHandle;
+	std::pair<int, int> mDate;	// ゲーム内の日付
+	int mProgressFrame = 0;		// ゲーム開始から経過したフレーム
 
 };
