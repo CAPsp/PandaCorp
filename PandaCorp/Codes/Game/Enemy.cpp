@@ -6,17 +6,13 @@
 #include "Mass.h"
 
 
-Enemy::Enemy(GameObjContainer* ow, Vec2D<int> pos)
-	:GameObj(ow, pos, HitArea{Vec2D<int>(0, 0), Vec2D<int>(GameSceneParam::MASS_SIZE, GameSceneParam::MASS_SIZE)}){
+Enemy::Enemy(GameObjContainer* ow, std::vector<Vec2D<int>> patrolVec)
+	:GameObj(ow, patrolVec[0], HitArea{Vec2D<int>(0, 0), Vec2D<int>(GameSceneParam::MASS_SIZE, GameSceneParam::MASS_SIZE)}),
+	mPatrolPoint(patrolVec){
 
 	mStateMachine = new StateMachine<Enemy>(this, new EnemySearchState(), new EnemyGlobalState());
 
 	mOwner->add(new EnemyVision(mOwner, this));
-
-	// Debug: 適当にパトロール地点を決める
-	mPatrolPoint.push_back(Vec2D<int>(300, 200));
-	mPatrolPoint.push_back(Vec2D<int>(400, 200));
-	mPatrolPoint.push_back(Vec2D<int>(400, 300));
 }
 
 
@@ -54,9 +50,9 @@ void Enemy::draw(){
 
 void Enemy::hit(GameObj* other){
 
-	// マス、他の敵との衝突を判定
+	// マス、プレイヤーとの衝突を判定
 	if( (dynamic_cast<Mass*>(other) != NULL && !(dynamic_cast<Mass*>(other)->isPass())) ||
-		(dynamic_cast<Enemy*>(other) != NULL)
+		(dynamic_cast<Player*>(other) != NULL)
 	   ){
 
 		// どのくらい重なっているのかを計算
@@ -81,14 +77,28 @@ void Enemy::hit(GameObj* other){
 		}
 
 		// 移動距離が少ない方に動いて重なりを外す
-		// マスのつなぎ目で動けなくなるバグをなくすために比較演算子をランダムに変更する
-		static bool flag;
-		flag = GetRand(1);
-		if((flag && abs(dy) >= abs(dx)) || (!flag && abs(dy) > abs(dx))){
+		// その際にぶつかったオブジェクトのほうを向く
+		if(abs(dy) >= abs(dx)){
 			mPos.x += dx;
+			changeDirection(((dx > 0) ? GameObj::DIRECTON_LEFT : GameObj::DIRECTON_RIGHT));
 		}
 		else{
 			mPos.y += dy;
+			changeDirection(((dy > 0) ? GameObj::DIRECTON_UP : GameObj::DIRECTON_DOWN));
+		}
+
+		// ぶつかったものがプレイヤーなら警戒ステートに移る
+		if(dynamic_cast<Player*>(other) != NULL){
+			mStateMachine->changeState(new EnemyCautionState());
+		}
+
+		// マスとぶつかったときは次のパトロール時もぶつからないようにパトロールの順序を変える
+		if(dynamic_cast<Mass*>(other) != NULL){
+			mNextPatrolPointElem *= -1;	
+			mNextPatrolPointElem++;
+			if(mNextPatrolPointElem >= (int)(mPatrolPoint.size())){
+				mNextPatrolPointElem--;
+			}
 		}
 	}
 

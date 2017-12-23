@@ -13,14 +13,10 @@
 StageControll::StageControll(std::string jsonPath)
 	:mStageFile(jsonPath){
 	
-	std::string msg = mStageFile.read(mObjects);
+	std::string msg = mStageFile.read(mObjects, mHighScore);
 	if(msg != ""){
 		MessageBox(NULL, msg.c_str(), "エラー", MB_OK);
 	}
-
-	// Debug: プレイヤーと敵を適当に生成
-	mObjects[1].add(new Player(&mObjects[1], Vec2D<int>(100, 100) ));
-	mObjects[1].add(new Enemy(&mObjects[1], Vec2D<int>(400, 400) ));
 
 	for(int i = 0; i < 2; i++){
 		mObjects[i].update();

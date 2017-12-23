@@ -54,9 +54,9 @@ void Player::draw(){
 
 void Player::hit(GameObj* other){
 
-	// マス、敵との衝突を判定
-	if( (dynamic_cast<Mass*>(other) != NULL && !(dynamic_cast<Mass*>(other)->isPass())) ||
-		(dynamic_cast<Enemy*>(other) != NULL)
+	// マス、との衝突を判定
+	if( (dynamic_cast<Mass*>(other) != NULL && !(dynamic_cast<Mass*>(other)->isPass()))/* ||
+		(dynamic_cast<Enemy*>(other) != NULL)*/
 	   ){
 
 		// どのくらい重なっているのかを計算

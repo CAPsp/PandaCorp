@@ -56,3 +56,32 @@ std::vector<std::string> FileUtils::readPathBelowDir(std::string dir_path){
 	return vec;
 
 }
+
+
+std::vector<std::string> FileUtils::readDirPathBelowDir(std::string path){
+
+	std::vector<std::string> vec;
+
+	WIN32_FIND_DATA win32fd;
+	HANDLE handle = FindFirstFile((path + "\\*").c_str(), &win32fd);
+	if(handle == INVALID_HANDLE_VALUE){
+		return vec;
+	}
+
+	do{
+		// ディレクトリならvectorに追加後、その中を再帰的に探索
+		if((win32fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) &&
+		   std::string(win32fd.cFileName) != "." &&
+		   std::string(win32fd.cFileName) != ".."){
+		
+			std::string dirPath = path + win32fd.cFileName + "/";
+			vec.push_back(dirPath);
+			std::vector<std::string> tmp = readDirPathBelowDir(dirPath);
+			std::copy(tmp.begin(), tmp.end(), std::back_inserter(vec));
+		}
+	} while(FindNextFile(handle, &win32fd));
+
+	FindClose(handle);
+
+	return vec;
+}

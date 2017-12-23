@@ -12,17 +12,27 @@
 class Mass : public GameObj{
 
 public:
-	Mass(GameObjContainer*, Vec2D<int>, int, bool);
+	enum mass_elem{
+		NORMAL,
+		NOT_PASS,
+		OBSTACLE
+	};
+
+public:
+	Mass(GameObjContainer*, Vec2D<int>, int, mass_elem = NORMAL);
 	virtual ~Mass() = default;
 	virtual void update(){}			// updateŠÖ”‚É‚æ‚éXVˆ—‚ª‚È‚¢
 	virtual void hit(GameObj*);
 	void draw();					// Ä•`‰æ‚ÉŒÄ‚Ño‚·
 
 public:
-	inline bool isPass(){ return mPass; }
+	inline mass_elem checkElem(){ return mElem; }
+	inline bool isPass(){ return mElem == NORMAL; }
+	inline bool isObstacle(){ return mElem == OBSTACLE; }
+	//inline void setElem(mass_elem elem){ mElem = elem; }
 
 private:
 	int mGraph;
-	bool mPass;
+	mass_elem mElem;
 
 };

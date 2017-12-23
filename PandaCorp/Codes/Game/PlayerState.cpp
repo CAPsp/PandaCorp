@@ -37,11 +37,7 @@ void PlayerStandState::Enter(Player* player){
 	mAnimFrame = 0;
 	char dir[4] = {GameObj::DIRECTON_UP, GameObj::DIRECTON_DOWN, GameObj::DIRECTON_RIGHT, GameObj::DIRECTON_LEFT};
 	for(int d = 0; d < 4; d++){
-		for(int i = 0;; i++){
-			int id = GraphManager::getInstance().getDerivGraph(PLAYER_DIR_NAME + GRAPH_NAME + dir[d] + ".png", i, GameSceneParam::MASS_SIZE);
-			if(id == -1){ break; }
-			mKeepGraph[dir[d]].push_back(id);
-		}
+		mKeepGraph[dir[d]] = GraphManager::getInstance().getGraphIDs(PLAYER_DIR_NAME + GRAPH_NAME + dir[d] + ".png");
 	}
 	player->changeGraphic(mKeepGraph[player->checkDirection()][0]);
 }
@@ -66,13 +62,7 @@ void PlayerStandState::Execute(Player* player){
 	}
 }
 
-void PlayerStandState::Exit(Player*){
-	for(auto itr = mKeepGraph.begin(); itr != mKeepGraph.end(); itr++){
-		for(int id : itr->second){
-			DeleteGraph(id);
-		}
-	}
-}
+void PlayerStandState::Exit(Player*){}
 
 
 // ------PlayerWalkStateクラスの実装------
@@ -80,11 +70,7 @@ void PlayerWalkState::Enter(Player* player){
 	mAnimFrame = 0;
 	char dir[4] = {GameObj::DIRECTON_UP, GameObj::DIRECTON_DOWN, GameObj::DIRECTON_RIGHT, GameObj::DIRECTON_LEFT};
 	for(int d = 0; d < 4; d++){
-		for(int i = 0;; i++){
-			int id = GraphManager::getInstance().getDerivGraph(PLAYER_DIR_NAME + GRAPH_NAME + dir[d] + ".png", i, GameSceneParam::MASS_SIZE);
-			if(id == -1){ break; }
-			mKeepGraph[dir[d]].push_back(id);
-		}
+		mKeepGraph[dir[d]] = GraphManager::getInstance().getGraphIDs(PLAYER_DIR_NAME + GRAPH_NAME + dir[d] + ".png");
 	}
 	player->changeGraphic(mKeepGraph[player->checkDirection()][0]);
 }
@@ -134,24 +120,14 @@ void PlayerWalkState::Execute(Player* player){
 	}
 }
 
-void PlayerWalkState::Exit(Player*){
-	for(auto itr = mKeepGraph.begin(); itr != mKeepGraph.end(); itr++){
-		for(int id : itr->second){
-			DeleteGraph(id);
-		}
-	}
-}
+void PlayerWalkState::Exit(Player*){}
 
 
 // ------PlayerHoldStateクラスの実装------
 void PlayerHoldState::Enter(Player* player){
 
 	mAnimFrame = 0;
-	for(int i = 0;; i++){
-		int id = GraphManager::getInstance().getDerivGraph(PLAYER_DIR_NAME + GRAPH_NAME + player->checkDirection() + ".png", i, GameSceneParam::MASS_SIZE);
-		if(id == -1){ break; }
-		mKeepGraph.push_back(id);
-	}
+	mKeepGraph = GraphManager::getInstance().getGraphIDs(PLAYER_DIR_NAME + GRAPH_NAME + player->checkDirection() + ".png");
 	player->changeGraphic(mKeepGraph[0]);
 
 	// あたり判定をつかんだマスに沿って変える
@@ -215,10 +191,6 @@ void PlayerHoldState::Exit(Player* player){
 	player->changeHitAreaCenter(Vec2D<int>(0, 0));
 	player->changeHitAreaSize(Vec2D<int>(GameSceneParam::MASS_SIZE, GameSceneParam::MASS_SIZE));
 	mMass->changeHitAreaSize(Vec2D<int>(GameSceneParam::MASS_SIZE, GameSceneParam::MASS_SIZE));
-
-	for(int id : mKeepGraph){
-		DeleteGraph(id);
-	}
 }
 
 void PlayerHoldState::holdAction(Player* player){
@@ -261,11 +233,9 @@ void PlayerHoldState::holdAction(Player* player){
 void PlayerItemGetState::Enter(Player* player){
 
 	mAnimFrame = 0;
-	for(int i = 0;; i++){
-		int id = GraphManager::getInstance().getDerivGraph(PLAYER_DIR_NAME + GRAPH_NAME + ".png", i, GameSceneParam::MASS_SIZE);
-		if(id == -1){ break; }
-		mKeepGraph.push_back(id);
-	}
+
+	mKeepGraph = GraphManager::getInstance().getGraphIDs(PLAYER_DIR_NAME + GRAPH_NAME + ".png");
+
 	player->changeGraphic(mKeepGraph[0]);
 }
 
@@ -279,8 +249,4 @@ void PlayerItemGetState::Execute(Player* player){
 
 }
 
-void PlayerItemGetState::Exit(Player*){
-	for(int id : mKeepGraph){
-		DeleteGraph(id);
-	}
-}
+void PlayerItemGetState::Exit(Player*){}

@@ -9,6 +9,8 @@
 
 #include <string>
 #include <map>
+#include <vector>
+#include "Vec2DUtils.h"
 
 
 // ちょっと特殊なシングルトンパターン
@@ -29,11 +31,12 @@ public:
 		static GraphManager obj;
 		return obj;
 	}
-	void load();									// リソースを読み込む
-	int checkID(std::string);						// 引数に対応するリソースＩＤを返す
-	int getDerivGraph(std::string, int, int);	// 大きい画像に対して引数に応じた領域を抜き出す
+	void clear();
+	void load();								// リソースを読み込む
+	int checkID(std::string, Vec2D<int>);		// 引数に対応するリソースＩＤを返す
+	std::vector<int> getGraphIDs(std::string);	// 引数に対応するパス内の画像群を返す
 
 private:
-	std::map<std::string, int> mMap;
+	std::map<std::string, std::vector< std::pair<Vec2D<int>, int> >> mDatabase;
 
 };

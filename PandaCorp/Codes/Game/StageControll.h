@@ -20,5 +20,6 @@ public:
 private:
 	GameObjContainer mObjects[2];	// マス + 他ゲームオブジェクト
 	StageFile mStageFile;
+	int mHighScore;
 
 };

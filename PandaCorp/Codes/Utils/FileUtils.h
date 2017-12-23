@@ -19,4 +19,7 @@ public:
 	// 引数に指定したディレクトリ以下のファイルパスを全て取得する
 	static std::vector<std::string> readPathBelowDir(std::string);
 
+	// 引数に指定したディレクトリ以下のディレクトリパスを全て取得する
+	static std::vector<std::string> readDirPathBelowDir(std::string);
+
 };

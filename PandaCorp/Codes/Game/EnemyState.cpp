@@ -22,11 +22,7 @@ void EnemySearchState::Enter(Enemy* enemy){
 	mAnimFrame = 0;
 	char dir[4] = {GameObj::DIRECTON_UP, GameObj::DIRECTON_DOWN, GameObj::DIRECTON_RIGHT, GameObj::DIRECTON_LEFT};
 	for(int d = 0; d < 4; d++){
-		for(int i = 0;; i++){
-			int id = GraphManager::getInstance().getDerivGraph(ENEMY_DIR_NAME + GRAPH_NAME + dir[d] + ".png", i, GameSceneParam::MASS_SIZE);
-			if(id == -1){ break; }
-			mKeepGraph[dir[d]].push_back(id);
-		}
+		mKeepGraph[dir[d]] = GraphManager::getInstance().getGraphIDs(ENEMY_DIR_NAME + GRAPH_NAME + dir[d] + ".png");
 	}
 	enemy->changeGraphic(mKeepGraph[enemy->checkDirection()][0]);
 }
@@ -56,20 +52,15 @@ void EnemySearchState::Execute(Enemy* enemy){
 }
 
 
-void EnemySearchState::Exit(Enemy*){
-	for(auto itr = mKeepGraph.begin(); itr != mKeepGraph.end(); itr++){
-		for(int id : itr->second){
-			DeleteGraph(id);
-		}
-	}
-}
+void EnemySearchState::Exit(Enemy*){}
 
 
 // ------EnemyCautionStateクラスの実装------
 void EnemyCautionState::Enter(Enemy* enemy){
 	mTimer = GameTimer(DELAY_FRAME);
 
-	mKeepGraph = GraphManager::getInstance().getDerivGraph(ENEMY_DIR_NAME + GRAPH_NAME + enemy->checkDirection() + ".png", 0, GameSceneParam::MASS_SIZE);
+	mKeepGraph = (GraphManager::getInstance().getGraphIDs(ENEMY_DIR_NAME + GRAPH_NAME + enemy->checkDirection() + ".png"))[0];
+
 	enemy->changeGraphic(mKeepGraph);
 }
 
@@ -116,8 +107,9 @@ void EnemyFindState::Enter(Enemy* enemy){
 
 	PlaySoundMem(SoundManager::getInstance().checkID("find.ogg"), DX_PLAYTYPE_BACK);
 
-	int enemyG = GraphManager::getInstance().getDerivGraph(ENEMY_DIR_NAME + GRAPH_NAME + enemy->checkDirection() + ".png", 0, GameSceneParam::MASS_SIZE);
-	
+
+	int enemyG = (GraphManager::getInstance().getGraphIDs(ENEMY_DIR_NAME + GRAPH_NAME + enemy->checkDirection() + ".png"))[0];
+
 	// 敵画像とエフェクトのサイズを決定
 	Vec2D<int> enemySize;
 	GetGraphSize(enemyG, &(enemySize.x), &(enemySize.y));

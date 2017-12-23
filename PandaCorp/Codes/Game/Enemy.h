@@ -14,7 +14,7 @@
 class Enemy : public GameObj{
 
 public:
-	Enemy(GameObjContainer*, Vec2D<int>);
+	Enemy(GameObjContainer*, std::vector<Vec2D<int>>);
 	virtual ~Enemy();
 	virtual void update();
 	virtual void draw();

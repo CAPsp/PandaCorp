@@ -53,12 +53,8 @@ void procGameover(scene_sig& signal){
 
 
 // クリア時のスコアを表示し、次に進むかステージ選択に戻るかを選ばせる
-void procClear(scene_sig& signal){
-
-}
+void procClear(scene_sig&){}
 
 
 // 本当に戻るかどうかを確認した後にとどまるかステージ選択に戻るかを決める
-void procReturnStageSelect(scene_sig& signal){
-	
-}
+void procReturnStageSelect(scene_sig&){}

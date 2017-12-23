@@ -54,8 +54,8 @@ public:
 
 private:
 	const std::string GRAPH_NAME = "stand_";
-	const int DELAY_FRAME = GlobalParam::FPS;		// 最初のこのフレーム分は怪しい動きをみてもガメオベラにならない
-	const int CAUTION_FRAME = GlobalParam::FPS * 5;	// このフレーム中に怪しいうごきをみたらガメオベラ。このフレームが終了したらステートが変わる
+	const int DELAY_FRAME = GlobalParam::FPS / 2;		// 最初のこのフレーム分は怪しい動きをみてもガメオベラにならない
+	const int CAUTION_FRAME = GlobalParam::FPS * 4;	// このフレーム中に怪しいうごきをみたらガメオベラ。このフレームが終了したらステートが変わる
 
 	int mKeepGraph;
 	GameTimer mTimer = GameTimer(0);
