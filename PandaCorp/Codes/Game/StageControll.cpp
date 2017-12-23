@@ -18,6 +18,19 @@ StageControll::StageControll(std::string jsonPath)
 		MessageBox(NULL, msg.c_str(), "エラー", MB_OK);
 	}
 
+	// ステージ外にでないためのあたり判定を作る
+	Vec2D<int> fSize = {GameSceneParam::STAGE_FRAME_SIZE.x, GameSceneParam::STAGE_FRAME_SIZE.y};
+	Vec2D<int> pos[4] = {	Vec2D<int>(fSize.x / 2, -10), Vec2D<int>(fSize.x / 2, fSize.y + 10),
+							Vec2D<int>(-10, fSize.y / 2), Vec2D<int>(fSize.x + 10, fSize.y / 2)};
+	Vec2D<int> size[4] = {	Vec2D<int>(fSize.x, 20), Vec2D<int>(fSize.x, 20),
+							Vec2D<int>(20, fSize.y), Vec2D<int>(20, fSize.y)};
+	for(int i = 0; i < 4; i++){
+		Mass* tmp = new Mass(&(mObjects[1]), Vec2D<int>(0, 0), -1, Mass::mass_elem::NOT_PASS);
+		tmp->changeHitAreaCenter(pos[i]);
+		tmp->changeHitAreaSize(size[i]);
+		mObjects[1].add(tmp);
+	}
+
 	for(int i = 0; i < 2; i++){
 		mObjects[i].update();
 	}
