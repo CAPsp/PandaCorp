@@ -122,6 +122,12 @@
     <ClInclude Include="Codes\Game\StageEndProcess.h">
       <Filter>ソース ファイル\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Codes\Game\Item.h">
+      <Filter>ソース ファイル\Game\GameObj</Filter>
+    </ClInclude>
+    <ClInclude Include="Codes\Game\ItemStock.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Codes\main.cpp">
@@ -189,6 +195,12 @@
     </ClCompile>
     <ClCompile Include="Codes\Game\StageEndProcess.cpp">
       <Filter>ソース ファイル\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Codes\Game\Item.cpp">
+      <Filter>ソース ファイル\Game\GameObj</Filter>
+    </ClCompile>
+    <ClCompile Include="Codes\Game\ItemStock.cpp">
+      <Filter>ソース ファイル\Game\GameObj</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

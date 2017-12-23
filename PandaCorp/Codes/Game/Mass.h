@@ -6,7 +6,6 @@
 
 
 #include "GameObj.h"
-#include "Player.h"
 
 
 class Mass : public GameObj{
@@ -22,8 +21,8 @@ public:
 	Mass(GameObjContainer*, Vec2D<int>, int, mass_elem = NORMAL);
 	virtual ~Mass() = default;
 	virtual void update(){}			// updateŠÖ”‚É‚æ‚éXVˆ—‚ª‚È‚¢
-	virtual void hit(GameObj*);
-	void draw();					// Ä•`‰æ‚ÉŒÄ‚Ño‚·
+	virtual void hit(GameObj*){}
+	virtual void draw();
 
 public:
 	inline mass_elem checkElem(){ return mElem; }

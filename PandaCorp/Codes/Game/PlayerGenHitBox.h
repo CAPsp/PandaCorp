@@ -21,5 +21,6 @@ public:
 
 private:
 	Player* mPlayer;
+	bool mDoAction = false;	// 何かしらのアクションを行った後にこのフラグが立つ
 
 };

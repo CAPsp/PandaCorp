@@ -22,6 +22,3 @@ void Mass::draw(){
 					1.0, 0, mGraph, true);
 	
 }
-
-
-void Mass::hit(GameObj*){}

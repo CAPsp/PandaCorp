@@ -111,4 +111,20 @@ void GameScene::uiDraw(){
 		DrawGraph(GameSceneParam::STAGE_FRAME_SIZE.x + (strGraphWidth * i) + 30, 140, timeG[i], true);
 	}
 
+	// ストックしているアイテムの表示
+	Vec2D<int> size = {80, 80};
+	for(int y = 0; y < 4; y++){
+		for(int x = 0; x < 3; x++){
+
+			Vec2D<int> p = {GameSceneParam::STAGE_FRAME_SIZE.x + 30 + (x * 110), 260 + (y * 100)};
+			
+			DrawBox(p.x, p.y, p.x + size.x, p.y + size.y, GetColor(255, 255, 255), true);
+			
+			int id = mItemStock.checkItemGID(y * 3 + x);
+			if(id != -1){
+				DrawExtendGraph(p.x, p.y, p.x + size.x, p.y + size.y, id, true);
+			}
+		}
+	}
+
 }

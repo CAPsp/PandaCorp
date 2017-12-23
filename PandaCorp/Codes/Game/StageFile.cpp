@@ -7,6 +7,7 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "FileUtils.h"
+#include "Item.h"
 
 
 StageFile::StageFile(std::string path)
@@ -71,6 +72,17 @@ std::string StageFile::read(GameObjContainer* container, int& score){
 					container[0].add(tmp);
 				}
 
+			}
+
+			// ÉAÉCÉeÉÄì«Ç›çûÇ›èàóù
+			picojson::object itemObj = picojson::value(massObj.at("item")).get<picojson::object>();
+			std::string path = itemObj.at("path").get<std::string>();
+			Vec2D<int> point = {(int)(itemObj.at("x").get<double>()), (int)(itemObj.at("y").get<double>())};
+			int id = GraphManager::getInstance().checkID(path, point);
+			if(id != -1){
+				container[1].add(new Item(&(container[1]),
+										  Vec2D<int>((xCnt * GameSceneParam::MASS_SIZE), (yCnt * GameSceneParam::MASS_SIZE)),
+										  id));
 			}
 
 			xCnt++;

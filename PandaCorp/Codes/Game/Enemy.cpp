@@ -4,6 +4,7 @@
 #include "DxLib.h"
 #include "EnemyState.h"
 #include "Mass.h"
+#include "Player.h"
 
 
 Enemy::Enemy(GameObjContainer* ow, std::vector<Vec2D<int>> patrolVec)

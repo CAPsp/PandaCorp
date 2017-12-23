@@ -30,7 +30,7 @@ public:
 		:mOwner(ow), mPos(pos), mHitArea(hit){}
 	virtual ~GameObj() = default;
 	virtual void update()		= 0;	// 1フレーム毎の更新処理
-	virtual void draw()			= 0;	// 描画処理(引数は実装クラスによって扱いが変わる)
+	virtual void draw()			= 0;	// 描画処理
 	virtual void hit(GameObj*)	= 0;	// 他のオブジェクトと衝突したときの処理
 
 	bool checkCollide(const GameObj* other){
@@ -55,6 +55,7 @@ public:
 	}
 
 public:
+	inline void removeMeFromOwner()		{ mOwner->remove(this); }
 	inline Vec2D<int> checkPos()		{ return mPos; }
 	inline HitArea checkHitArea()		{ return mHitArea; }
 	inline void movePos(Vec2D<int> p)	{ mPos += p; }	// 現在地点を基点として移動をする

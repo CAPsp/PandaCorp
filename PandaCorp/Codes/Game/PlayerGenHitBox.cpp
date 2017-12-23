@@ -4,6 +4,8 @@
 #include "DxLib.h"
 #include "Mass.h"
 #include "PlayerState.h"
+#include "Item.h"
+#include "ItemStock.h"
 
 
 PlayerGenHitBox::PlayerGenHitBox(GameObjContainer* ow, Player* p)
@@ -58,18 +60,22 @@ void PlayerGenHitBox::draw(){
 
 void PlayerGenHitBox::hit(GameObj* other){
 
-	
-	// 掴めるものがあったら掴む
-	Mass* tmp = dynamic_cast<Mass*>(other);
-	if(tmp != NULL && tmp->isObstacle()){
-		mPlayer->getStateMachine()->changeState(new PlayerHoldState(tmp));
-	}
+	// すでに何かしらのアクションをしてたら判定しない
+	if(mDoAction){ return; }
 
-	// アイテム取得
-	/*
-	if(tmp != NULL && !tmp->isPass()){
-		mPlayer->getStateMachine()->changeState(new PlayerItemGetState());
+	// 掴めるものがあったら掴む
+	Mass* tmpMass = dynamic_cast<Mass*>(other);
+	if(tmpMass != NULL && tmpMass->isObstacle()){
+		mPlayer->getStateMachine()->changeState(new PlayerHoldState(tmpMass));
+		mDoAction = true;
 	}
-	*/
+	
+	// アイテム取得
+	if(dynamic_cast<Item*>(other) != NULL){
+		other->removeMeFromOwner();
+		mPlayer->getStateMachine()->changeState(new PlayerItemGetState());
+		ItemStock::addItem(dynamic_cast<Item*>(other));
+		mDoAction = true;
+	}
 
 }

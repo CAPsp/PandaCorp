@@ -4,6 +4,7 @@
 #include "BaseScene.h"
 #include "StageControll.h"
 #include "StageEndProcess.h"
+#include "ItemStock.h"
 
 
 class GameScene : public BaseScene{
@@ -28,5 +29,6 @@ private:
 	int mStageNameFontHandle;
 	std::pair<int, int> mDate;	// ゲーム内の日付
 	int mProgressFrame = 0;		// ゲーム開始から経過したフレーム
+	ItemStock mItemStock;
 
 };

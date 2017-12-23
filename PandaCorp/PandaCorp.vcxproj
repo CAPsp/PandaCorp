@@ -29,6 +29,8 @@
     <ClInclude Include="Codes\Game\GameScene.h" />
     <ClInclude Include="Codes\Game\GameSceneParam.h" />
     <ClInclude Include="Codes\Game\HitArea.h" />
+    <ClInclude Include="Codes\Game\Item.h" />
+    <ClInclude Include="Codes\Game\ItemStock.h" />
     <ClInclude Include="Codes\Game\Mass.h" />
     <ClInclude Include="Codes\Game\Player.h" />
     <ClInclude Include="Codes\Game\PlayerGenHitBox.h" />
@@ -57,6 +59,8 @@
     <ClCompile Include="Codes\Game\EnemyState.cpp" />
     <ClCompile Include="Codes\Game\GameObjContainer.cpp" />
     <ClCompile Include="Codes\Game\GameScene.cpp" />
+    <ClCompile Include="Codes\Game\Item.cpp" />
+    <ClCompile Include="Codes\Game\ItemStock.cpp" />
     <ClCompile Include="Codes\Game\Mass.cpp" />
     <ClCompile Include="Codes\Game\Player.cpp" />
     <ClCompile Include="Codes\Game\PlayerGenHitBox.cpp" />

@@ -33,5 +33,6 @@ private:
 	std::vector<GameObj*> mVec;
 	std::vector<GameObj*> mTempAddVec;		// V‚µ‚­’Ç‰Á‚·‚éGameObj‚ğˆê“I‚É“ü‚ê‚Ä‚¨‚­êŠ
 	std::vector<GameObj*> mTempRemoveVec;	// íœ‚·‚éGameObj‚ğ(ry
+	std::vector<GameObj*> mGarbageVec;		// Á‚³‚ê‚½obj‚ª“ü‚é‚Æ‚±‚ë
 
 };
