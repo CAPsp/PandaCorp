@@ -111,7 +111,7 @@ Vec2D<int> Enemy::nextPatrolPoint(){
 	if(mPatrolPoint[abs(mNextPatrolPointElem)] == mPos){
 		
 		//  •ûŒü“]Š·
-		if( (mNextPatrolPointElem + 1) >= mPatrolPoint.size() ){
+		if( (mNextPatrolPointElem + 1) >= (int)(mPatrolPoint.size()) ){
 			mNextPatrolPointElem *= -1;
 		}
 
