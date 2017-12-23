@@ -48,6 +48,7 @@ private:
 	layer_id mCurrentLayer	= layer_id::MASS_0;
 	Vec2D<int> mPlayerPos;
 	std::vector<EnemyData> mEnemies;
-	int mHoldEnemyElem = -1;							// 現在パトロール順決めで捜査中の敵データ
+	int mHoldEnemyElem = -1;					// 現在パトロール順決めで捜査中の敵データ
+	std::pair<int, int> mDate = {1, 1};			// ゲームに反映する日付情報を格納
 
 };

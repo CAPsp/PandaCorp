@@ -107,7 +107,11 @@ Stage::Stage(std::string path):
 
 			mEnemies.push_back(data);
 		}
-		
+
+		// 日付情報
+		picojson::array dateArr = (v.get<picojson::object>()["Date"]).get<picojson::array>();
+		mDate.first = (int)(dateArr.at(0).get<double>());
+		mDate.second = (int)(dateArr.at(1).get<double>());
 	}
 	catch(...){
 		MessageBox(NULL, "ファイルが読み込めませんでしたとさ(　´_ゝ｀)", "エラー", MB_OK);
@@ -182,6 +186,12 @@ void Stage::save(std::string path){
 
 	// スコア情報
 	obj.emplace(std::make_pair("Score", -1.0));
+
+	// 日付情報
+	picojson::array dateArr;
+	dateArr.push_back(picojson::value((double)(mDate.first)));
+	dateArr.push_back(picojson::value((double)(mDate.second)));
+	obj.emplace(std::make_pair("Date", dateArr));
 
 	picojson::value v = picojson::value(obj);
 
