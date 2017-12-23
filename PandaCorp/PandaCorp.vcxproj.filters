@@ -200,7 +200,7 @@
       <Filter>ソース ファイル\Game\GameObj</Filter>
     </ClCompile>
     <ClCompile Include="Codes\Game\ItemStock.cpp">
-      <Filter>ソース ファイル\Game\GameObj</Filter>
+      <Filter>ソース ファイル\Game</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

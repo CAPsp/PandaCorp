@@ -30,5 +30,6 @@ private:
 	std::pair<int, int> mDate;	// ゲーム内の日付
 	int mProgressFrame = 0;		// ゲーム開始から経過したフレーム
 	ItemStock mItemStock;
+	int mSelectedItemElem;
 
 };

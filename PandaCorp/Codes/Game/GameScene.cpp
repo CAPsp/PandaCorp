@@ -7,6 +7,7 @@
 #include "GraphManager.h"
 #include "picojson.h"
 #include "FileUtils.h"
+#include "InputManager.h"
 
 
 StageEndProcess GameScene::sEndProcess;
@@ -30,13 +31,42 @@ bool GameScene::begin(){
 	mDate.first = (int)(arr.at(0).get<double>());
 	mDate.second = (int)(arr.at(1).get<double>());
 
+	mSelectedItemElem = -1;
+
 	return true;
 }
 
 
 scene_sig GameScene::update(){
 
+	// アイテム選択処理
+	if(InputManager::getInstance().checkPushFrame(KEY_INPUT_X) == 1 && mItemStock.checkSize() > 0){
+		mSelectedItemElem = (mSelectedItemElem == -1) ? 0 : -1;
+	}
+	if(mSelectedItemElem != -1){
+
+		int add = 0;
+		if(InputManager::getInstance().checkPushFrame(KEY_INPUT_UP) == 1)	{ add = -3; }
+		if(InputManager::getInstance().checkPushFrame(KEY_INPUT_RIGHT) == 1){ add = 1; }
+		if(InputManager::getInstance().checkPushFrame(KEY_INPUT_DOWN) == 1)	{ add = 3; }
+		if(InputManager::getInstance().checkPushFrame(KEY_INPUT_LEFT) == 1)	{ add = -1; }
+		if(0 <= mSelectedItemElem + add && mSelectedItemElem + add < mItemStock.checkSize()){
+			mSelectedItemElem += add;
+		}
+
+		// アイテムの使用
+		if(InputManager::getInstance().checkPushFrame(KEY_INPUT_Z) == 1){
+			mItemStock.useItem(mSelectedItemElem);
+			mSelectedItemElem = -1;
+		}
+
+		InputManager::getInstance().deactivate();
+	}
+
 	mStage->update();
+
+	// 入力の有効化
+	InputManager::getInstance().activate();
 
 	// UI部分描画
 	uiDraw();
@@ -123,6 +153,11 @@ void GameScene::uiDraw(){
 			int id = mItemStock.checkItemGID(y * 3 + x);
 			if(id != -1){
 				DrawExtendGraph(p.x, p.y, p.x + size.x, p.y + size.y, id, true);
+			}
+
+			// 選択しているアイテムはハイライト
+			if(y * 3 + x == mSelectedItemElem){
+				DrawBox(p.x, p.y, p.x + size.x, p.y + size.y, GetColor(0, 255, 0), false);
 			}
 		}
 	}

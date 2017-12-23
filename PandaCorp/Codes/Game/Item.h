@@ -16,6 +16,7 @@ public:
 	virtual void update(){}					// update関数による更新処理がない
 	virtual void hit(GameObj*){}
 	virtual void draw();					// 再描画時に呼び出す
+	bool use();								// アイテムを使った場合の動作
 
 	inline int checkGID(){ return mGraphID; }
 

@@ -13,3 +13,10 @@ Item::Item(GameObjContainer* ow, Vec2D<int> pos, int graph)
 void Item::draw(){
 	DrawGraph(mPos.x, mPos.y, mGraphID, true);
 }
+
+
+// trueを返すと仕様されてストックから削除される
+bool Item::use(){
+
+	return true;
+}

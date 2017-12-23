@@ -51,12 +51,11 @@ void InputManager::update() {
 
 int InputManager::checkPushFrame(int key_code) {
 
-	return key_type_time[key_code];
-
+	return (isActivated ? key_type_time[key_code] : 0);
 }
 
 
 int InputManager::checkCount(int key_code) {
 
-	return key_type_count[key_code];
+	return (isActivated ? key_type_count[key_code] : 0);
 }
