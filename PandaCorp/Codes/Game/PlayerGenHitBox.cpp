@@ -71,10 +71,7 @@ void PlayerGenHitBox::hit(GameObj* other){
 		if(tmpMass->isObstacle()){
 			mPlayer->getStateMachine()->changeState(new PlayerHoldState(tmpMass));
 		}
-		else if(tmpMass->isDoor()){
-			GameScene::toClear();
-		}
-		else if(tmpMass->isWindow()){
+		else if(tmpMass->isClear()){
 			GameScene::toClear();
 		}
 		else{
@@ -84,9 +81,10 @@ void PlayerGenHitBox::hit(GameObj* other){
 	
 	// ƒAƒCƒeƒ€Žæ“¾
 	if(dynamic_cast<Item*>(other) != NULL){
-		other->removeMeFromOwner();
+		other->checkOwner()->remove(other);
 		mPlayer->getStateMachine()->changeState(new PlayerItemGetState());
 		ItemStock::addItem(dynamic_cast<Item*>(other));
+		GameScene::setUpCheckClearItemFlag();
 		mDoAction = true;
 	}
 

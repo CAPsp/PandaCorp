@@ -11,6 +11,7 @@
 
 
 StageEndProcess GameScene::sEndProcess;
+bool GameScene::sNextCheckClearItemFlag = false;
 
 
 bool GameScene::begin(){
@@ -18,8 +19,10 @@ bool GameScene::begin(){
 	mStageNameFontHandle = CreateFontToHandle(NULL, 60, 4, DX_FONTTYPE_NORMAL);
 
 	// デバッグ用
-	std::string jsonPath = "Stage/test.json";
+	std::string jsonPath = "Stage/no_item.json";
 	mStage = new StageControll(jsonPath);
+
+	mStage->checkExistClearMass(mItemStock);
 
 	// 日付情報、スコアをjsonファイルから読み込む
 	picojson::value v;
@@ -65,6 +68,12 @@ scene_sig GameScene::update(){
 
 	mStage->update();
 
+	// マスのクリアチェック判定を行う
+	if(sNextCheckClearItemFlag){
+		mStage->checkExistClearMass(mItemStock);
+		sNextCheckClearItemFlag = false;
+	}
+	
 	// 入力の有効化
 	InputManager::getInstance().activate();
 

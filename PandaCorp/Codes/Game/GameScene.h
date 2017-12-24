@@ -15,7 +15,7 @@ public:
 	virtual scene_sig update();
 	virtual bool begin();
 	virtual bool end();
-	void uiDraw();	// UIを描画する処理
+	void uiDraw();				// UIを描画する処理
 
 // ステージ終了をしたいときに呼ばれる静的関数群
 public:
@@ -23,13 +23,19 @@ public:
 	static void toClear(){ sEndProcess.clear(); }
 	static void toStageSelect(){ sEndProcess.returnStageSelect(); }
 
+public:
+	static void setUpCheckClearItemFlag(){ sNextCheckClearItemFlag = true; }
+
 private:
 	StageControll* mStage;
-	static StageEndProcess sEndProcess;
 	int mStageNameFontHandle;
 	std::pair<int, int> mDate;	// ゲーム内の日付
 	int mProgressFrame = 0;		// ゲーム開始から経過したフレーム
 	ItemStock mItemStock;
 	int mSelectedItemElem;
+
+private:
+	static StageEndProcess sEndProcess;
+	static bool sNextCheckClearItemFlag;	// このフラグが立ったらマスのクリア判定を行う
 
 };

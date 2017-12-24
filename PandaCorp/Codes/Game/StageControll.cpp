@@ -5,9 +5,11 @@
 #include "Player.h"
 #include "Mass.h"
 #include "Enemy.h"
+#include "Item.h"
+#include "GraphManager.h"
+#include "ItemInfoDef.h"
+#include "ItemStock.h"
 
-
-//const int lay = GameSceneParam::MASS_GRAPH_LAYER_NUM;
 
 
 StageControll::StageControll(std::string jsonPath)
@@ -29,6 +31,24 @@ StageControll::StageControll(std::string jsonPath)
 		tmp->changeHitAreaCenter(pos[i]);
 		tmp->changeHitAreaSize(size[i]);
 		mObjects[1].add(tmp);
+	}
+
+	// ステージ内に鍵がないときは持ち物に鍵を追加する
+	bool flag = false;
+	for(int i = 0; i < mObjects[1].checkSize(); i++){
+		Item* tmp = dynamic_cast<Item*>(mObjects[1].checkElem(i));
+		if(tmp != NULL &&
+		   tmp->checkGID() == GraphManager::getInstance().checkID(ItemInfo::PATH, ItemInfo::KEY_POS)){
+
+			flag = true;
+			break;
+		}
+	}
+	if(!flag){
+		ItemStock::addItem(new Item(nullptr,
+									Vec2D<int>(0, 0),
+									GraphManager::getInstance().checkID(ItemInfo::PATH, ItemInfo::KEY_POS),
+									true));
 	}
 
 	for(int i = 0; i < 2; i++){
@@ -77,6 +97,23 @@ void StageControll::update(){
 	for(int i = 0; i < 2; i++){
 		for(int num = 0; num < mObjects[i].checkSize(); num++){
 			mObjects[i].checkElem(num)->draw();
+		}
+	}
+
+}
+
+
+// 現在の配置してるマスから触れたらクリアできるマスがあるかどうかを調査
+void StageControll::checkExistClearMass(const ItemStock& itemStock){
+
+	for(int i = 0; i < mObjects[1].checkSize(); i++){
+		if(dynamic_cast<Mass*>(mObjects[1].checkElem(i)) != NULL){
+
+			Mass tmp = *(dynamic_cast<Mass*>(mObjects[1].checkElem(i)));
+
+			if(itemStock.checkClearCurrentStock(tmp)){
+				(dynamic_cast<Mass*>(mObjects[1].checkElem(i)))->toClearMass();
+			}
 		}
 	}
 

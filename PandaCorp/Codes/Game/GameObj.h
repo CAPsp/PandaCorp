@@ -12,7 +12,7 @@
 #include "HitArea.h"
 
 
-class GameObjContainer;	// GameObjContainer// GameObjクラスと循環インクルード関係にあるため、その解決処理クラスと循環インクルード関係にあるため、その解決処理
+class GameObjContainer;	// GameObjクラスと循環インクルード関係にあるため、その解決処理クラスと循環インクルード関係にあるため、その解決処理
 
 
 class GameObj{
@@ -55,10 +55,10 @@ public:
 	}
 
 public:
-	inline void removeMeFromOwner()		{ mOwner->remove(this); }
-	inline Vec2D<int> checkPos()		{ return mPos; }
-	inline HitArea checkHitArea()		{ return mHitArea; }
-	inline void movePos(Vec2D<int> p)	{ mPos += p; }	// 現在地点を基点として移動をする
+	inline GameObjContainer* checkOwner()				{ return mOwner; }
+	inline Vec2D<int> checkPos()						{ return mPos; }
+	inline HitArea checkHitArea()						{ return mHitArea; }
+	inline void movePos(Vec2D<int> p)					{ mPos += p; }	// 現在地点を基点として移動をする
 	inline void changeHitAreaSize(Vec2D<int> size)		{ mHitArea.size = size; }
 	inline void changeHitAreaCenter(Vec2D<int> center)	{ mHitArea.center = center; }
 

@@ -26,18 +26,15 @@ public:
 
 public:
 	inline mass_elem checkElem(){ return mElem; }
-	inline bool isPass(){ return mElem == NORMAL; }
-	inline bool isObstacle(){ return mElem == OBSTACLE; }
-
-	inline bool isDoor()	{ return mIsDoor; }
-	inline bool isWindow()	{ return mIsWindow; }
-
+	inline bool isPass()		{ return mElem == NORMAL; }
+	inline bool isObstacle()	{ return mElem == OBSTACLE; }
+	inline void toClearMass()	{ mIsClear = true; }
+	inline bool isClear()		{ return mIsClear; }
+	inline int checkGraphID()	{ return mGraph;}
+	
 private:
 	int mGraph;
 	mass_elem mElem;
-
-	// 特殊なマスの処理に必要
-	bool mIsDoor		= false;
-	bool mIsWindow	= false;
+	bool mIsClear = false;	// このマスに触れたらゲームをクリアできる
 
 };

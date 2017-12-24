@@ -19,8 +19,8 @@ void Item::draw(){
 }
 
 
-// trueを返すと仕様されてストックから削除される
+// trueを返すとストックから削除される動作になる
 bool Item::use(){
 
-	return true;
+	return false;
 }

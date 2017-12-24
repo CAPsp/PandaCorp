@@ -131,6 +131,9 @@
     <ClInclude Include="Codes\Game\SpecialMassDef.h">
       <Filter>ソース ファイル\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Codes\Game\ItemInfoDef.h">
+      <Filter>ソース ファイル\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Codes\main.cpp">

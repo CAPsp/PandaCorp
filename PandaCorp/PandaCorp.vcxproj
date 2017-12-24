@@ -30,6 +30,7 @@
     <ClInclude Include="Codes\Game\GameSceneParam.h" />
     <ClInclude Include="Codes\Game\HitArea.h" />
     <ClInclude Include="Codes\Game\Item.h" />
+    <ClInclude Include="Codes\Game\ItemInfoDef.h" />
     <ClInclude Include="Codes\Game\ItemStock.h" />
     <ClInclude Include="Codes\Game\Mass.h" />
     <ClInclude Include="Codes\Game\Player.h" />
