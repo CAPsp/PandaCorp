@@ -74,10 +74,18 @@ Stage::Stage(std::string path):
 
 				picojson::object itemObj = picojson::value(obj.at("item")).get<picojson::object>();
 				std::string gPath = itemObj.at("path").get<std::string>();
-				Vec2D<int> point;
-				point.x = (int)(itemObj.at("x").get<double>());
-				point.y = (int)(itemObj.at("y").get<double>());
-				mMass[GRAPH_LAYER_NUM - 1][yCnt][xCnt].gItemID = GraphManager::getInstance().checkGID(gPath, point, map_id::ITEM);
+				if(gPath != ""){
+					Vec2D<int> point;
+					point.x = (int)(itemObj.at("x").get<double>());
+					point.y = (int)(itemObj.at("y").get<double>());
+					mMass[GRAPH_LAYER_NUM - 1][yCnt][xCnt].gID = GraphManager::getInstance().checkGID(gPath, point, map_id::ITEM);
+					if(itemObj.at("visible").get<bool>()){
+						mMass[GRAPH_LAYER_NUM - 1][yCnt][xCnt].itemElem = item_elem::VISIBLE;
+					}
+					else{
+						mMass[GRAPH_LAYER_NUM - 1][yCnt][xCnt].itemElem = item_elem::UNVISIBLE;
+					}
+				}
 
 				xCnt++;
 			}
@@ -145,16 +153,19 @@ void Stage::save(std::string path){
 				massObj.insert(std::make_pair("60px", info.is60h));
 
 				xObj.insert(std::make_pair(std::to_string(i), picojson::value(massObj)));
-				if(mMass[i][y][x].gID != -1){ elemID = i;}
+				if(mMass[i][y][x].gID != -1){
+					elemID = i;
+				}
 			}
 			xObj.insert(std::make_pair("pass", mMass[elemID][y][x].elem != mass_elem::NOT_PASS));
 			xObj.insert(std::make_pair("obstacle", mMass[elemID][y][x].elem == mass_elem::OBSTACLE));
 			
-			graph_info itemInfo = GraphManager::getInstance().searchInfoFromMap(mMass[GRAPH_LAYER_NUM - 1][y][x].gItemID, map_id::ITEM);
+			graph_info itemInfo = GraphManager::getInstance().searchInfoFromMap(mMass[GRAPH_LAYER_NUM - 1][y][x].gID, map_id::ITEM);
 			picojson::object itemObj;
 			itemObj.insert(std::make_pair("path", itemInfo.path));
 			itemObj.insert(std::make_pair("x", (double)(itemInfo.point.x)));
 			itemObj.insert(std::make_pair("y", (double)(itemInfo.point.y)));
+			itemObj.insert(std::make_pair("visible", (mMass[GRAPH_LAYER_NUM - 1][y][x].itemElem == item_elem::VISIBLE)));
 			xObj.insert(std::make_pair("item", picojson::value(itemObj)));
 			
 			yArr.push_back(picojson::value(xObj));
@@ -204,21 +215,31 @@ void Stage::draw(){
 
 	// レイヤー順に描画
 	for(int lay = 0; lay < GRAPH_LAYER_NUM; lay++){
+
 		for(int y = 0; y < Param::MASS_NUM.y; y++){
 			for(int x = 0; x < Param::MASS_NUM.x; x++){
 
 				if(mMass[lay][y][x].gID != -1){
+
+					// アイテムを描画する必要があるときは、それが不可視のときに透明にする必要がある
+					if(mMass[lay][y][x].itemElem == item_elem::UNVISIBLE){
+						SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
+					}
+
 					Vec2D<int> gSize;
 					GetGraphSize(mMass[lay][y][x].gID, &gSize.x, &gSize.y);
-
 					DrawRotaGraph((x * Param::MASS_SIZE) + (Param::MASS_SIZE / 2) - (gSize.x - Param::MASS_SIZE) / 2,
 								  (y * Param::MASS_SIZE) + (Param::MASS_SIZE / 2) - (gSize.y - Param::MASS_SIZE) / 2,
 								  1.0, 0, mMass[lay][y][x].gID, true);
 
-				}
+					// 現在編集中のレイヤーに配置してるマスはちょっと赤くする
+					if(lay == mCurrentLayer || (lay == mCurrentLayer - 1 && mCurrentLayer == layer_id::ITEM)){
+						SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
+						DrawBox(x * Param::MASS_SIZE, y * Param::MASS_SIZE, (x + 1) * Param::MASS_SIZE, (y + 1) * Param::MASS_SIZE, GetColor(255, 0, 0), true);
+					}
 
-				if(mMass[lay][y][x].gItemID != -1){
-					DrawGraph(x * Param::MASS_SIZE, y * Param::MASS_SIZE, mMass[lay][y][x].gItemID, true);
+					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
 				}
 			}
 		}
@@ -326,7 +347,7 @@ bool Stage::clickDetectAndAction(){
 		if(mCurrentLayer == layer_id::CHARA){
 			mHoldEnemyElem = -1;
 		}
-		else{
+		else if(mCurrentLayer != layer_id::ITEM){	// アイテムレイヤーでは機能しない
 			for(int y = 0; y < Param::MASS_NUM.y; y++){
 				for(int x = 0; x < Param::MASS_NUM.x; x++){
 
@@ -425,7 +446,25 @@ void Stage::putDataToClickedTile(int id){
 			}
 			break;
 		case layer_id::ITEM:
-			mMass[GRAPH_LAYER_NUM - 1][mPushLog.y][mPushLog.x].gItemID = id;
+
+			// 同じアイテムを配置しようとしているときは不可視と可視の切り替え操作を意味する
+			if(mMass[GRAPH_LAYER_NUM - 1][mPushLog.y][mPushLog.x].gID == id){
+				if(mMass[GRAPH_LAYER_NUM - 1][mPushLog.y][mPushLog.x].itemElem == item_elem::VISIBLE){
+					mMass[GRAPH_LAYER_NUM - 1][mPushLog.y][mPushLog.x].itemElem = item_elem::UNVISIBLE;
+				}
+				else{
+					mMass[GRAPH_LAYER_NUM - 1][mPushLog.y][mPushLog.x].itemElem = item_elem::VISIBLE;
+				}
+			}
+			else{
+				mMass[GRAPH_LAYER_NUM - 1][mPushLog.y][mPushLog.x].gID = id;
+				if(id == -1){
+					mMass[GRAPH_LAYER_NUM - 1][mPushLog.y][mPushLog.x].itemElem = item_elem::NOTING;
+				}
+				else{
+					mMass[GRAPH_LAYER_NUM - 1][mPushLog.y][mPushLog.x].itemElem = item_elem::VISIBLE;
+				}
+			}
 			break;
 	}
 

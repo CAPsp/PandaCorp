@@ -24,8 +24,8 @@ private:
 		MASS_0 = 0,
 		MASS_1,
 		MASS_2,
-		MASS_ELEM,
 		ITEM,
+		MASS_ELEM,
 		CHARA
 	};
 

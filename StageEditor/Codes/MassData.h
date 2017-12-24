@@ -16,8 +16,15 @@ enum mass_elem{
 };
 
 
+enum item_elem{
+	NOTING,
+	VISIBLE,
+	UNVISIBLE
+};
+
+
 typedef struct{
-	int gID			= -1;
-	mass_elem elem	= NORMAL;
-	int gItemID		= -1;
+	int gID				= -1;
+	mass_elem elem		= NORMAL;
+	item_elem itemElem	= NOTING;
 }MassData;
