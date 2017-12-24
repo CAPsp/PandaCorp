@@ -6,6 +6,7 @@
 #include "PlayerState.h"
 #include "Item.h"
 #include "ItemStock.h"
+#include "GameScene.h"
 
 
 PlayerGenHitBox::PlayerGenHitBox(GameObjContainer* ow, Player* p)
@@ -65,9 +66,20 @@ void PlayerGenHitBox::hit(GameObj* other){
 
 	// ’Í‚ß‚é‚à‚Ì‚ª‚ ‚Á‚½‚ç’Í‚Þ
 	Mass* tmpMass = dynamic_cast<Mass*>(other);
-	if(tmpMass != NULL && tmpMass->isObstacle()){
-		mPlayer->getStateMachine()->changeState(new PlayerHoldState(tmpMass));
+	if(tmpMass != NULL){
 		mDoAction = true;
+		if(tmpMass->isObstacle()){
+			mPlayer->getStateMachine()->changeState(new PlayerHoldState(tmpMass));
+		}
+		else if(tmpMass->isDoor()){
+			GameScene::toClear();
+		}
+		else if(tmpMass->isWindow()){
+			GameScene::toClear();
+		}
+		else{
+			mDoAction = false;
+		}
 	}
 	
 	// ƒAƒCƒeƒ€Žæ“¾

@@ -28,10 +28,16 @@ public:
 	inline mass_elem checkElem(){ return mElem; }
 	inline bool isPass(){ return mElem == NORMAL; }
 	inline bool isObstacle(){ return mElem == OBSTACLE; }
-	//inline void setElem(mass_elem elem){ mElem = elem; }
+
+	inline bool isDoor()	{ return mIsDoor; }
+	inline bool isWindow()	{ return mIsWindow; }
 
 private:
 	int mGraph;
 	mass_elem mElem;
+
+	// 特殊なマスの処理に必要
+	bool mIsDoor		= false;
+	bool mIsWindow	= false;
 
 };

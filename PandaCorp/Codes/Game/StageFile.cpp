@@ -10,20 +10,11 @@
 #include "Item.h"
 
 
-StageFile::StageFile(std::string path)
-	:mFilePath(path){}
+StageFile::StageFile(std::string path):mFilePath(path){}
 
 
-// jsonファイルの仕様はエディターと整合性を保つ必要があるため変更される可能性がある
-std::string StageFile::read(GameObjContainer* container, int& score){
+void readMass(GameObjContainer* container, picojson::value v){
 
-	picojson::value v;
-	std::string err = FileUtils::openJson(mFilePath, v);
-	if(err != ""){
-		return err;
-	}
-
-	// マスの読み込み
 	int yCnt = 0;
 	picojson::array yArr = (picojson::value(v.get<picojson::object>()["Masses"])).get<picojson::array>();
 	for(auto yItr = yArr.begin(); yItr != yArr.end(); yItr++){
@@ -37,8 +28,7 @@ std::string StageFile::read(GameObjContainer* container, int& score){
 			for(int i = 0; i < 3; i++){
 				picojson::object elemObj = picojson::value(massObj.at(std::to_string(i))).get<picojson::object>();
 				std::string path = elemObj.at("path").get<std::string>();
-				Vec2D<int> gPoint = Vec2D<int>( (int)(elemObj.at("x").get<double>()), (int)(elemObj.at("y").get<double>()));
-				//bool is60h = elemObj.at("60px").get<bool>();
+				Vec2D<int> gPoint = Vec2D<int>((int)(elemObj.at("x").get<double>()), (int)(elemObj.at("y").get<double>()));
 				int id = GraphManager::getInstance().checkID(path, gPoint);
 				if(id == -1){ continue; }
 
@@ -53,22 +43,22 @@ std::string StageFile::read(GameObjContainer* container, int& score){
 			if(!massObj.at("pass").get<bool>()){
 				elem = Mass::mass_elem::NOT_PASS;
 			}
-			
+
 			// 一番上に存在するマスには属性を設定するので注意
 			for(int i = 0; i < massIDs.size(); i++){
 
 				if(i == massIDs.size() - 1){
 
 					int containerId = (elem == Mass::mass_elem::NORMAL) ? 0 : 1;
-					container[containerId].add(	new Mass(&(container[containerId]),
-												Vec2D<int>((xCnt * GameSceneParam::MASS_SIZE) + (GameSceneParam::MASS_SIZE / 2), (yCnt * GameSceneParam::MASS_SIZE) + (GameSceneParam::MASS_SIZE / 2)),
-												massIDs[i],
-												elem));
+					container[containerId].add(new Mass(&(container[containerId]),
+														Vec2D<int>((xCnt * GameSceneParam::MASS_SIZE) + (GameSceneParam::MASS_SIZE / 2), (yCnt * GameSceneParam::MASS_SIZE) + (GameSceneParam::MASS_SIZE / 2)),
+														massIDs[i],
+														elem));
 				}
 				else{
-					Mass* tmp = new Mass(	&(container[0]),
-											Vec2D<int>((xCnt * GameSceneParam::MASS_SIZE) + (GameSceneParam::MASS_SIZE / 2), (yCnt * GameSceneParam::MASS_SIZE) + (GameSceneParam::MASS_SIZE / 2)),
-											massIDs[i]);
+					Mass* tmp = new Mass(&(container[0]),
+										 Vec2D<int>((xCnt * GameSceneParam::MASS_SIZE) + (GameSceneParam::MASS_SIZE / 2), (yCnt * GameSceneParam::MASS_SIZE) + (GameSceneParam::MASS_SIZE / 2)),
+										 massIDs[i]);
 					container[0].add(tmp);
 				}
 
@@ -90,8 +80,11 @@ std::string StageFile::read(GameObjContainer* container, int& score){
 
 		yCnt++;
 	}
+}
 
-	// 敵の読み込み
+
+void readEnemy(GameObjContainer* container, picojson::value v){
+	
 	picojson::array enemyArr = (v.get<picojson::object>()["Enemy"]).get<picojson::array>();
 	for(auto enemy = enemyArr.begin(); enemy != enemyArr.end(); enemy++){
 		picojson::array patrolArr = enemy->get<picojson::array>();
@@ -107,13 +100,32 @@ std::string StageFile::read(GameObjContainer* container, int& score){
 
 		container[1].add(new Enemy(&container[1], patrolVec));
 	}
+}
 
-	// プレイヤー初期座標の読み込み
+
+void readPlayer(GameObjContainer* container, picojson::value v){
 	picojson::object playerObj = (v.get<picojson::object>()["Player"]).get<picojson::object>();
 	int x = (int)(playerObj.at("x").get<double>()) * GameSceneParam::MASS_SIZE + (GameSceneParam::MASS_SIZE / 2);
 	int y = (int)(playerObj.at("y").get<double>()) * GameSceneParam::MASS_SIZE + (GameSceneParam::MASS_SIZE / 2);
 	container[1].add(new Player(&container[1], Vec2D<int>(x, y)));
+}
 
+
+// jsonファイルの仕様はエディターと整合性を保つ必要があるため変更される可能性がある
+std::string StageFile::read(GameObjContainer* container, int& score){
+
+	picojson::value v;
+	std::string err = FileUtils::openJson(mFilePath, v);
+	if(err != ""){
+		return err;
+	}
+
+	readMass(container, v);		// マスの読み込み
+	
+	readEnemy(container, v);	// 敵の読み込み
+	
+	readPlayer(container, v);	// プレイヤー初期座標の読み込み
+	
 	// 最高スコア読み込み
 	score = (int)((v.get<picojson::object>()["Score"]).get<double>());
 

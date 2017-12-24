@@ -35,6 +35,7 @@
     <ClInclude Include="Codes\Game\Player.h" />
     <ClInclude Include="Codes\Game\PlayerGenHitBox.h" />
     <ClInclude Include="Codes\Game\PlayerState.h" />
+    <ClInclude Include="Codes\Game\SpecialMassDef.h" />
     <ClInclude Include="Codes\Game\StageControll.h" />
     <ClInclude Include="Codes\Game\StageEndProcess.h" />
     <ClInclude Include="Codes\Game\StageFile.h" />
