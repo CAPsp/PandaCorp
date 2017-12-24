@@ -19,7 +19,10 @@ public:
 	inline int checkItemGID(int elem){
 		return (0 <= elem && elem < sStockVec.size()) ? sStockVec.at(elem)->checkGID() : (-1);
 	}
-	inline static void addItem(Item* item){ sStockVec.push_back(item); }
+	inline static void addItem(Item* item){ 
+		item->toVisible();
+		sStockVec.push_back(item);
+	}
 	inline int checkSize(){ return (int)(sStockVec.size()); }
 
 private:

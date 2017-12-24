@@ -70,9 +70,10 @@ void readMass(GameObjContainer* container, picojson::value v){
 			Vec2D<int> point = {(int)(itemObj.at("x").get<double>()), (int)(itemObj.at("y").get<double>())};
 			int id = GraphManager::getInstance().checkID(path, point);
 			if(id != -1){
-				container[1].add(new Item(&(container[1]),
-										  Vec2D<int>((xCnt * GameSceneParam::MASS_SIZE), (yCnt * GameSceneParam::MASS_SIZE)),
-										  id));
+				container[1].add(new Item(	&(container[1]),
+											Vec2D<int>((xCnt * GameSceneParam::MASS_SIZE), (yCnt * GameSceneParam::MASS_SIZE)),
+											id,
+											(itemObj.at("visible").get<bool>())));
 			}
 
 			xCnt++;
