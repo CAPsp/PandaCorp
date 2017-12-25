@@ -4,6 +4,8 @@
 #include "SpecialMassDef.h"
 #include "GraphManager.h"
 #include "ItemInfoDef.h"
+#include "SoundManager.h"
+#include "DxLib.h"
 
 
 std::vector<Item*> ItemStock::sStockVec = std::vector<Item*>(0);
@@ -17,11 +19,17 @@ ItemStock::~ItemStock(){
 }
 
 
-void ItemStock::useItem(int elem){
+bool ItemStock::useItem(int elem){
 
 	if(0 <= elem && elem < checkSize()){
 		if(sStockVec.at(elem)->use()){
+			PlaySoundMem(SoundManager::getInstance().checkID("selectse.ogg"), DX_PLAYTYPE_BACK);
 			sStockVec.erase(sStockVec.begin() + elem);
+			return true;
+		}
+		else{
+			PlaySoundMem(SoundManager::getInstance().checkID("motu.ogg"), DX_PLAYTYPE_BACK);
+			return false;
 		}
 	}
 

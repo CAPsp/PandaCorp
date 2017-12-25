@@ -60,6 +60,7 @@ scene_sig GameScene::update(){
 	// アイテム選択処理
 	if(InputManager::getInstance().checkPushFrame(KEY_INPUT_X) == 1 && mItemStock.checkSize() > 0){
 		mSelectedItemElem = (mSelectedItemElem == -1) ? 0 : -1;
+		PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
 	}
 	if(mSelectedItemElem != -1){
 
@@ -70,12 +71,17 @@ scene_sig GameScene::update(){
 		if(InputManager::getInstance().checkPushFrame(KEY_INPUT_LEFT) == 1)	{ add = -1; }
 		if(0 <= mSelectedItemElem + add && mSelectedItemElem + add < mItemStock.checkSize()){
 			mSelectedItemElem += add;
+			if(add != 0){
+				PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
+			}
 		}
 
 		// アイテムの使用
 		if(InputManager::getInstance().checkPushFrame(KEY_INPUT_Z) == 1){
-			mItemStock.useItem(mSelectedItemElem);
-			mSelectedItemElem = -1;
+			
+			if(mItemStock.useItem(mSelectedItemElem)){
+				mSelectedItemElem = -1;
+			}
 		}
 
 		InputManager::getInstance().deactivate();

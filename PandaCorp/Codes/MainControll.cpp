@@ -6,13 +6,12 @@
 #include "DebugMsgData.h"
 #include "GlobalParam.h"
 
-#include "GameScene.h"
+#include "TitleScene.h"
 
 
 
 MainControll::MainControll(){
-	// デバッグ用
-	mScene = new GameScene(1);
+	mScene = new TitleScene();
 	mScene->begin();
 }
 
@@ -35,7 +34,10 @@ void MainControll::doMainLoop(){
 		if(mChangeSceneMan == nullptr){
 			
 			scene_sig signal = mScene->update();
-			if(signal.next != scene_id::NONE){
+			if(signal.next == scene_id::END){
+				break;
+			}
+			else if(signal.next != scene_id::NONE){
 				mChangeSceneMan = new ChangeSceneManager(&mScene, signal);
 			}
 		}

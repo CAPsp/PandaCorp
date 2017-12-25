@@ -15,7 +15,7 @@ class ItemStock{
 public:
 	ItemStock() = default;
 	~ItemStock();
-	void useItem(int);
+	bool useItem(int);		// trueが返ったらきっちり使ったことを示す
 	bool checkClearCurrentStock(Mass) const;	// 引数に渡されたマスは現在のアイテムストック状態でクリア可能になるか
 
 public:

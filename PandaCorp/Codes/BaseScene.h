@@ -9,7 +9,8 @@ enum scene_id{
 	NONE,
 	TITLE,
 	STAGE_SELECT,
-	GAME
+	GAME,
+	END
 };
 
 typedef struct{
