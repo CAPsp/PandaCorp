@@ -10,7 +10,7 @@
 class GameScene : public BaseScene{
 
 public:
-	GameScene(int){}
+	GameScene(int num):mStageNum(num){}
 	virtual ~GameScene() = default;
 	virtual scene_sig update();
 	virtual bool begin();
@@ -27,6 +27,7 @@ public:
 	static void setUpCheckClearItemFlag(){ sNextCheckClearItemFlag = true; }
 
 private:
+	int mStageNum = 1;
 	StageControll* mStage;
 	int mStageNameFontHandle;
 	std::pair<int, int> mDate;	// ƒQ[ƒ€“à‚Ì“ú•t

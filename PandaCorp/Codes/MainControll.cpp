@@ -12,7 +12,7 @@
 
 MainControll::MainControll(){
 	// デバッグ用
-	mScene = new GameScene(0);
+	mScene = new GameScene(1);
 	mScene->begin();
 }
 
