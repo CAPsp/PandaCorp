@@ -153,11 +153,11 @@ scene_sig StageSelectScene::update() {
 	}
 	else
 	{
-		stage_select = 1;
 		step = 0;
 		select_decide = 0;
 		rtn.next = scene_id::GAME;
 		rtn.meta = stage_select; // 1 ` StageNum ‚Ì’l‚ğ•Ô‚·
+		stage_select = 1;
 	}
 
 	if (InputManager::getInstance().checkPushFrame(KEY_INPUT_ESCAPE) == 1) {
