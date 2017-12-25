@@ -7,6 +7,7 @@
 #include "Item.h"
 #include "ItemStock.h"
 #include "GameScene.h"
+#include "SoundManager.h"
 
 
 PlayerGenHitBox::PlayerGenHitBox(GameObjContainer* ow, Player* p)
@@ -72,6 +73,7 @@ void PlayerGenHitBox::hit(GameObj* other){
 			mPlayer->getStateMachine()->changeState(new PlayerHoldState(tmpMass));
 		}
 		else if(tmpMass->isClear()){
+			PlaySoundMem(SoundManager::getInstance().checkID("key.ogg"), DX_PLAYTYPE_BACK);
 			GameScene::toClear();
 		}
 		else{

@@ -92,14 +92,17 @@ void StageControll::update(){
 	for(int i = 0; i < 2; i++){
 		mObjects[i].update();
 	}
+	
+}
 
+
+void StageControll::draw(){
 	// ƒŒƒCƒ„[‡‚É•`‰æˆ—‚ðs‚¤
 	for(int i = 0; i < 2; i++){
 		for(int num = 0; num < mObjects[i].checkSize(); num++){
 			mObjects[i].checkElem(num)->draw();
 		}
 	}
-
 }
 
 

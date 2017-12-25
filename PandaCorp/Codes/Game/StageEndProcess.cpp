@@ -40,7 +40,7 @@ void procGameover(scene_sig& signal){
 	DrawBox(0, 0, GlobalParam::WINDOW_SIZE.x, GlobalParam::WINDOW_SIZE.y, GetColor(255, 0, 0), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-	effectPal += 10;
+	effectPal += 2;
 	if(effectPal >= 255){
 		effectPal = 255;
 
@@ -61,7 +61,7 @@ void procClear(scene_sig& signal){
 	DrawBox(0, 0, GlobalParam::WINDOW_SIZE.x, GlobalParam::WINDOW_SIZE.y, GetColor(255, 255, 255), true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
-	effectPal += 10;
+	effectPal += 2;
 	if(effectPal >= 255){
 		effectPal = 255;
 

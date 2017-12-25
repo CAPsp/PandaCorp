@@ -218,6 +218,11 @@ void PlayerHoldState::holdAction(Player* player) {
 		addVel.x = (-1.0) * GameSceneParam::PLAYER_ACCELE_PER_FRAME;
 	}
 
+	if( (addVel.x != 0.0 || addVel.y != 0.0) &&
+		CheckSoundMem(SoundManager::getInstance().checkID("hikizuru.ogg")) != 1){
+		PlaySoundMem(SoundManager::getInstance().checkID("hikizuru.ogg"), DX_PLAYTYPE_BACK);
+	}
+
 	// Å‚‘¬“x‚ğ’´‚¦‚È‚¢‚æ‚¤‚É‰ÁZ‚·‚é‘¬“x‚ğ’²®
 	Vec2D<double> currentVel = player->checkVelocity();
 	if (abs(addVel.x + currentVel.x) > GameSceneParam::PLAYER_MAX_SPEED) {

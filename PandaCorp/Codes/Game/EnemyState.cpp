@@ -130,9 +130,10 @@ void EnemyFindState::Enter(Enemy* enemy){
 }
 
 
-void EnemyFindState::Execute(Enemy*){
+void EnemyFindState::Execute(Enemy* enemy){
 	if(!mDelayTimer.update()){
 		GameScene::toGameOver();
+		enemy->getStateMachine()->changeState(new EnemyCautionState());
 	}
 }
 

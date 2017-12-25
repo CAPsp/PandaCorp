@@ -17,6 +17,7 @@ public:
 	StageControll(std::string);					// 読み込むjsonファイルを指定する
 	~StageControll();
 	void update();								// 1フレーム毎の更新処理
+	void draw();								// 描画処理
 	void checkExistClearMass(const ItemStock&);	// 触れたらクリアできるマスがあるかどうかの確認
 
 private:

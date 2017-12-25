@@ -19,9 +19,9 @@ public:
 
 // ステージ終了をしたいときに呼ばれる静的関数群
 public:
-	static void toGameOver(){ sEndProcess.gameover(); }
-	static void toClear(){ sEndProcess.clear(); }
-	static void toStageSelect(){ sEndProcess.returnStageSelect(); }
+	static void toGameOver();
+	static void toClear();
+	static void toStageSelect();
 
 public:
 	static void setUpCheckClearItemFlag(){ sNextCheckClearItemFlag = true; }
@@ -33,6 +33,7 @@ private:
 	int mProgressFrame = 0;		// ゲーム開始から経過したフレーム
 	ItemStock mItemStock;
 	int mSelectedItemElem;
+	bool mMainSoundStartFlag = false;
 
 private:
 	static StageEndProcess sEndProcess;

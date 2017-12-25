@@ -23,6 +23,7 @@ public:
 	StageEndProcess() = default;
 	~StageEndProcess() = default;
 	scene_sig update();
+	inline bool isActivated(){ return (mCurrentState != state::NON_ACTIVE); }
 	inline void init(){ mCurrentState = NON_ACTIVE; }
 
 	inline void gameover()			{ if(mCurrentState == NON_ACTIVE){ mCurrentState = GAME_OVER;		} }
