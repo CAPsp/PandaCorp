@@ -19,67 +19,12 @@ FILE *fp_hiscore;
 int hiscore[StageNum] = { 0, 0, 0, 0, 0, 0 };//ハイスコア保存用
 int stageappear = 1;//現在出現しているステージの数を保存
 
-//begin, end関数の代わりの処理をするための変数　それぞれ移植したら削除
-int _begin = 0;
-int _end = 0;
-
 
 scene_sig StageSelectScene::update() {
 	scene_sig rtn;
 
 	int i;
 	int go_next = 0;
-
-	//begin関数の代わり 移植したら削除
-	if (_begin == 0) {
-
-		//begin関数に入れる予定の処理
-		Fontstageselect = CreateFontToHandle(NULL, 40, 5, DX_FONTTYPE_NORMAL);
-		SetTransColor(255, 255, 255);
-		Stageselect_Cursor = LoadGraph("test_cursor.png");
-
-		//以下データ読み込みのテスト用コード
-
-		//テスト　データ書き込み
-		/*
-		fopen_s(&fp_hiscore, "test_hi.dat", "wb");
-		if (fp_hiscore == NULL)
-		{
-			for (i = 0; i < StageNum; i++) {
-				hiscore[i] = 0;
-			}
-		}
-		else {
-			fwrite(&stageappear, sizeof(int), 1, fp_hiscore);
-			for (i = 0; i < StageNum; i++) {
-				fwrite(&hiscore[i], sizeof(int), 1, fp_hiscore);
-			}
-		}
-		*/
-
-		//テスト　データ読み込み
-
-		fopen_s(&fp_hiscore, "test_hi.dat", "rb");
-
-		if (fp_hiscore == NULL)
-		{
-			for (i = 0; i < StageNum; i++) {
-				hiscore[i] = 0;
-			}
-		}
-		else {
-			fread(&stageappear, sizeof(int), 1, fp_hiscore);
-			for (i = 0; i < StageNum; i++) {
-				fread(&hiscore[i], sizeof(int), 1, fp_hiscore);
-			}
-		}
-
-		fclose(fp_hiscore);
-
-		//↑ここまでテスト用コード
-
-		_begin = 1;
-	}
 
 	//ステージ選択の描写処理
 
@@ -114,9 +59,10 @@ scene_sig StageSelectScene::update() {
 		if (InputManager::getInstance().checkPushFrame(KEY_INPUT_LEFT) == 1) {
 			if (stage_select > 1) {
 				stage_select--;
+				PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
 			}
 
-			PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
+
 
 		}
 
@@ -124,11 +70,12 @@ scene_sig StageSelectScene::update() {
 		if (InputManager::getInstance().checkPushFrame(KEY_INPUT_RIGHT) == 1) {
 			if (stage_select < stageappear) {
 				stage_select++;
+				PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
 			}
 
-			PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
+
 		}
-		//エンターキーの処理
+		//Zキーの処理
 		if (InputManager::getInstance().checkPushFrame(KEY_INPUT_Z) == 1) {
 			step = 1;
 
@@ -154,20 +101,22 @@ scene_sig StageSelectScene::update() {
 		if (InputManager::getInstance().checkPushFrame(KEY_INPUT_LEFT) == 1) {
 			if (select_decide != 0) {
 				select_decide = 0;
+				PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
 			}
 
-			PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
+
 		}
 
 		//右キーの処理
 		if (InputManager::getInstance().checkPushFrame(KEY_INPUT_RIGHT) == 1) {
 			if (select_decide != 1) {
 				select_decide = 1;
+				PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
 			}
 
-			PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
+
 		}
-		//エンターキーの処理
+		//Zキーの処理
 		//はいを選んだらステージ画面へ進む　いいえを選んだらステージ選択の処理へ戻る
 		if (InputManager::getInstance().checkPushFrame(KEY_INPUT_Z) == 1) {
 			if (select_decide == 0) {
@@ -181,6 +130,13 @@ scene_sig StageSelectScene::update() {
 
 				PlaySoundMem(SoundManager::getInstance().checkID("selectse.ogg"), DX_PLAYTYPE_BACK);
 			}
+		}
+
+		if (InputManager::getInstance().checkPushFrame(KEY_INPUT_X) == 1) {
+			step = 0;
+			select_decide = 0;
+
+			PlaySoundMem(SoundManager::getInstance().checkID("selectse.ogg"), DX_PLAYTYPE_BACK);
 		}
 	}
 
@@ -196,11 +152,61 @@ scene_sig StageSelectScene::update() {
 		rtn.meta = stage_select; // 1 ～ StageNum の値を返す
 	}
 
+	if (InputManager::getInstance().checkPushFrame(KEY_INPUT_ESCAPE) == 1) {
+		rtn.next = scene_id::TITLE;
+	}
+
 	return rtn;
 }
 
 // trueを返すまで beginの処理を継続する
 bool StageSelectScene::begin() {
+
+	int i;
+
+	Fontstageselect = CreateFontToHandle(NULL, 40, 5, DX_FONTTYPE_NORMAL);
+	SetTransColor(255, 255, 255);
+	Stageselect_Cursor = LoadGraph("test_cursor.png");
+
+	//以下データ読み込みのテスト用コード
+
+	//テスト　データ書き込み
+	/*
+	fopen_s(&fp_hiscore, "test_hi.dat", "wb");
+	if (fp_hiscore == NULL)
+	{
+	for (i = 0; i < StageNum; i++) {
+	hiscore[i] = 0;
+	}
+	}
+	else {
+	fwrite(&stageappear, sizeof(int), 1, fp_hiscore);
+	for (i = 0; i < StageNum; i++) {
+	fwrite(&hiscore[i], sizeof(int), 1, fp_hiscore);
+	}
+	}
+	*/
+
+	//テスト　データ読み込み
+
+	fopen_s(&fp_hiscore, "test_hi.dat", "rb");
+
+	if (fp_hiscore == NULL)
+	{
+		for (i = 0; i < StageNum; i++) {
+			hiscore[i] = 0;
+		}
+	}
+	else {
+		fread(&stageappear, sizeof(int), 1, fp_hiscore);
+		for (i = 0; i < StageNum; i++) {
+			fread(&hiscore[i], sizeof(int), 1, fp_hiscore);
+		}
+	}
+
+	fclose(fp_hiscore);
+
+	//↑ここまでテスト用コード
 
 	return true;
 }
