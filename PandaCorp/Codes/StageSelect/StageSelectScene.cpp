@@ -11,6 +11,8 @@
 int stage_select = 1;
 int step = 0;
 int select_decide = 0;
+int returntitle = 0;
+int pal = 0;
 int Fontstageselect; //ステージ選択で使っているフォント
 int Stageselect_Cursor;
 
@@ -53,33 +55,36 @@ scene_sig StageSelectScene::update() {
 
 	//ステージ選択に関する処理
 	if (step == 0) {
+		
+		//escが押されていなければ動かせる
+		if (returntitle == 0) {
+			//ステージ選択カーソル処理
+			//左キーの処理
+			if (InputManager::getInstance().checkPushFrame(KEY_INPUT_LEFT) == 1) {
+				if (stage_select > 1) {
+					stage_select--;
+					PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
+				}
 
-		//ステージ選択カーソル処理
-		//左キーの処理
-		if (InputManager::getInstance().checkPushFrame(KEY_INPUT_LEFT) == 1) {
-			if (stage_select > 1) {
-				stage_select--;
-				PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
+
+
 			}
 
+			//右キーの処理
+			if (InputManager::getInstance().checkPushFrame(KEY_INPUT_RIGHT) == 1) {
+				if (stage_select < stageappear) {
+					stage_select++;
+					PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
+				}
 
 
-		}
-
-		//右キーの処理
-		if (InputManager::getInstance().checkPushFrame(KEY_INPUT_RIGHT) == 1) {
-			if (stage_select < stageappear) {
-				stage_select++;
-				PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
 			}
+			//Zキーの処理
+			if (InputManager::getInstance().checkPushFrame(KEY_INPUT_Z) == 1) {
+				step = 1;
 
-
-		}
-		//Zキーの処理
-		if (InputManager::getInstance().checkPushFrame(KEY_INPUT_Z) == 1) {
-			step = 1;
-
-			PlaySoundMem(SoundManager::getInstance().checkID("selectse.ogg"), DX_PLAYTYPE_BACK);
+				PlaySoundMem(SoundManager::getInstance().checkID("selectse.ogg"), DX_PLAYTYPE_BACK);
+			}
 		}
 	}
 
@@ -96,47 +101,50 @@ scene_sig StageSelectScene::update() {
 		//カーソルの描写
 		DrawRotaGraph2(360 + select_decide * 450, 504, 20, 20, 1.0, 2 * PI * 3 / 4, Stageselect_Cursor, TRUE);
 
-		//ステージ選択カーソル処理
-		//左キーの処理
-		if (InputManager::getInstance().checkPushFrame(KEY_INPUT_LEFT) == 1) {
-			if (select_decide != 0) {
-				select_decide = 0;
-				PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
+		//escが押されていなければ動かせる
+		if (returntitle == 0) {
+			//ステージ選択カーソル処理
+			//左キーの処理
+			if (InputManager::getInstance().checkPushFrame(KEY_INPUT_LEFT) == 1) {
+				if (select_decide != 0) {
+					select_decide = 0;
+					PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
+				}
+
+
 			}
 
+			//右キーの処理
+			if (InputManager::getInstance().checkPushFrame(KEY_INPUT_RIGHT) == 1) {
+				if (select_decide != 1) {
+					select_decide = 1;
+					PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
+				}
 
-		}
 
-		//右キーの処理
-		if (InputManager::getInstance().checkPushFrame(KEY_INPUT_RIGHT) == 1) {
-			if (select_decide != 1) {
-				select_decide = 1;
-				PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
+			}
+			//Zキーの処理
+			//はいを選んだらステージ画面へ進む　いいえを選んだらステージ選択の処理へ戻る
+			if (InputManager::getInstance().checkPushFrame(KEY_INPUT_Z) == 1) {
+				if (select_decide == 0) {
+					go_next = 1;
+
+					PlaySoundMem(SoundManager::getInstance().checkID("selectse.ogg"), DX_PLAYTYPE_BACK);
+				}
+				else {
+					step = 0;
+					select_decide = 0;
+
+					PlaySoundMem(SoundManager::getInstance().checkID("selectse.ogg"), DX_PLAYTYPE_BACK);
+				}
 			}
 
-
-		}
-		//Zキーの処理
-		//はいを選んだらステージ画面へ進む　いいえを選んだらステージ選択の処理へ戻る
-		if (InputManager::getInstance().checkPushFrame(KEY_INPUT_Z) == 1) {
-			if (select_decide == 0) {
-				go_next = 1;
-
-				PlaySoundMem(SoundManager::getInstance().checkID("selectse.ogg"), DX_PLAYTYPE_BACK);
-			}
-			else {
+			if (InputManager::getInstance().checkPushFrame(KEY_INPUT_X) == 1) {
 				step = 0;
 				select_decide = 0;
 
 				PlaySoundMem(SoundManager::getInstance().checkID("selectse.ogg"), DX_PLAYTYPE_BACK);
 			}
-		}
-
-		if (InputManager::getInstance().checkPushFrame(KEY_INPUT_X) == 1) {
-			step = 0;
-			select_decide = 0;
-
-			PlaySoundMem(SoundManager::getInstance().checkID("selectse.ogg"), DX_PLAYTYPE_BACK);
 		}
 	}
 
@@ -153,9 +161,26 @@ scene_sig StageSelectScene::update() {
 	}
 
 	if (InputManager::getInstance().checkPushFrame(KEY_INPUT_ESCAPE) == 1) {
-		rtn.next = scene_id::TITLE;
+		if (returntitle == 0) {
+			returntitle = 1;
+			PlaySoundMem(SoundManager::getInstance().checkID("selectse.ogg"), DX_PLAYTYPE_BACK);
+		}
 	}
 
+	if (returntitle == 1) {
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, pal);
+		DrawBox(0, 0, 1280, 720, GetColor(0, 0, 0), true);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		pal += 5;
+		if (pal >= 255) {
+			stage_select = 1;
+			step = 0;
+			select_decide = 0;
+			returntitle = 0;
+			pal = 0;
+			rtn.next = scene_id::TITLE;
+		}
+	}
 	return rtn;
 }
 
