@@ -33,6 +33,14 @@ scene_sig TitleScene::update(){
 		}
 	}
 	else{
+
+		// ESCÉLÅ[Ç™âüÇ≥ÇÍÇΩÇÁèIóπÇ∑ÇÈ
+		if(InputManager::getInstance().checkPushFrame(KEY_INPUT_ESCAPE) == 1){
+			mIsSelectedStart = false;
+			PlaySoundMem(SoundManager::getInstance().checkID("selectse.ogg"), DX_PLAYTYPE_BACK);
+			mIsEnded = true;
+		}
+
 		if(InputManager::getInstance().checkPushFrame(KEY_INPUT_UP) == 1 ||
 		   InputManager::getInstance().checkPushFrame(KEY_INPUT_DOWN) == 1){
 

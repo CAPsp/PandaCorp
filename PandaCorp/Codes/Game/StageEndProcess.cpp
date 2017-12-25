@@ -46,7 +46,6 @@ void procGameover(scene_sig& signal){
 
 		// 選択肢ウィンドウの表示
 		signal.next = STAGE_SELECT;
-
 	}
 
 }
@@ -67,11 +66,26 @@ void procClear(scene_sig& signal){
 
 		// 選択肢ウィンドウの表示
 		signal.next = STAGE_SELECT;
-
 	}
 	
 }
 
 
 // 本当に戻るかどうかを確認した後にとどまるかステージ選択に戻るかを決める
-void procReturnStageSelect(scene_sig&){}
+void procReturnStageSelect(scene_sig& signal){
+
+	static int effectPal = 0;
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, effectPal);
+	DrawBox(0, 0, GlobalParam::WINDOW_SIZE.x, GlobalParam::WINDOW_SIZE.y, GetColor(0, 0, 0), true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+	effectPal += 2;
+	if(effectPal >= 255){
+		effectPal = 255;
+
+		// 選択肢ウィンドウの表示
+		signal.next = STAGE_SELECT;
+	}
+
+}

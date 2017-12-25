@@ -36,7 +36,8 @@ bool GameScene::begin(){
 
 	mSelectedItemElem = -1;
 
-	PlaySoundMem(SoundManager::getInstance().checkID("BGM/bgm_before.ogg"), DX_PLAYTYPE_BACK);
+	mCurrentPlaySound = "BGM/bgm_before.ogg";
+	PlaySoundMem(SoundManager::getInstance().checkID(mCurrentPlaySound), DX_PLAYTYPE_BACK);
 
 	return true;
 }
@@ -46,15 +47,23 @@ scene_sig GameScene::update(){
 
 	// 終了処理の場合、描画のみを行う
 	if(sEndProcess.isActivated()){
+		StopSoundMem(SoundManager::getInstance().checkID(mCurrentPlaySound));
 		mStage->draw();
 		uiDraw();
 		return sEndProcess.update();
 	}
 
-	if(!mMainSoundStartFlag &&
-	   CheckSoundMem(SoundManager::getInstance().checkID("BGM/bgm_before.ogg")) != 1){
-		PlaySoundMem(SoundManager::getInstance().checkID("BGM/bgm.ogg"), DX_PLAYTYPE_LOOP);
-		mMainSoundStartFlag = true;
+	// BGM冒頭を再生し終わったらメインループに入る
+	if(mCurrentPlaySound == "BGM/bgm_before.ogg" &&
+		CheckSoundMem(SoundManager::getInstance().checkID(mCurrentPlaySound)) != 1){
+
+		mCurrentPlaySound = "BGM/bgm.ogg";
+		PlaySoundMem(SoundManager::getInstance().checkID(mCurrentPlaySound), DX_PLAYTYPE_LOOP);
+	}
+
+	// ESCキー押されたら終了の確認を行う
+	if(InputManager::getInstance().checkPushFrame(KEY_INPUT_ESCAPE)){
+		toStageSelect();
 	}
 
 	// アイテム選択処理
@@ -199,19 +208,18 @@ void GameScene::uiDraw(){
 
 
 void GameScene::toGameOver(){
-	StopSoundMem(SoundManager::getInstance().checkID("BGM/bgm.ogg"));
 	PlaySoundMem(SoundManager::getInstance().checkID("gameobera.ogg"), DX_PLAYTYPE_BACK);
 	sEndProcess.gameover();
 }
 
 
 void GameScene::toClear(){
-	StopSoundMem(SoundManager::getInstance().checkID("BGM/bgm.ogg"));
 	PlaySoundMem(SoundManager::getInstance().checkID("clear_se.ogg"), DX_PLAYTYPE_BACK);
 	sEndProcess.clear();
 }
 
 
 void GameScene::toStageSelect(){
+	PlaySoundMem(SoundManager::getInstance().checkID("selectse.ogg"), DX_PLAYTYPE_BACK);
 	sEndProcess.returnStageSelect();
 }

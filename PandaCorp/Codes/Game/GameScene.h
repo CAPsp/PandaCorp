@@ -34,7 +34,7 @@ private:
 	int mProgressFrame = 0;		// ゲーム開始から経過したフレーム
 	ItemStock mItemStock;
 	int mSelectedItemElem;
-	bool mMainSoundStartFlag = false;
+	std::string mCurrentPlaySound;
 
 private:
 	static StageEndProcess sEndProcess;
