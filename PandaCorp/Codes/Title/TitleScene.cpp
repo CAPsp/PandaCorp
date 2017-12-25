@@ -7,6 +7,10 @@
 #include "InputManager.h"
 #include "GraphManager.h"
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
+
 
 bool TitleScene::begin(){
 	PlaySoundMem(SoundManager::getInstance().checkID("BGM/title01.ogg"), DX_PLAYTYPE_BACK);
@@ -63,13 +67,7 @@ scene_sig TitleScene::update(){
 void TitleScene::draw(){
 	
 	// 背景
-	DrawBox(0, 0, GlobalParam::WINDOW_SIZE.x, GlobalParam::WINDOW_SIZE.y, GetColor(0, 255, 0), true);
-
-	// タイトル
-	int w;
-	std::string str = "ぱんだつ！";
-	w = GetDrawStringWidth(str.c_str(), (int)strlen(str.c_str()));
-	DrawString(GlobalParam::WINDOW_SIZE.x / 2 - w / 2, 200, str.c_str(), GetColor(255, 0, 0));
+	DrawGraph(0, 0, GraphManager::getInstance().checkID(std::string(GRAPH_DIR_PATH) + "UI/others/title_back.png", Vec2D<int>(0, 0)), false);
 
 	// スタート
 	DrawRotaGraph(GlobalParam::WINDOW_SIZE.x / 2, 500, 1.0, 0.0,
@@ -82,11 +80,17 @@ void TitleScene::draw(){
 				  true, false);
 
 	// カーソル
+	static double deg = 0.0;
+	deg += (deg + 4.0 >= 360.0) ? (-360.0 + 4.0) : 4.0;
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, (int)((sin(deg * M_PI / 180.0) + 1.0) * 127.0));
+
 	int baseY = (mIsSelectedStart) ? 500 : 600;
 	std::string fileCursor = std::string(GRAPH_DIR_PATH) + "UI/others/" + ((mIsSelectedStart) ? "title_select_frame_small.png" : "title_select_frame_big.png");
 	DrawRotaGraph(GlobalParam::WINDOW_SIZE.x / 2, baseY, 1.0, 0.0,
 				  GraphManager::getInstance().checkID(fileCursor, Vec2D<int>(0, 0)),
 				  true, false);
+
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
 	// 終了処理中は暗転する
 	if(mIsEnded){
