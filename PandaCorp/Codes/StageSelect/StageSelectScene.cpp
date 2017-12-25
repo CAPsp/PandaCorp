@@ -8,7 +8,7 @@
 #define PI    3.1415926535897932384626433832795f
 
 //グローバル変数宣言
-int stage_select = 4;
+int stage_select = 1;
 int step = 0;
 int select_decide = 0;
 int Fontstageselect; //ステージ選択で使っているフォント
@@ -58,7 +58,7 @@ scene_sig StageSelectScene::update() {
 		*/
 
 		//テスト　データ読み込み
-	    
+
 		fopen_s(&fp_hiscore, "test_hi.dat", "rb");
 
 		if (fp_hiscore == NULL)
@@ -73,7 +73,7 @@ scene_sig StageSelectScene::update() {
 				fread(&hiscore[i], sizeof(int), 1, fp_hiscore);
 			}
 		}
-		
+
 		fclose(fp_hiscore);
 
 		//↑ここまでテスト用コード
@@ -129,7 +129,7 @@ scene_sig StageSelectScene::update() {
 			PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
 		}
 		//エンターキーの処理
-		if (InputManager::getInstance().checkPushFrame(KEY_INPUT_RETURN) == 1) {
+		if (InputManager::getInstance().checkPushFrame(KEY_INPUT_Z) == 1) {
 			step = 1;
 
 			PlaySoundMem(SoundManager::getInstance().checkID("selectse.ogg"), DX_PLAYTYPE_BACK);
@@ -169,7 +169,7 @@ scene_sig StageSelectScene::update() {
 		}
 		//エンターキーの処理
 		//はいを選んだらステージ画面へ進む　いいえを選んだらステージ選択の処理へ戻る
-		if (InputManager::getInstance().checkPushFrame(KEY_INPUT_RETURN) == 1) {
+		if (InputManager::getInstance().checkPushFrame(KEY_INPUT_Z) == 1) {
 			if (select_decide == 0) {
 				go_next = 1;
 
@@ -187,15 +187,13 @@ scene_sig StageSelectScene::update() {
 	if (go_next == 0) {
 		rtn.next = scene_id::NONE;
 	}
-	else {
-		if (_end == 0) {
-			DeleteFontToHandle(Fontstageselect);
-			_end = 1;
-		}
-		else {
-			rtn.next = scene_id::GAME;
-			rtn.meta = stage_select; // 1 ～ StageNum の値を返す
-		}
+	else
+	{
+		stage_select = 1;
+		step = 0;
+		select_decide = 0;
+		rtn.next = scene_id::GAME;
+		rtn.meta = stage_select; // 1 ～ StageNum の値を返す
 	}
 
 	return rtn;
