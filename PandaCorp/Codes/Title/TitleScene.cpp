@@ -5,6 +5,7 @@
 #include "GlobalParam.h"
 #include "Vec2DUtils.h"
 #include "InputManager.h"
+#include "GraphManager.h"
 
 
 bool TitleScene::begin(){
@@ -71,19 +72,21 @@ void TitleScene::draw(){
 	DrawString(GlobalParam::WINDOW_SIZE.x / 2 - w / 2, 200, str.c_str(), GetColor(255, 0, 0));
 
 	// スタート
-	str = "出社する";
-	w = GetDrawStringWidth(str.c_str(), (int)strlen(str.c_str()));
-	DrawString(GlobalParam::WINDOW_SIZE.x / 2 - w / 2, 500, str.c_str(), GetColor(255, 0, 0));
+	DrawRotaGraph(GlobalParam::WINDOW_SIZE.x / 2, 500, 1.0, 0.0,
+				  GraphManager::getInstance().checkID(std::string(GRAPH_DIR_PATH) + "UI/others/title_start.png", Vec2D<int>(0, 0)),
+				  true, false);
 
 	// エンド
-	str = "今日は休む";
-	w = GetDrawStringWidth(str.c_str(), (int)strlen(str.c_str()));
-	DrawString(GlobalParam::WINDOW_SIZE.x / 2 - w / 2, 600, str.c_str(), GetColor(255, 0, 0));
+	DrawRotaGraph(GlobalParam::WINDOW_SIZE.x / 2, 600, 1.0, 0.0,
+				  GraphManager::getInstance().checkID(std::string(GRAPH_DIR_PATH) + "UI/others/title_end.png", Vec2D<int>(0, 0)),
+				  true, false);
 
+	// カーソル
 	int baseY = (mIsSelectedStart) ? 500 : 600;
-	DrawBox(GlobalParam::WINDOW_SIZE.x / 4,		baseY,
-			GlobalParam::WINDOW_SIZE.x / 4 * 3, baseY + 20,
-			GetColor(255, 255, 0), false);
+	std::string fileCursor = std::string(GRAPH_DIR_PATH) + "UI/others/" + ((mIsSelectedStart) ? "title_select_frame_small.png" : "title_select_frame_big.png");
+	DrawRotaGraph(GlobalParam::WINDOW_SIZE.x / 2, baseY, 1.0, 0.0,
+				  GraphManager::getInstance().checkID(fileCursor, Vec2D<int>(0, 0)),
+				  true, false);
 
 	// 終了処理中は暗転する
 	if(mIsEnded){

@@ -45,24 +45,30 @@ void GraphManager::load(){
 			int id = LoadGraph(file.c_str());
 			if(id != -1){
 
-				// 画像サイズから何分割のデータなのかを計算
-				Vec2D<int> divNum;
-				GetGraphSize(id, &(divNum.x), &(divNum.y));
-				divNum.x /= size.x;
-				divNum.y /= size.y;
+				if(size.x != 0 && size.y != 0){
 
-				// 分割画像を読み込む
-				int *graphs = new int[divNum.y * divNum.x];
-				LoadDivGraph(file.c_str(), divNum.y * divNum.x, divNum.x, divNum.y, size.x, size.y, graphs);
-				for(int y = 0; y < divNum.y; y++){
-					for(int x = 0; x < divNum.x; x++){
+					// 画像サイズから何分割のデータなのかを計算
+					Vec2D<int> divNum;
+					GetGraphSize(id, &(divNum.x), &(divNum.y));
+					divNum.x /= size.x;
+					divNum.y /= size.y;
 
-						mDatabase[file].push_back(std::pair<Vec2D<int>, int>(Vec2D<int>(x * size.x, y * size.y), graphs[y * divNum.x + x]));
+					// 分割画像を読み込む
+					int *graphs = new int[divNum.y * divNum.x];
+					LoadDivGraph(file.c_str(), divNum.y * divNum.x, divNum.x, divNum.y, size.x, size.y, graphs);
+					for(int y = 0; y < divNum.y; y++){
+						for(int x = 0; x < divNum.x; x++){
+
+							mDatabase[file].push_back(std::pair<Vec2D<int>, int>(Vec2D<int>(x * size.x, y * size.y), graphs[y * divNum.x + x]));
+						}
 					}
-				}
 
-				DeleteGraph(id);
-				delete[] graphs;
+					DeleteGraph(id);
+					delete[] graphs;
+				}
+				else{	// サイズ0, 0は１つの大きい画像であることを示す
+					mDatabase[file].push_back(std::pair<Vec2D<int>, int>(Vec2D<int>(0, 0), id));
+				}
 			}
 		}
 	}
