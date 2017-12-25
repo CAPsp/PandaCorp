@@ -33,6 +33,10 @@ StageControll::StageControll(std::string jsonPath)
 		mObjects[1].add(tmp);
 	}
 
+	for(int i = 0; i < 2; i++){
+		mObjects[i].update();
+	}
+
 	// ステージ内に鍵がないときは持ち物に鍵を追加する
 	bool flag = false;
 	for(int i = 0; i < mObjects[1].checkSize(); i++){
@@ -49,10 +53,6 @@ StageControll::StageControll(std::string jsonPath)
 									Vec2D<int>(0, 0),
 									GraphManager::getInstance().checkID(ItemInfo::PATH, ItemInfo::KEY_POS),
 									true));
-	}
-
-	for(int i = 0; i < 2; i++){
-		mObjects[i].update();
 	}
 }
 
