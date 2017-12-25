@@ -2,6 +2,7 @@
 
 #include"InputManager.h"
 #include "DxLib.h"
+#include "SoundManager.h"
 
 #define StageNum 6 //ステージ数
 #define PI    3.1415926535897932384626433832795f
@@ -114,6 +115,9 @@ scene_sig StageSelectScene::update() {
 			if (stage_select > 1) {
 				stage_select--;
 			}
+
+			PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
+
 		}
 
 		//右キーの処理
@@ -121,10 +125,14 @@ scene_sig StageSelectScene::update() {
 			if (stage_select < stageappear) {
 				stage_select++;
 			}
+
+			PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
 		}
 		//エンターキーの処理
 		if (InputManager::getInstance().checkPushFrame(KEY_INPUT_RETURN) == 1) {
 			step = 1;
+
+			PlaySoundMem(SoundManager::getInstance().checkID("selectse.ogg"), DX_PLAYTYPE_BACK);
 		}
 	}
 
@@ -147,6 +155,8 @@ scene_sig StageSelectScene::update() {
 			if (select_decide != 0) {
 				select_decide = 0;
 			}
+
+			PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
 		}
 
 		//右キーの処理
@@ -154,16 +164,22 @@ scene_sig StageSelectScene::update() {
 			if (select_decide != 1) {
 				select_decide = 1;
 			}
+
+			PlaySoundMem(SoundManager::getInstance().checkID("select02.ogg"), DX_PLAYTYPE_BACK);
 		}
 		//エンターキーの処理
 		//はいを選んだらステージ画面へ進む　いいえを選んだらステージ選択の処理へ戻る
 		if (InputManager::getInstance().checkPushFrame(KEY_INPUT_RETURN) == 1) {
 			if (select_decide == 0) {
 				go_next = 1;
+
+				PlaySoundMem(SoundManager::getInstance().checkID("selectse.ogg"), DX_PLAYTYPE_BACK);
 			}
 			else {
 				step = 0;
 				select_decide = 0;
+
+				PlaySoundMem(SoundManager::getInstance().checkID("selectse.ogg"), DX_PLAYTYPE_BACK);
 			}
 		}
 	}

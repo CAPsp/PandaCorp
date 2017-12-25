@@ -104,9 +104,7 @@ void EnemyDownState::Exit(Enemy*){}
 
 // ------EnemyFindStateƒNƒ‰ƒX‚ÌŽÀ‘•------
 void EnemyFindState::Enter(Enemy* enemy){
-
-	PlaySoundMem(SoundManager::getInstance().checkID("find.ogg"), DX_PLAYTYPE_BACK);
-
+	PlaySoundMem(SoundManager::getInstance().checkID("mitukaru.ogg"), DX_PLAYTYPE_BACK);
 
 	int enemyG = (GraphManager::getInstance().getGraphIDs(ENEMY_DIR_NAME + GRAPH_NAME + enemy->checkDirection() + ".png"))[0];
 
