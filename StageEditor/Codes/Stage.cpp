@@ -275,13 +275,15 @@ void Stage::draw(){
 			   mPlayerPos.y * Param::MASS_SIZE + Param::MASS_SIZE / 4,
 			   "P", GetColor(0, 0, 0));
 
-	// 格子
+	// 格子(スペース押してる間は消える)
 	int lineColor = GetColor(255, 0, 0);
-	for(int y = 0; y < Param::MASS_NUM.y; y++){
-		DrawLine(0, (y * Param::MASS_SIZE), Param::STAGE_FRAME_SIZE.x, (y * Param::MASS_SIZE), lineColor);
-	}
-	for(int x = 0; x < Param::MASS_NUM.x; x++){
-		DrawLine((x * Param::MASS_SIZE), 0, (x * Param::MASS_SIZE), Param::STAGE_FRAME_SIZE.y, lineColor);
+	if(InputManager::getInstance().checkPushFrame(KEY_INPUT_SPACE) == 0){
+		for(int y = 0; y < Param::MASS_NUM.y; y++){
+			DrawLine(0, (y * Param::MASS_SIZE), Param::STAGE_FRAME_SIZE.x, (y * Param::MASS_SIZE), lineColor);
+		}
+		for(int x = 0; x < Param::MASS_NUM.x; x++){
+			DrawLine((x * Param::MASS_SIZE), 0, (x * Param::MASS_SIZE), Param::STAGE_FRAME_SIZE.y, lineColor);
+		}
 	}
 
 	std::string layerStr;
