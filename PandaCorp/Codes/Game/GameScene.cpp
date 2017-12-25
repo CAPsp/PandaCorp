@@ -19,7 +19,7 @@ bool GameScene::begin(){
 	mStageNameFontHandle = CreateFontToHandle(NULL, 60, 4, DX_FONTTYPE_NORMAL);
 
 	// デバッグ用
-	std::string jsonPath = "Stage/no_item.json";
+	std::string jsonPath = "Stage/test.json";
 	mStage = new StageControll(jsonPath);
 
 	mStage->checkExistClearMass(mItemStock);
