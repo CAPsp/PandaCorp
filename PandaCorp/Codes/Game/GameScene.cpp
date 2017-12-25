@@ -133,9 +133,9 @@ void GameScene::uiDraw(){
 
 
 	// îwåi
-	DrawBox(GameSceneParam::STAGE_FRAME_SIZE.x, 0,
-			GlobalParam::WINDOW_SIZE.x, GlobalParam::WINDOW_SIZE.y,
-			GetColor(100, 100, 100), true);
+	DrawBox(GameSceneParam::STAGE_FRAME_SIZE.x, 0, GlobalParam::WINDOW_SIZE.x, GlobalParam::WINDOW_SIZE.y, GetColor(150, 150, 150), true);
+	DrawGraph(GameSceneParam::STAGE_FRAME_SIZE.x, 0,
+			  GraphManager::getInstance().checkID(std::string(GRAPH_DIR_PATH) + "UI/others/game_ui_frame.png", Vec2D<int>(0, 0)), true);
 
 	// ì˙ïtï`âÊ (ÅZÅZåéÅZÅZì˙)
 	int dateG[6] = {
@@ -163,6 +163,8 @@ void GameScene::uiDraw(){
 	}
 
 	// ÉXÉgÉbÉNÇµÇƒÇ¢ÇÈÉAÉCÉeÉÄÇÃï\é¶
+	DrawGraph(GameSceneParam::STAGE_FRAME_SIZE.x, 240,
+			  GraphManager::getInstance().checkID(std::string(GRAPH_DIR_PATH) + "UI/others/item_stock.png", Vec2D<int>(0, 0)), false);
 	Vec2D<int> size = {80, 80};
 	for(int y = 0; y < 4; y++){
 		for(int x = 0; x < 3; x++){
