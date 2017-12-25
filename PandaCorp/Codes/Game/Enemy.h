@@ -53,5 +53,7 @@ public:
 
 private:
 	Enemy* mEnemy;
+	Vec2D<int> mFindObjTmp;		// ‹ŠE‚ ‚½‚è”»’èˆ—‚Åˆê“I‚Ég‚í‚ê‚é
+	bool mIsPlayerFind = false;
 
 };

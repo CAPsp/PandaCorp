@@ -155,6 +155,13 @@ void EnemyVision::update(){
 			mHitArea.size.x = GameSceneParam::ENEMY_VISION_HEIGHT;
 			mPos.x += sign * GameSceneParam::ENEMY_VISION_HEIGHT / 2;
 	}
+
+	if(mIsPlayerFind){
+		mEnemy->findMystericObj();
+		mIsPlayerFind = false;
+	}
+	mFindObjTmp = Vec2D<int>(-100, -100);
+
 }
 
 void EnemyVision::draw(){
@@ -169,11 +176,48 @@ void EnemyVision::draw(){
 #endif
 }
 
-// プレイヤー or 怪しいものを発見したらEnemyへ通知する
+// 何かを発見したらそれを一時的保存領域にぶち込む
 void EnemyVision::hit(GameObj* other){
 
+	static Vec2D<int> findObjPos;
+
+	if((dynamic_cast<Mass*>(other) != NULL && dynamic_cast<Mass*>(other)->checkElem() != Mass::mass_elem::NORMAL) ||
+		(dynamic_cast<Player*>(other) != NULL)){
+
+		// まだ視界にとらえてないとき
+		if(mFindObjTmp.x == -100 && mFindObjTmp.y == -100){
+			mIsPlayerFind = (dynamic_cast<Player*>(other) != NULL) ? true : false;
+			mFindObjTmp = other->checkPos();
+			return;
+		}
+
+		// 一番近い視界にとらえているものを保存する
+		bool changeFlag = false;
+		switch(mEnemy->checkDirection()){
+			case DIRECTON_UP:
+				if(other->checkPos().y > mFindObjTmp.y){ changeFlag = true; }
+				break;
+			case DIRECTON_DOWN:
+				if(other->checkPos().y < mFindObjTmp.y){ changeFlag = true; }
+				break;
+			case DIRECTON_LEFT:
+				if(other->checkPos().x > mFindObjTmp.x){ changeFlag = true; }
+				break;
+			case DIRECTON_RIGHT:
+				if(other->checkPos().x < mFindObjTmp.x){ changeFlag = true; }
+		}
+
+		if(changeFlag){
+			mIsPlayerFind = (dynamic_cast<Player*>(other) != NULL) ? true : false;
+			mFindObjTmp = other->checkPos();
+		}
+	}
+
+
+	/*
 	if(dynamic_cast<Player*>(other) != NULL){
 		mEnemy->findMystericObj();
 	}
+	*/
 
 }
