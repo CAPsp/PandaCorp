@@ -41,7 +41,9 @@ void EnemySearchState::Execute(Enemy* enemy){
 
 	// アニメーション遷移
 	mAnimFrame++;
-	if((mAnimFrame / GameSceneParam::ANIME_CHANGE_FRAME_NORMAL) >= mKeepGraph[enemy->checkDirection()].size()){ mAnimFrame = 0; }
+	if((mAnimFrame / GameSceneParam::ANIME_CHANGE_FRAME_NORMAL) >= mKeepGraph[enemy->checkDirection()].size()){
+		mAnimFrame = 0;
+	}
 	enemy->changeGraphic(mKeepGraph[enemy->checkDirection()][mAnimFrame / GameSceneParam::ANIME_CHANGE_FRAME_NORMAL]);
 
 	// 怪しいものを見つけたらEnemyCautionStateに変化
@@ -87,9 +89,7 @@ void EnemyCautionState::Execute(Enemy* enemy){
 }
 
 
-void EnemyCautionState::Exit(Enemy*){
-	DeleteGraph(mKeepGraph);
-}
+void EnemyCautionState::Exit(Enemy*){}
 
 
 // ------EnemyDownStateクラスの実装------
@@ -125,19 +125,17 @@ void EnemyFindState::Enter(Enemy* enemy){
 	SetDrawScreen(DX_SCREEN_BACK);
 
 	enemy->changeGraphic(mKeepGraph);
-
-	DeleteGraph(enemyG);
 }
 
 
 void EnemyFindState::Execute(Enemy* enemy){
 	if(!mDelayTimer.update()){
-		GameScene::toGameOver();
 		enemy->getStateMachine()->changeState(new EnemyCautionState());
 	}
 }
 
 
 void EnemyFindState::Exit(Enemy*){
+	GameScene::toGameOver();
 	DeleteGraph(mKeepGraph);
 }
