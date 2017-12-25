@@ -48,6 +48,9 @@ void MainControll::doMainLoop(){
 			}
 		}
 
+		// ESCƒL[‚ª‰Ÿ‚³‚ê‚½‚ç‚¢‚Â‚Å‚àI—¹‚·‚é
+		if(InputManager::getInstance().checkPushFrame(KEY_INPUT_ESCAPE) == 1){ break; }
+
 #ifdef _DEBUG
 		std::vector<std::string> debugMsg = DebugMsgData::getInstance().getAllMsg();
 		for(int i = 0; i < debugMsg.size(); i++){
